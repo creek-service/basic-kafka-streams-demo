@@ -1,0 +1,18 @@
+---
+!creek/kafka-topic@1
+topic: input
+records:
+  - key: hello
+    value: 1
+  - key: mum
+    value: 2
+  - key: some
+    value: 3
+  - key: any
+    value: 4
+  - notes: null key
+    value: 5
+  - notes: null value
+    key: no_v
+  - key: bye
+    value: 1

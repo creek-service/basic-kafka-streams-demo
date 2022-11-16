@@ -1,0 +1,9 @@
+Topologies:
+   Sub-topology: 0
+    Source: ingest-input (topics: [input])
+      --> switch
+    Processor: switch (stores: [])
+      --> egress-example.output
+      <-- ingest-input
+    Sink: egress-example.output (topic: example.output)
+      <-- switch

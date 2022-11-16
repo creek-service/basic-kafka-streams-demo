@@ -1,0 +1,21 @@
+---
+!creek/kafka-topic@1
+topic: example.output
+records:
+  - notes: expectation out of order, but this should not cause a failure as ordering is not enabled.
+    key: 1
+    value: bye
+  - notes: record expectation without a key, i.e. don't care what key is
+    value: hello
+  - notes: record expectation with key and value
+    key: 2
+    value: mum
+  - notes: record expectation without a value, i.e. don't care what value is
+    key: 3
+  - notes: record expectation without a key or value, i.e. don't care what either is
+  - notes: matched explicitly against a null value
+    key: 5
+    value: ~
+  - notes: matched explicitly ageint a null key
+    key: ~
+    value: no_v

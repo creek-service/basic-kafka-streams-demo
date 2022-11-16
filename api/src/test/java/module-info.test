@@ -1,0 +1,8 @@
+--add-modules
+  org.junitpioneer,org.hamcrest,guava.testlib,creek.test.util,creek.test.hamcrest
+
+--add-reads
+  example.mod.api=org.junitpioneer,org.hamcrest,guava.testlib,creek.test.util,creek.test.hamcrest
+
+--add-opens
+  org.junitpioneer/org.junitpioneer.jupiter=org.junit.platform.commons

@@ -1,0 +1,10 @@
+---
+name: example suite
+services:
+  - example-service
+tests:
+  - name: test 1
+    inputs:
+      - input
+    expectations:
+      - output
