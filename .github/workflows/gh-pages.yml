@@ -17,7 +17,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
+  build_pages:
     runs-on: ubuntu-latest
     env:
       BUNDLE_GEMFILE: ${{ github.workspace }}/docs/Gemfile
@@ -46,9 +46,9 @@ jobs:
           path: "docs/_site/"
 
   # Deployment job
-  deploy:
+  deploy_pages:
     if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
-    needs: build
+    needs: build_pages
 
     # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
     permissions:
