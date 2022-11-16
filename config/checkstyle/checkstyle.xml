@@ -86,12 +86,6 @@
     <property name="maximum" value="0"/>
     <property name="message" value="Line has trailing spaces."/>
   </module>
-  <!-- init:remove -->
-  <!-- Checks for Headers            init:remove                    -->
-  <!-- See https://checkstyle.org/config_header.html  init:remove -->
-  <module name="RegexpHeader">  <!-- init:remove -->
-    <property name="header" value="/\*\n\* Copyright (\d\d\d\d-)?2022 Creek Contributors \(https://github.com/creek-service\)$\n \*$\n \* Licensed under the Apache License, Version 2.0"/> <!-- init:remove -->
-  </module> <!-- init:remove -->
 
   <module name="TreeWalker">
 

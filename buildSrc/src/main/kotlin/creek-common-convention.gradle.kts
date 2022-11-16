@@ -29,7 +29,7 @@ plugins {
     id("com.diffplug.spotless")
 }
 
-group = "org.creekservice"
+group = "io.github.creek.service"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_11

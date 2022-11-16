@@ -1,4 +1,4 @@
-rootProject.name = "aggregate-template"
+rootProject.name = "basic-kafka-streams-demo"
 
 include(
     "api",

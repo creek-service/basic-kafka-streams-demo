@@ -1,7 +1,7 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![Coverage Status](https://coveralls.io/repos/github/creek-service/aggregate-template/badge.svg?branch=main)](https://coveralls.io/github/creek-service/aggregate-template?branch=main)
-[![build](https://github.com/creek-service/aggregate-template/actions/workflows/build.yml/badge.svg)](https://github.com/creek-service/aggregate-template/actions/workflows/build.yml)
-[![CodeQL](https://github.com/creek-service/aggregate-template/actions/workflows/codeql.yml/badge.svg)](https://github.com/creek-service/aggregate-template/actions/workflows/codeql.yml)
+[![Coverage Status](https://coveralls.io/repos/github/creek-service/basic-kafka-streams-demo/badge.svg?branch=main)](https://coveralls.io/github/creek-service/basic-kafka-streams-demo?branch=main)
+[![build](https://github.com/creek-service/basic-kafka-streams-demo/actions/workflows/build.yml/badge.svg)](https://github.com/creek-service/basic-kafka-streams-demo/actions/workflows/build.yml)
+[![CodeQL](https://github.com/creek-service/basic-kafka-streams-demo/actions/workflows/codeql.yml/badge.svg)](https://github.com/creek-service/basic-kafka-streams-demo/actions/workflows/codeql.yml)
 
 # Creek aggregate repo starter
 
@@ -101,5 +101,5 @@ which runs when a new repo is created from this template. You may want something
 [kafkaSteams]: https://kafka.apache.org/documentation/streams/
 [codeQL]: https://codeql.github.com/
 [ghPackages]: https://docs.github.com/en/packages/learn-github-packages/introduction-to-github-packages
-[useThisTemplate]: https://github.com/creek-service/aggregate-template/generate
+[useThisTemplate]: https://github.com/creek-service/basic-kafka-streams-demo/generate
 [ghSecret]: https://docs.github.com/en/codespaces/managing-codespaces-for-your-organization/managing-encrypted-secrets-for-your-repository-and-organization-for-github-codespaces

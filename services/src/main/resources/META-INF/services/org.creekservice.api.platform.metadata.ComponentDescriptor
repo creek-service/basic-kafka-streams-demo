@@ -14,4 +14,4 @@
 # limitations under the License.
 #
 
-org.acme.example.services.ExampleServiceDescriptor
+io.github.creek.service.basic.kafka.streams.demo.services.ExampleServiceDescriptor
