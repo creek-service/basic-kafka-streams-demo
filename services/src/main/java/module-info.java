@@ -7,5 +7,5 @@ module basic.kafka.streams.demo.services {
     exports io.github.creek.service.basic.kafka.streams.demo.services;
 
     provides ComponentDescriptor with
-            io.github.creek.service.basic.kafka.streams.demo.services.ExampleServiceDescriptor;
+            io.github.creek.service.basic.kafka.streams.demo.services.ReverseServiceDescriptor;
 }

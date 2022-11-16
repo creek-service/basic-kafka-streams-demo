@@ -25,17 +25,17 @@ import org.creekservice.api.platform.metadata.ComponentInternal;
 import org.creekservice.api.platform.metadata.ComponentOutput;
 import org.creekservice.api.platform.metadata.ServiceDescriptor;
 
-public final class ExampleServiceDescriptor implements ServiceDescriptor {
+public final class ReverseServiceDescriptor implements ServiceDescriptor {
 
     private static final List<ComponentInput> INPUTS = new ArrayList<>();
     private static final List<ComponentInternal> INTERNALS = new ArrayList<>();
     private static final List<ComponentOutput> OUTPUTS = new ArrayList<>();
 
-    public ExampleServiceDescriptor() {}
+    public ReverseServiceDescriptor() {}
 
     @Override
     public String dockerImage() {
-        return "ghcr.io/creekservice/basic-kafka-streams-demo-example-service";
+        return "ghcr.io/creekservice/basic-kafka-streams-demo-reverse-service";
     }
 
     @Override

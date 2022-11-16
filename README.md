@@ -34,7 +34,7 @@ The template comes with the following modules:
 
 * **[api](api)**: defines the public api of the aggregate, i.e. the service descriptor and associated types.
 * **[services](services)**: defines all the services in the aggregate, i.e. service descriptors and their associated types.
-* **[example-service](example-service)**: an example Kafka Streams microservice.
+* **[reverse-service](reverse-service)**: an example Kafka Streams microservice.
 
 Replace sample content with your own and get writing business logic, not boilerplate.
 

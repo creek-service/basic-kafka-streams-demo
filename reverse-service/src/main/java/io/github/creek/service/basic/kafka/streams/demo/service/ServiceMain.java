@@ -18,7 +18,7 @@ package io.github.creek.service.basic.kafka.streams.demo.service;
 
 
 import io.github.creek.service.basic.kafka.streams.demo.service.kafka.streams.TopologyBuilder;
-import io.github.creek.service.basic.kafka.streams.demo.services.ExampleServiceDescriptor;
+import io.github.creek.service.basic.kafka.streams.demo.services.ReverseServiceDescriptor;
 import org.apache.kafka.streams.Topology;
 import org.creekservice.api.kafka.streams.extension.KafkaStreamsExtension;
 import org.creekservice.api.kafka.streams.extension.KafkaStreamsExtensionOptions;
@@ -32,7 +32,7 @@ public final class ServiceMain {
 
     public static void main(final String... args) {
         final CreekContext ctx =
-                CreekServices.builder(new ExampleServiceDescriptor())
+                CreekServices.builder(new ReverseServiceDescriptor())
                         .with(
                                 KafkaStreamsExtensionOptions.builder()
                                         // Customize the Kafka streams extension...

@@ -20,7 +20,7 @@ import static org.creekservice.api.kafka.metadata.KafkaTopicDescriptor.DEFAULT_C
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-import io.github.creek.service.basic.kafka.streams.demo.services.ExampleServiceDescriptor;
+import io.github.creek.service.basic.kafka.streams.demo.services.ReverseServiceDescriptor;
 import org.apache.kafka.streams.Topology;
 import org.apache.kafka.streams.TopologyTestDriver;
 import org.creekservice.api.kafka.streams.extension.KafkaStreamsExtension;
@@ -43,7 +43,7 @@ class TopologyBuilderTest {
     @BeforeAll
     public static void classSetup() {
         ctx =
-                CreekServices.builder(new ExampleServiceDescriptor())
+                CreekServices.builder(new ReverseServiceDescriptor())
                         .with(TestKafkaStreamsExtensionOptions.defaults())
                         .build();
     }
@@ -84,7 +84,7 @@ class TopologyBuilderTest {
         // Given:
         final String expectedTopology =
                 TestPaths.readString(
-                        TestPaths.moduleRoot("example-service")
+                        TestPaths.moduleRoot("reverse-service")
                                 .resolve("src/test/resources/kafka/streams/expected_topology.txt"));
 
         // When:

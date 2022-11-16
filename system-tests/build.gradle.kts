@@ -26,5 +26,5 @@ dependencies {
 }
 
 tasks.systemTest {
-    dependsOn(":example-service:buildAppImage")
+    dependsOn(":reverse-service:buildAppImage")
 }
