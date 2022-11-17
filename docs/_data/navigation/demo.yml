@@ -1,0 +1,28 @@
+- title: "Getting Started"
+  children:
+    - title: "Introduction"
+      url: /
+    - title: "Setup"
+      url: /bootstrap
+- title: "Write the code"
+  children:
+    - title: "Service api"
+      url: /define-api
+    - title: "Service Wiring"
+      url: /wiring
+    - title: "Business logic"
+      url: /business-logic
+- title: Testing
+  children:
+    - title: "System tests"
+      url: /system-testing
+    - title: "Unit tests"
+      url: /unit-testing
+    - title: "Service Debugging"
+      url: /debugging
+- title: Next steps
+  children:
+    - title: "Deployment"
+      url: /deployment
+    - title: "Further reading"
+      url: /further-reading

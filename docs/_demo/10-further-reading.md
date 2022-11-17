@@ -1,0 +1,17 @@
+---
+title: Further reading
+permalink: /further-reading
+layout: single
+---
+
+In development...
+
+[todo]: link to additional demos, e.g. 
+
+[todo]: - JSON messages
+[todo]: - composing services
+[todo]: - defining aggregate api
+[todo]: - componsing aggregates
+
+
+[todo]: todo: add post about this demo launch

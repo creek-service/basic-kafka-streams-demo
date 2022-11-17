@@ -19,6 +19,12 @@ include:
 exclude:
   - README.md
 
+# Collections
+collections:
+  demo:
+    output: true
+    permalink: /:collection/:path/
+
 # Defaults
 defaults:
   # _pages
@@ -30,4 +36,17 @@ defaults:
       author_profile: false
       toc: true
       toc_sticky: true
-
+  # _demo
+  - scope:
+      path: ""
+      type: demo
+    values:
+      layout: single
+      read_time: false
+      author_profile: false
+      share: false
+      comments: false
+      sidebar:
+        nav: "demo"
+      toc: true
+      toc_sticky: true
