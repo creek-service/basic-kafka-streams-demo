@@ -48,5 +48,4 @@ defaults:
       comments: false
       sidebar:
         nav: "demo"
-      toc: true
-      toc_sticky: true
+      toc: false

@@ -16,20 +16,52 @@
 
 package io.github.creek.service.basic.kafka.streams.demo.services;
 
-
+// formatting:off
+// begin-snippet: includes-1
+import static io.github.creek.service.basic.kafka.streams.demo.internal.TopicConfigBuilder.withPartitions;
+import static io.github.creek.service.basic.kafka.streams.demo.internal.TopicDescriptors.inputTopic;
+import static io.github.creek.service.basic.kafka.streams.demo.internal.TopicDescriptors.outputTopic;
+// end-snippet
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+// begin-snippet: includes-2
+import org.creekservice.api.kafka.metadata.OwnedKafkaTopicInput;
+import org.creekservice.api.kafka.metadata.OwnedKafkaTopicOutput;
+// end-snippet
 import org.creekservice.api.platform.metadata.ComponentInput;
 import org.creekservice.api.platform.metadata.ComponentInternal;
 import org.creekservice.api.platform.metadata.ComponentOutput;
 import org.creekservice.api.platform.metadata.ServiceDescriptor;
+// formatting:on
 
+// begin-snippet: class-name
 public final class ReverseServiceDescriptor implements ServiceDescriptor {
-
+    // end-snippet
     private static final List<ComponentInput> INPUTS = new ArrayList<>();
     private static final List<ComponentInternal> INTERNALS = new ArrayList<>();
     private static final List<ComponentOutput> OUTPUTS = new ArrayList<>();
+
+    // formatting:off
+// begin-snippet: topic-resources
+    // Define the input topic, conceptually owned by this service:
+    public static final OwnedKafkaTopicInput<String, Long> InputTopic =
+            register(
+                    inputTopic(
+                            "input", // Topic name
+                            String.class, // Topic key type
+                            Long.class, // Topic value type
+                            withPartitions(1))); // Topic config
+
+    // Define the output topic, again conceptually owned by this service:
+    public static final OwnedKafkaTopicOutput<Long, String> OutputTopic =
+            register(outputTopic(
+                    "output",
+                    Long.class,
+                    String.class,
+                    withPartitions(3)));
+// end-snippet
+    // formatting:on
 
     public ReverseServiceDescriptor() {}
 

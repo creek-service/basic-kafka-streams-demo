@@ -2,13 +2,12 @@
 title: Basic Kafka Streams demo
 permalink: /
 layout: single
-toc: false
 ---
 
 Build and test a single Kafka Streams based microservice, introducing the core of Creek's functionality.
 
-The service consumes an input Kafka topic, performs a simple transformation on each record, and 
-produces the result to an output topic.
+The service consumes a Kafka topic, performs a simple transformation on each record, and 
+produces the result to another topic.
 
 ## Features covered
 

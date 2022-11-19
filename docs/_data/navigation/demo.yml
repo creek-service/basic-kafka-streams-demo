@@ -6,8 +6,8 @@
       url: /bootstrap
 - title: "Write the code"
   children:
-    - title: "Service api"
-      url: /define-api
+    - title: "Service descriptor"
+      url: /descriptor
     - title: "Service Wiring"
       url: /wiring
     - title: "Business logic"
