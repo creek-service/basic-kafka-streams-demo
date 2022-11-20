@@ -2,8 +2,8 @@
 title: Define the service resources
 permalink: /descriptor
 layout: single
-snippet_source: "../services/src/main/java/io/github/creek/service/basic/kafka/streams/demo/services/ReverseServiceDescriptor.java"
 snippet_comment_prefix: "//"
+snippet_source: "../services/src/main/java/io/github/creek/service/basic/kafka/streams/demo/services/ReverseServiceDescriptor.java"
 ---
 
 Each service within an aggregate defines a _service descriptor_ in the `services` module of the repository.
@@ -18,9 +18,9 @@ Services from other aggregates should only use the aggregate's public API define
 This demo will use the [Kafka Streams extension][ksExt], and the service descriptor will include an _input topic_, 
 which the service will consume, and an _output topic_, which the service will produces to.
 
-## Defining service resources
+## Define the topic resources
 
-The aggregate template provides a shell service descriptor named `ReverseServiceDescriptor.java`.
+The aggregate template provided a shell service descriptor in the repository named `ReverseServiceDescriptor.java`.
 Add the following to `ReverseServiceDescriptor.java` to define the service's input and output topic:
 
 {% highlight java %}
@@ -32,7 +32,7 @@ Add the following to `ReverseServiceDescriptor.java` to define the service's inp
 
 {% include_snippet topic-resources %}
 
-  ...
+    ...
 }
 {% endhighlight %}
 
@@ -45,8 +45,8 @@ and the topic config, which in this case is just the number of partitions.
 
 The `register` method wrapping each resource descriptor ensures they are registered with the outer service descriptor.
 
-**Note:** The [system tests](/system-testing) we'll define later will use the service descriptor to provide 
-the service metadata required to run the service, pipe in inputs and read outputs.
+**Note:** The [system tests]({{ "/system-testing" | relative_url}}) we'll define later will use the service descriptor 
+to provide the service metadata required to run the service, pipe in inputs and read outputs.
 {: .notice--warning}
 
 **ProTip:** It's unusual for a service to _own_ its input topics. 
@@ -57,5 +57,6 @@ It's used here to keep things simple for this introductory demo.
 [todo]: Add link to service chaining demo to the tip above once it's available. 
 
 [creekExts]: https://www.creekservice.org/extensions/
-[ksExt]: https://www.creekservice.org/creek-kafka/
+[ksExt]: https://github.com/creek-service/creek-kafka
 [aggDescriptor]: https://www.creekservice.org/docs/descriptors/#aggregate-descriptor
+[todo]: switch about links to proper creekservice.org links once each repo publishes docs.

@@ -21,10 +21,14 @@ plugins {
 val creekVersion : String by extra
 
 dependencies {
+    // Make the `services` module, which contains the reverse-service's descriptor, available to the system tests:
     systemTestComponent(project(":services"))
+
+    // Install the creek-kafka system-test extension:
     systemTestExtension("org.creekservice:creek-kafka-test-extension:$creekVersion")
 }
 
+// Ensure the reverse-service's Docker image is built before running system tests:
 tasks.systemTest {
     dependsOn(":reverse-service:buildAppImage")
 }

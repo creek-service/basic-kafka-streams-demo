@@ -16,11 +16,19 @@
 
 package io.github.creek.service.basic.kafka.streams.demo.service.kafka.streams;
 
+// begin-snippet: all
+import static io.github.creek.service.basic.kafka.streams.demo.services.ReverseServiceDescriptor.InputTopic;
+import static io.github.creek.service.basic.kafka.streams.demo.services.ReverseServiceDescriptor.OutputTopic;
 import static java.util.Objects.requireNonNull;
 import static org.creekservice.api.kafka.metadata.KafkaTopicDescriptor.DEFAULT_CLUSTER_NAME;
 
+import org.apache.kafka.streams.KeyValue;
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.Topology;
+import org.apache.kafka.streams.kstream.Consumed;
+import org.apache.kafka.streams.kstream.KeyValueMapper;
+import org.apache.kafka.streams.kstream.Produced;
+import org.creekservice.api.kafka.extension.resource.KafkaTopic;
 import org.creekservice.api.kafka.streams.extension.KafkaStreamsExtension;
 import org.creekservice.api.kafka.streams.extension.util.Name;
 
@@ -36,6 +44,32 @@ public final class TopologyBuilder {
     public Topology build() {
         final StreamsBuilder builder = new StreamsBuilder();
 
+        // Pass a topic descriptor to the Kafka Streams extension
+        // to obtain a `KafkaTopic` instance, which provides access
+        // to serde:
+        final KafkaTopic<String, Long> input = ext.topic(InputTopic);
+        final KafkaTopic<Long, String> output = ext.topic(OutputTopic);
+
+        // Build a simple topology:
+        // Consume input topic:
+        builder.stream(
+                        input.name(),
+                        Consumed.with(input.keySerde(), input.valueSerde())
+                                .withName(name.name("ingest-" + input.name())))
+                // Transform each record:
+                .map(switchKeyAndValue(), name.named("switch"))
+                // Finally, produce to output:
+                .to(
+                        output.name(),
+                        Produced.with(output.keySerde(), output.valueSerde())
+                                .withName(name.name("egress-" + output.name())));
+
         return builder.build(ext.properties(DEFAULT_CLUSTER_NAME));
     }
+
+    private KeyValueMapper<String, Long, KeyValue<Long, String>> switchKeyAndValue() {
+        // Swap that key and value over:
+        return (key, value) -> new KeyValue<>(value, key);
+    }
 }
+// end-snippet

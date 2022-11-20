@@ -49,3 +49,4 @@ defaults:
       sidebar:
         nav: "demo"
       toc: false
+      toc_sticky: true

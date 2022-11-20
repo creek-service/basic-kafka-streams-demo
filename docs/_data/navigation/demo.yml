@@ -8,8 +8,6 @@
   children:
     - title: "Service descriptor"
       url: /descriptor
-    - title: "Service Wiring"
-      url: /wiring
     - title: "Business logic"
       url: /business-logic
 - title: Testing

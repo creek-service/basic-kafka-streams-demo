@@ -19,5 +19,9 @@ Features covered in this demo:
  * Black-box system testing of the service's docker image.
  * Unit testing of the service's topology.
  * Debugging services when things go wrong.
+
+## Complete solution
+
+The completed tutorial can be viewed [on GitHub](https://github.com/creek-service/basic-kafka-streams-demo).
  
 [aggTemp]: https://github.com/creek-service/aggregate-template

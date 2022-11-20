@@ -1,0 +1,15 @@
+# begin-snippet: all
+---
+!creek/kafka-topic@1
+topic: output
+records:
+  - key: 1
+    value: hello
+  - # expected record that ignores the key:
+    value: world
+  - # expected record that ignores the value:
+    key: 3
+  - # expected record that explicitly requires a null key:
+    key: ~
+    value: x
+# end-snippet
