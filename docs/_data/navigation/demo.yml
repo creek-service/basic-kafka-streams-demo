@@ -16,7 +16,7 @@
       url: /system-testing
     - title: "Unit tests"
       url: /unit-testing
-    - title: "Service Debugging"
+    - title: "Debugging"
       url: /debugging
 - title: Next steps
   children:

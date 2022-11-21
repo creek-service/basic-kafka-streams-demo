@@ -7,8 +7,6 @@ snippet_source: "../reverse-service/src/test/java/io/github/creek/service/basic/
 toc: true
 ---
 
-## Intro
-
 Secondary to system testing, it can be useful to unit test a topology. With good system test coverage this may
 not be necessary. If it is needed, then Creek can help.
 
