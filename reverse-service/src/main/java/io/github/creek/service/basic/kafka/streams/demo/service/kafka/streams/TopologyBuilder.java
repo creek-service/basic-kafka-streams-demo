@@ -26,7 +26,6 @@ import org.apache.kafka.streams.KeyValue;
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.Topology;
 import org.apache.kafka.streams.kstream.Consumed;
-import org.apache.kafka.streams.kstream.KeyValueMapper;
 import org.apache.kafka.streams.kstream.Produced;
 import org.creekservice.api.kafka.extension.resource.KafkaTopic;
 import org.creekservice.api.kafka.streams.extension.KafkaStreamsExtension;
@@ -57,7 +56,7 @@ public final class TopologyBuilder {
                         Consumed.with(input.keySerde(), input.valueSerde())
                                 .withName(name.name("ingest-" + input.name())))
                 // Transform each record:
-                .map(switchKeyAndValue(), name.named("switch"))
+                .map(this::switchKeyAndValue, name.named("switch"))
                 // Finally, produce to output:
                 .to(
                         output.name(),
@@ -67,9 +66,9 @@ public final class TopologyBuilder {
         return builder.build(ext.properties(DEFAULT_CLUSTER_NAME));
     }
 
-    private KeyValueMapper<String, Long, KeyValue<Long, String>> switchKeyAndValue() {
+    private KeyValue<Long, String> switchKeyAndValue(final String key, final Long value) {
         // Swap that key and value over:
-        return (key, value) -> new KeyValue<>(value, key);
+        return new KeyValue<>(value, key);
     }
 }
 // end-snippet
