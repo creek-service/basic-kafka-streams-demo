@@ -22,5 +22,5 @@
   children:
     - title: "Deployment"
       url: /deployment
-    - title: "Further reading"
-      url: /further-reading
+#    - title: "Further reading"
+#      url: /further-reading
