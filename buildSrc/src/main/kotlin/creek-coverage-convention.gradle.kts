@@ -51,7 +51,7 @@ val coverage = tasks.register<JacocoReport>("coverage") {
         // Roll results of each (test) task that has Jacoco extension, i.e. plugin applied, into the main coverage task
         proj.tasks.matching { it.extensions.findByType<JacocoTaskExtension>() != null && it != coverageReportTask }.forEach {
             coverageReportTask.sourceSets(proj.sourceSets.main.get())
-            coverageReportTask.executionData(files(proj.tasks.withType<Test>()).filter { it.exists() && it.name.endsWith(".exec") })
+            coverageReportTask.executionData(files(it).filter { f -> f.exists() && f.name.endsWith(".exec") })
             coverageReportTask.dependsOn(it)
         }
     }

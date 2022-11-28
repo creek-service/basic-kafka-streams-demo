@@ -67,7 +67,7 @@ public final class ReverseServiceDescriptor implements ServiceDescriptor {
 
     @Override
     public String dockerImage() {
-        return "ghcr.io/creekservice/basic-kafka-streams-demo-reverse-service";
+        return "ghcr.io/creek-service/basic-kafka-streams-demo-reverse-service";
     }
 
     @Override

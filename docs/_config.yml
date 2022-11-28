@@ -6,11 +6,10 @@
 # For technical reasons, this file is *NOT* reloaded automatically when you use
 # `jekyll serve`. If you change this file, please restart the server process.
 
-theme             : "creek-jekyll-theme"
-
 # Site Settings
-baseurl                  : "/basic-kafka-streams-demo" # the subpath of your site, e.g. "/blog"
-repository               : "creek-service/creek-service.github.io" # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
+theme     : "creek-jekyll-theme"
+baseurl   : "/basic-kafka-streams-demo"
+repository: "creek-service/basic-kafka-streams-demo"
 
 # Reading Files
 include:
@@ -23,7 +22,7 @@ exclude:
 collections:
   demo:
     output: true
-    permalink: /:collection/:path/
+    permalink: /:collection/:path
 
 # Defaults
 defaults:
@@ -47,6 +46,6 @@ defaults:
       share: false
       comments: false
       sidebar:
-        nav: "demo"
+        nav: demo
       toc: false
       toc_sticky: true
