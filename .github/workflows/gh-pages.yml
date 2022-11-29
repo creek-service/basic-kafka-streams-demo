@@ -13,8 +13,7 @@ permissions:
 
 # Allow one concurrent deployment
 concurrency:
-  group: "pages"
-  cancel-in-progress: true
+  group: pages
 
 jobs:
   build_pages:

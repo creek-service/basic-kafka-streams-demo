@@ -4,72 +4,24 @@ permalink: /bootstrap
 layout: single
 ---
 
-Step 1 is to create a new GitHub aggregate repository, into which we'll add our service. 
-Rather than manually creating a new repository and performing all the lengthy project setup, 
-we can use the [aggregate-template][aggTemp] repository. 
-This will create a new repository with all the plumbing and boilerplate code in place.
+Step 1 is to create a new GitHub aggregate repository, into which we'll add our service.
 
 **ProTip:** An _aggregate_ is simply a logical grouping of services that, together, provide some business function via a defined api.
 {: .notice--info}
 
-## Creating a new aggregate repository
+Rather than manually creating a new repository and performing all the lengthy project setup, 
+we can use the [aggregate-template][aggTemp] GitHub repository. 
+This will create a new repository with all the plumbing and boilerplate code in place.
 
-1. Click [<i class="fab fa-fw fa-github"/>&nbsp; Create new aggregate][aggTempNew]{: .btn .btn--success} and fill in the details:
-   <figure>
-     <img src="{{ '/assets/images/creek-create-new-from-agg-template.png' | relative_url }}" alt="Create new aggregate repo">
-   </figure>
-
-2. When GitHub creates the new repo, a [boostrap workflow][bootstrapWorkflow] will run to customise the new repository. 
-   Wait for this workflow to complete in the _Actions_ tab:
-
-   <figure>
-     <img src="{{ '/assets/images/creek-repo-bootstrap.png' | relative_url }}" alt="Wait for boostrap workflow">
-   </figure>
-
-3. [Clone the new repository][cloneRepo] locally.
-4. Finish the initialisation of the repository by running the `init.sh` script from the root of the repository.
-
-   **Note:** The scripts require Z-shell, `zsh`, to be installed. This is the default shell on Apple Macs,
-   but may need [installing][installZsh] on other operating systems.
-   {: .notice--warning}
-
-   ```
-   ./init.sh
-   ```
+1. Follow the instructions for [bootstrapping a new aggregate repository][bootstrapTemplate] from the aggregate-template.
+   You can name your repository what every you like, for example `basic-kafak-streams-demo`.
+3. Follow the instructions for [adding a new service][addNewService] called `reverse-service`.
    
-   As well as cleaning up some Creek specific code, the script will provide an opportunity to rename the only service currently defined in the repository.
-   When prompted:
-   1. Enter the _service name_ as `reverse-service`.
-   2. Leave the _service descriptor class name_ as the default by pressing `return`.
-   3. Enter `y` to confirm
-
-   ```
-   ./init.sh --succinct
-   Service name [example-service]: reverse-service
-   Service descriptor class name [ReverseServiceDescriptor]: 
-   
-   About to customise repository using:
-   Service name: reverse-service
-   Service descriptor class name: ReverseServiceDescriptor
-   
-   Are you sure? (y/n) y
-   ```
-
-5. Commit the changes back to the GitHub
-   ```
-   git add -A
-   git commit -m "init script"
-   git push
-   ```
-   
-The repository is now ready to start developing a new microservice or services. 
+The repository is now ready to start developing your new microservice. 
 More information about the features and structure of the repository can be found
 in the [aggregate template documentation][templateDocs].
 
 [aggTemp]: https://github.com/creek-service/aggregate-template
-[aggTempNew]: https://github.com/creek-service/aggregate-template/generate
-[kafkaExt]: https://www.creekservice.org/creek-kafka
-[bootstrapWorkflow]: https://github.com/creek-service/aggregate-template/blob/main/.github/workflows/bootstrap.yml
-[cloneRepo]: https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository
+[bootstrapTemplate]: https://www.creekservice.org/aggregate-template/bootstrap
+[addNewService]: https://www.creekservice.org/aggregate-template/add-service
 [templateDocs]: https://www.creekservice.org/aggregate-template
-[installZsh]: https://opensource.com/article/19/9/getting-started-zsh

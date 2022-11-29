@@ -17,8 +17,8 @@ If you're using another IDE, then please consider contributing to get service de
 Debugging of services currently requires the [AttachMe][attachMe] IntelliJ plugin to be installed.
 
 The `aggregate-template` repository has preconfigured the service to support debugging.
-Details of what's required can be found in the [creek-system-test][[sysTestRequirements]] and 
-[system-test Gradle plugin][pluginRequirements] docs.
+Details of what's required, if you want to dig into the details, can be found in the 
+[creek-system-test][sysTestRequirements] and [system-test Gradle plugin][pluginRequirements] docs.
 
 ## Debugging a service
 
