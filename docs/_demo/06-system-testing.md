@@ -8,20 +8,22 @@ toc: true
 With the production code complete, let's look at adding some tests.
 
 Creek [system-tests][systemTests] perform black-box testing of your service or services.
-They execute test suites against the complete service, running in a Docker container.
-The container is running the same Docker image that will be deployed into your environments.
+They execute test suites against complete services, running in a Docker containers.
+
+The Docker images being run are the same images you'll deploy into your environments.
 By testing the actual Docker image, you can be confident the service does what is intended, 
 always assuming that your test coverage is sufficient.
-
-**ProTip:** This plugin can be applied to individual services, allowing for targeted testing of a single service, 
-or more normally applied to a `system-tests` module, where the functionality of the aggregate as a whole can be tested.
-{: .notice--info}
 
 ## Write a system test
 
 System tests are written in YAML files, and executed as part of the Gradle build using the
 [system test plugin][testPlugin]. The repo already has a `system-tests` module, with the plugin applied.
 Follow these steps to add a test suite to the module:
+
+**ProTip:** The `systemm-test` plugin can be applied to individual service modules, allowing for targeted testing 
+of a single service, or more normally applied to a `system-tests` module, where the functionality of the aggregate 
+as a whole can be tested.
+{: .notice--info}
 
 ### Define test inputs
 
