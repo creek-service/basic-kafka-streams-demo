@@ -6,7 +6,9 @@ layout: single
 
 Step 1 is to create a new GitHub aggregate repository, into which we'll add our service.
 
-**ProTip:** An _aggregate_ is simply a logical grouping of services that, together, provide some business function via a defined api.
+**ProTip:** An _aggregate_ is simply a logical grouping of services that, together, provide some business function 
+via a defined api. i.e. An aggregate is a level of abstraction above a single microservice.
+This is also known as a ['Bounded Context' in DDD nomenclature][bcDDD]. 
 {: .notice--info}
 
 Rather than manually creating a new repository and performing all the lengthy project setup,
@@ -54,3 +56,4 @@ in the [aggregate template documentation][templateDocs].
 [bootstrapWorkflow]: https://github.com/creek-service/aggregate-template/blob/main/.github/workflows/bootstrap.yml
 [cloneRepo]: https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository
 [templateDocs]: https://www.creekservice.org/aggregate-template
+[bcDDD]: https://martinfowler.com/bliki/BoundedContext.html
