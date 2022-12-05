@@ -2,8 +2,10 @@
   children:
     - title: "Introduction"
       url: /
-    - title: "Setup"
+    - title: "Bootstrap a new repository"
       url: /bootstrap
+    - title: "Add a microservice"
+      url: /add-service
 - title: "Write the code"
   children:
     - title: "Service descriptor"
