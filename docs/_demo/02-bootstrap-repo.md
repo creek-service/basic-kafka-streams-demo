@@ -12,7 +12,7 @@ This is also known as a ['Bounded Context' in DDD nomenclature][bcDDD].
 {: .notice--info}
 
 Rather than manually creating a new repository and performing all the lengthy project setup,
-we can use the [aggregate-template][aggTemp] repository.
+we can use the [aggregate-template][templateDocs] repository.
 This will create a new repository with all the plumbing and boilerplate code in place.
 
 ## Creating a new repository from the template
@@ -51,7 +51,6 @@ The repository is now ready for services to be added, which will be covered in t
 More information about the features and structure of the repository can be found
 in the [aggregate template documentation][templateDocs].
 
-[aggTemp]: https://github.com/creek-service/aggregate-template
 [aggTempNew]: https://github.com/creek-service/aggregate-template/generate
 [bootstrapWorkflow]: https://github.com/creek-service/aggregate-template/blob/main/.github/workflows/bootstrap.yml
 [cloneRepo]: https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository

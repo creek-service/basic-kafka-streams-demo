@@ -10,20 +10,11 @@ the type of environment. However, below is information you may file useful when 
 
 ## Docker Images
 
-### Publishing Docker images
-
-The repository comes preconfigured to publish each service's Docker image back to GitHub's 
-[Container Registry][containerReg]. The publishing is done by the [CI GitHub workflow][buildYml] on a push, 
-with each new push creating a new Docker image version.
-
-For example, the `example-service` that the `aggregate-template` repository contains can be viewed [here]
-[example-service-image].
-
 ### Building Docker images
 
-The repository comes preconfigured with the necessary tasks to build service's Docker image using the 
-most excellent [com.bmuschko.docker-remote-api][dockerPlugin] Gradle plugin, 
-with versioning handled by the similarly excellent [pl.allegro.tech.build.axion-release][releasePlugin]. 
+The repository comes preconfigured with the necessary tasks to build service's Docker image using the
+most excellent [com.bmuschko.docker-remote-api][dockerPlugin] Gradle plugin,
+with versioning handled by the similarly excellent [pl.allegro.tech.build.axion-release][releasePlugin].
 Run the following to build the docker image:
 
 ```
@@ -36,21 +27,33 @@ This will build a docker container named `ghcr.io/creek-service/basic-kafka-stre
 Gradle task. These must be kept in sync if system tests are to work.
 {: .notice--info}
 
-### Pushing Docker images
+### Publishing Docker images
 
-The repository comes preconfigured with the necessary tasks to push each service's image to GitHub's 
-[Container Registry][ghContainers].  The following Gradle command publishes the images:
+The repository comes preconfigured to publish each service's Docker image back to GitHub's 
+[Container Registry][containerReg]. The publishing is done by the [CI GitHub workflow][buildYml] on a push, 
+with each new push creating a new Docker image version.
+
+For example, the `reverse-service` this tutorial creates is published [here] by the [completed tutorial][demoGh]
+[reverse-service-image].
+
+Under the hood the workflow is using the `pushAppImage` Gradle task to push the Docker images:
 
 ```
 ./gradlew pushAppImage
 ```
 
-This command runs are part of the [CI GitHub workflow][buildYml].
+...which can be customised as needed.
 
 ## Dependencies
 
 The repository comes preconfigured to publish its `api` jar back to GitHub's [Gradle Registry][ghGradleReg] as
-part of the [CI GitHub workflow][buildYml].
+part of the [CI GitHub workflow][buildYml].  This is handled by the `publish` Gradle task:
+
+```
+./gradlew publish
+```
+
+...which can be customised as needed.
 
 ## Environment variables
 
@@ -71,5 +74,6 @@ This maps to the [`bootstrap.servers`][bootstrapServersDocs] Kafka client config
 [bootstrapServersDocs]: https://kafka.apache.org/documentation/#producerconfigs_bootstrap.servers
 [kafkaExtEnvVars]: https://github.com/creek-service/creek-kafka/tree/main/streams-extension#system-environment-variables
 [containerReg]: https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry
-[example-service-image]: https://github.com/creek-service/aggregate-template/pkgs/container/aggregate-template-example-service
+[demoGh]: https://github.com/creek-service/basic-kafka-streams-demo
+[reverse-service-image]: https://github.com/creek-service/basic-kafka-streams-demo/pkgs/container/basic-kafka-streams-demo-reverse-service
 [todo]: update links above once documentation migrates
