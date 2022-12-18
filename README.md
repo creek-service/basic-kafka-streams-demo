@@ -2,6 +2,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/creek-service/basic-kafka-streams-demo/badge.svg?branch=main)](https://coveralls.io/github/creek-service/basic-kafka-streams-demo?branch=main)
 [![build](https://github.com/creek-service/basic-kafka-streams-demo/actions/workflows/build.yml/badge.svg)](https://github.com/creek-service/basic-kafka-streams-demo/actions/workflows/build.yml)
 [![CodeQL](https://github.com/creek-service/basic-kafka-streams-demo/actions/workflows/codeql.yml/badge.svg)](https://github.com/creek-service/basic-kafka-streams-demo/actions/workflows/codeql.yml)
+[![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/creek-service/basic-kafka-streams-demo/badge)](https://api.securityscorecards.dev/projects/github.com/creek-service/basic-kafka-streams-demo)
 
 # Basic Kafka Streams Demo
 

@@ -13,10 +13,11 @@ permissions:
 
 # Allow one concurrent deployment
 concurrency:
-  group: pages
+  group: "${{ github.repository }}-pages"
 
 jobs:
   build_pages:
+    if: ${{ github.run_number != 1 }}
     runs-on: ubuntu-latest
     env:
       BUNDLE_GEMFILE: ${{ github.workspace }}/docs/Gemfile
