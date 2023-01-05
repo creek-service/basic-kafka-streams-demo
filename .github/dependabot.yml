@@ -14,6 +14,6 @@ updates:
     schedule:
       interval: monthly
   - package-ecosystem: docker
-    directory: /
+    directory: /reverse-service
     schedule:
       interval: monthly

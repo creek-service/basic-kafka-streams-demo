@@ -33,6 +33,7 @@ jobs:
   release:
     if: github.event_name == 'push'
     permissions:
+      contents: write
       packages: write
     needs: build
     runs-on: ubuntu-latest
