@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Creek Contributors (https://github.com/creek-service)
+ * Copyright 2022-2023 Creek Contributors (https://github.com/creek-service)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
 /**
  * Standard configuration for Creek library publishing
  *
- * <p>Version: 1.1
+ * <p>Version: 1.2
  *
  * <p> Apply this plugin only to subprojects if in multi-module setup.
  *

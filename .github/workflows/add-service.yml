@@ -1,0 +1,38 @@
+# A Workflow for adding new service modules to a repo.
+
+name: Add service module
+
+on:
+  workflow_dispatch:
+    inputs:
+      service_name:
+        description: "Service name, e.g. my-service. Lowercase alphanumerics and dashes only."
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  add_service:
+    if: github.repository != 'creek-service/aggregate-template'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
+      - name: Install zsh
+        run: sudo apt install zsh
+      - name: Run script
+        shell: zsh {0}
+        run: |
+          ./.creek/add_service.sh "${{ github.event.inputs.service_name }}"
+      - name: Check it builds
+        run: ./gradlew check
+      - name: Commit changes
+        run: |
+          git config --global user.email "95620007+Creek-Bot@users.noreply.github.com"
+          git config --global user.name "Creek Bot"
+          echo "adding files"
+          git add -A
+          echo "status"
+          git status
+          git commit -m "Adding service '${{ github.event.inputs.service_name }}'"
+          git push

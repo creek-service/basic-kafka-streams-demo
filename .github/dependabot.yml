@@ -13,3 +13,7 @@ updates:
     directory: /
     schedule:
       interval: monthly
+  - package-ecosystem: docker
+    directory: /reverse-service
+    schedule:
+      interval: monthly

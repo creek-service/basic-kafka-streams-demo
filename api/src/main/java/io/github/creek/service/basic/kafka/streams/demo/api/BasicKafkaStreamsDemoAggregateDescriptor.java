@@ -16,7 +16,6 @@
 
 package io.github.creek.service.basic.kafka.streams.demo.api;
 
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;

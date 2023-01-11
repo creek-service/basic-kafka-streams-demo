@@ -16,7 +16,6 @@
 
 package io.github.creek.service.basic.kafka.streams.demo.service;
 
-
 import io.github.creek.service.basic.kafka.streams.demo.service.kafka.streams.TopologyBuilder;
 import io.github.creek.service.basic.kafka.streams.demo.services.ReverseServiceDescriptor;
 import org.apache.kafka.streams.Topology;

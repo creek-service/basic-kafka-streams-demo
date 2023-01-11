@@ -34,5 +34,8 @@ The tutorial requires the following:
 ## Complete solution
 
 The completed tutorial can be viewed [on GitHub](https://github.com/creek-service/basic-kafka-streams-demo).
+
+[<i class="fab fa-fw fa-github"/>&nbsp; View on GitHub][aggTemp]{: .btn .btn--success}
+
  
 [aggTemp]: https://github.com/creek-service/aggregate-template
