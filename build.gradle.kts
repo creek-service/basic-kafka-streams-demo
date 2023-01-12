@@ -6,7 +6,7 @@ plugins {
     `creek-coverage-convention`
     `creek-publishing-convention` apply false
     id("pl.allegro.tech.build.axion-release") version "1.14.3" // https://plugins.gradle.org/plugin/pl.allegro.tech.build.axion-release
-    id("com.bmuschko.docker-remote-api") version "9.0.1" apply false
+    id("com.bmuschko.docker-remote-api") version "9.1.0" apply false
 }
 
 project.version = scmVersion.version
