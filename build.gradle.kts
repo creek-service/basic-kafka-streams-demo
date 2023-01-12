@@ -6,7 +6,7 @@ plugins {
     `creek-coverage-convention`
     `creek-publishing-convention` apply false
     id("pl.allegro.tech.build.axion-release") version "1.14.3" // https://plugins.gradle.org/plugin/pl.allegro.tech.build.axion-release
-    id("org.creekservice.system.test") version "0.2.0" apply false
+    id("org.creekservice.system.test") version "0.3.0" apply false
 }
 
 project.version = scmVersion.version
