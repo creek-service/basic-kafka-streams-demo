@@ -10,7 +10,3 @@ layout: single
 [todo]: - composing services
 [todo]: - defining aggregate api
 [todo]: - componsing aggregates
-
-
-[todo]: todo: add post about this demo launch
-[todo]: do we need somewhere that gives people a run down of the aggregate repo?  Maybe docs in the aggregate repo itself...

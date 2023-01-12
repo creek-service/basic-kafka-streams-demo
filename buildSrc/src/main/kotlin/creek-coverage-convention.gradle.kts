@@ -1,3 +1,5 @@
+import org.creekservice.api.system.test.gradle.plugin.coverage.SystemTestCoverageExtension
+
 /*
  * Copyright 2022 Creek Contributors (https://github.com/creek-service)
  *
@@ -15,9 +17,9 @@
  */
 
 /**
- * Standard coverage configuration of Creek projects, utilising Jacoco and Coveralls.io
+ * Standard coverage configuration of Creek aggregates, utilising Jacoco and Coveralls.io
  *
- * <p>Version: 1.1
+ * <p>Version: 1.3
  *
  * <p>Apply to root project only
  */
@@ -26,6 +28,7 @@ plugins {
     java
     jacoco
     id("com.github.kt3k.coveralls")
+    id("org.creekservice.system.test")
 }
 
 repositories {
@@ -52,6 +55,12 @@ val coverage = tasks.register<JacocoReport>("coverage") {
         proj.tasks.matching { it.extensions.findByType<JacocoTaskExtension>() != null }.forEach {
             coverageReportTask.sourceSets(proj.sourceSets.main.get())
             coverageReportTask.executionData(it.extensions.findByType<JacocoTaskExtension>()!!.destinationFile)
+            coverageReportTask.dependsOn(it)
+        }
+
+        // Roll results for each system test task into the main coverage task:
+        proj.tasks.matching { it.extensions.findByType<SystemTestCoverageExtension>() != null }.forEach {
+            coverageReportTask.executionData(it.extensions.findByType<SystemTestCoverageExtension>()!!.destinationFile)
             coverageReportTask.dependsOn(it)
         }
     }

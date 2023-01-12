@@ -89,14 +89,36 @@ The system tests will start up a Kafka broker, and the `reverse-service`, in Doc
 it will produce the records defined in the `input.yml` to Kafka and listen for the expected output defined 
 in the `output.yml` file.  
 
-**Note:** All being well the tests will pass! Wny not try changing the expected output and re-running to see what
+**Note:** All being well the tests will pass! Why not try changing the expected output and re-running to see what
 happens when tests fail.  The system test outputs a lot of information about failures.
 {: .notice--success}
 
 ## Test coverage
 
-Once [creek-system-test issue #172](https://github.com/creek-service/creek-system-test/issues/172) is complete,
-the system tests will count towards test coverage. 
+Creek captures code coverage metrics from your service, running inside the Docker container, when running the system
+tests, as the [JaCoCo Gradle plugin][JaCoCoPlugin] is applied.
+
+Test coverage is calculated by running the following Gradle command:
+
+```
+./gradlew coverage
+```
+
+The coverage report is saved at `build/reports/jacoco/coverage/html/index.html`.
+
+<figure>
+ <img src="{{ '/assets/images/creek-system-test-coverage.png' | relative_url }}" alt="System test coverage">
+</figure> 
+
+With just the system tests, the test coverage is pretty good for our new service. 
+The only think really missing is coverage of the `io.github.creek.service.basic.kafka.streams.demo.api` package,
+which is because we've not yet looked at utilising the `BasicKafkaStreamsDemoAggregateDescriptor` class.
+This will be covered in a later tutorial.
+[todo]: which tutorial?
+
+In the next step, we will add unit tests. However, with good system test coverage we recommend that unit testing
+is limited to testing edge cases that are hard, or impossible, to test using the system tests. Use system testing
+for testing both the happy and sad paths of your business logic.
 
 ## How do the system tests work?
 
@@ -105,10 +127,12 @@ both pretty cool and a big part of what drove us to develop Creek, but how does 
 
 Very briefly, the system tests work by discovering the `reverse-service`'s service descriptor on the class path.
 The service descriptor includes the definitions of the two topic resources, hence the system tests, with the help of
-the installed [Creek Kafka system-test extension][kafkaTestExt], knows to start a Kafka broker. 
-The test extension also knows how to produce inputs, consume outputs and check outputs against the expectations.
+the installed [Creek Kafka system-test extension][kafkaTestExt], knows to start a Kafka broker and create
+any required topics. 
+The Kafka test extension also knows how to produce inputs, consume outputs and check outputs against the expectations.
 
 [systemTests]:https://github.com/creek-service/creek-system-test
 [testPlugin]: https://github.com/creek-service/creek-system-test-gradle-plugin
 [kafkaTestExt]: https://github.com/creek-service/creek-kafka/tree/main/test-extension
+[JaCoCoPlugin]: https://docs.gradle.org/current/userguide/jacoco_plugin.html
 [todo]: switch about links to proper creekservice.org links once each repo publishes docs. 

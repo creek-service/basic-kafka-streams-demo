@@ -7,7 +7,6 @@ layout: single
 The Gradle plugin used to run the system tests supports the debugging of the services running inside Docker containers.
 This makes debugging issues with system tests so much less painful.
 
-
 **Note:** Service debugging is currently only supported through the IntelliJ IDE. 
 If you're using another IDE, then please consider contributing to get service debugging working with your IDE.
 {: .notice--warning}
@@ -51,6 +50,8 @@ This will cause a new debug window to open and for the breakpoint to be hit:
 <figure>
   <img src="{{ '/assets/images/creek-breakpoint-hit.png' | relative_url }}" alt="AttacheMe run configuration">
 </figure>
+
+Pretty cool, right?
 
 **ProTip:** The `--verification-timeout-seconds` argument increases the amount of time the system tests wait 
 for the expected output, allowing more time to debug the code. Learn more on this, and other options, 

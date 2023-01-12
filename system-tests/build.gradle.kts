@@ -16,7 +16,7 @@
 import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
 
 plugins {
-    id("com.bmuschko.docker-remote-api") version "8.1.0"
+    id("com.bmuschko.docker-remote-api")
     id("org.creekservice.system.test")
 }
 

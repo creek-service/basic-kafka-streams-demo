@@ -15,7 +15,7 @@
  */
 
 /**
- * Standard configuration for Creek library publishing
+ * Standard configuration for Creek aggregates library publishing
  *
  * <p>Version: 1.2
  *
