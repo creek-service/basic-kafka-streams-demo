@@ -21,7 +21,6 @@ Contributions welcome!  Please fork, change and raise a PR.
 * `./gradlew check` will run all checks and tests.
 * `./gradlew coverage` will generate a cross-module [Jacoco][jacoco] coverage report.
 
-
 [spotless]: https://github.com/diffplug/spotless
 [spotbugs]: https://spotbugs.github.io/
 [checkstyle]: https://checkstyle.sourceforge.io/
