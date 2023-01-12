@@ -7,8 +7,8 @@ snippet_source: "../reverse-service/src/test/java/io/github/creek/service/basic/
 toc: true
 ---
 
-Secondary to system testing, it can be useful to unit test a topology. With good system test coverage this may
-not be necessary. If it is needed, then Creek can help.
+Secondary to system testing, it can be useful to unit test a topology. 
+With good system test coverage this may not be necessary. If it is needed, then Creek can help.
 
 The [creek-kafka-streams-test][ksTest] library provides topology test helpers: `TestKafkaStreamsExtensionOptions` 
 can be used to initialise Creek without a real Kafka cluster to talk to, and `TestTopics` provides some factory 
@@ -82,9 +82,9 @@ The coverage report is saved at `build/reports/jacoco/coverage/html/index.html`.
  <img src="{{ '/assets/images/creek-unit-test-coverage.png' | relative_url }}" alt="Unit test coverage">
 </figure>
 
-The test coverage is pretty good for our new service. The main thing missing is the entry point to the service, 
-which is tested by the system-tests, and will be included in the test coverage report once
-[creek-system-test issue #172](https://github.com/creek-service/creek-system-test/issues/172) is complete.
+In this case, the test coverage hasn't actually improved by adding this unit test. 
+Meaning, arguably, this test is superfluous in this project. 
+However, more complex real-world solutions may still benefit from such a test.  
 
 **ProTip:** The repository also has a Gradle task and GitHub workflow step to upload the coverage report to 
 [coveralls.io][coveralls], should this be something you need, or the project can be customised to publish
