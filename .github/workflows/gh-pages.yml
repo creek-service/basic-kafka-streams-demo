@@ -33,7 +33,7 @@ jobs:
           cache-version: 0 # Increment this number if you need to re-download cached gems
       - name: Setup Pages
         id: pages
-        uses: actions/configure-pages@5992ce8fd557229bb0e98f78a89136a149cc9758 # v3.0.0
+        uses: actions/configure-pages@3c444c051bb5fc873069cfcc236eb93f78b5b0f5 # v3.0.1
       - name: Build with Jekyll
         # Outputs to the './docs/_site' directory by default
         run: (cd docs && bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}")
