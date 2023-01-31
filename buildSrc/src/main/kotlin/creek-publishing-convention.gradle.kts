@@ -31,7 +31,6 @@ plugins {
 
 java {
     withSourcesJar()
-    withJavadocJar()
 }
 
 publishing {
