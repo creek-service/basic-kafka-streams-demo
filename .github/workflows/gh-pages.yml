@@ -14,6 +14,7 @@ permissions:
 # Allow one concurrent deployment
 concurrency:
   group: "${{ github.repository }}-pages"
+  cancel-in-progress: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
 
 jobs:
   build_pages:
