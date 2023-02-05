@@ -7,13 +7,16 @@ version: 2
 updates:
   - package-ecosystem: github-actions
     directory: /
+    open-pull-requests-limit: 50
     schedule:
       interval: monthly
   - package-ecosystem: gradle
     directory: /
+    open-pull-requests-limit: 50
     schedule:
       interval: monthly
   - package-ecosystem: docker
     directory: /reverse-service
+    open-pull-requests-limit: 50
     schedule:
       interval: monthly
