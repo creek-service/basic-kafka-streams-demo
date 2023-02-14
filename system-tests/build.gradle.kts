@@ -23,7 +23,7 @@ plugins {
 val creekVersion : String by extra
 
 dependencies {
-    // Make the `services` module, which contains the reverse-service's descriptor, available to the system tests:
+    // Make the `services` module, which contains the handle-occurrence-service's descriptor, available to the system tests:
     systemTestComponent(project(":services"))
 
     // Install the creek-kafka system-test extension:

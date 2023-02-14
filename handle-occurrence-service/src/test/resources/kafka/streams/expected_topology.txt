@@ -1,0 +1,9 @@
+Topologies:
+   Sub-topology: 0
+    Source: ingest-twitter.tweet.text (topics: [twitter.tweet.text])
+      --> extract-handles
+    Processor: extract-handles (stores: [])
+      --> egress-twitter.handle.usage
+      <-- ingest-twitter.tweet.text
+    Sink: egress-twitter.handle.usage (topic: twitter.handle.usage)
+      <-- extract-handles

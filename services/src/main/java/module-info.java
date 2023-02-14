@@ -1,3 +1,4 @@
+import io.github.creek.service.basic.kafka.streams.demo.services.HandleOccurrenceServiceDescriptor;
 import org.creekservice.api.platform.metadata.ComponentDescriptor;
 
 module basic.kafka.streams.demo.services {
@@ -6,5 +7,5 @@ module basic.kafka.streams.demo.services {
     exports io.github.creek.service.basic.kafka.streams.demo.services;
 
     provides ComponentDescriptor with
-            io.github.creek.service.basic.kafka.streams.demo.services.ReverseServiceDescriptor;
+            HandleOccurrenceServiceDescriptor;
 }

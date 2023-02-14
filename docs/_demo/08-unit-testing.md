@@ -3,7 +3,7 @@ title: Writing unit tests
 permalink: /unit-testing
 layout: single
 snippet_comment_prefix: "//"
-snippet_source: "../reverse-service/src/test/java/io/github/creek/service/basic/kafka/streams/demo/service/kafka/streams/TopologyBuilderTest.java"
+snippet_source: "../handle-occurrence-service/src/test/java/io/github/creek/service/basic/kafka/streams/demo/service/kafka/streams/TopologyBuilderTest.java"
 toc: true
 ---
 
@@ -36,7 +36,8 @@ To add a basic unit test, add the code below to the class:
 }
 {% endhighlight %}
 
-The above adds a single unit test for our simple topology. More extensive testing would probably be advisable in a real-world project.
+The above adds a single `shouldOutputHandleOccurrences` unit test for our simple topology, 
+which produces a single record to the topologies input topic, and asserts the output is correct.
 
 ## Topology test
 
@@ -45,23 +46,24 @@ The intent of this test is to detect any unintentional changes to the Kafka Stre
 
 **Warning:** There are certain categories of topology changes that are not backwards compatible with earlier versions
 of a deployed service, e.g. those that change topic names.
-Creek recommends always naming operators in the Kafka Streams DSL. (See the [Kafka Streams docs][kafkaStreams] for more information).
+Creek recommends always naming operators in the Kafka Streams DSL to minimise the chance of unintentional changes to internal topics. 
+See the [Kafka Streams docs][kafkaStreams] for more information.
 {: .notice--warning}
 
 The test compares the topology with the last know topology and fails if they differ.
-If the change is intentional, then the `reverse-service/src/test/resources/kafka/streams/expected_topology.txt` 
+If the change is intentional, then the `handle-occurrence-service/src/test/resources/kafka/streams/expected_topology.txt` 
 file can be updated to reflect the latest topology.  For this tutorial, the file should be updated to contain:
 
 ```
 Topologies:
    Sub-topology: 0
-    Source: ingest-input (topics: [input])
-      --> switch
-    Processor: switch (stores: [])
-      --> egress-output
-      <-- ingest-input
-    Sink: egress-output (topic: output)
-      <-- switch
+    Source: ingest-twitter.tweet.text (topics: [twitter.tweet.text])
+      --> extract-handles
+    Processor: extract-handles (stores: [])
+      --> egress-twitter.handle.usage
+      <-- ingest-twitter.tweet.text
+    Sink: egress-twitter.handle.usage (topic: twitter.handle.usage)
+      <-- extract-handles
 ```
 [todo]: update the above to %include% the actual expectations file, once include_raw exists. 
 
@@ -69,22 +71,23 @@ If you find this test more of a hindrance than a help... delete it! :smile:
 
 ## Test Coverage
 
-Test coverage is calculated by running the following Gradle command:
+As before, test coverage can be calculated by running the following Gradle command:
 
 ```
 ./gradlew coverage
 ```
 
-This will execute the unit tests and use [JaCoCo][JaCoCo] to calculate the test coverage. 
-The coverage report is saved at `build/reports/jacoco/coverage/html/index.html`.
+This will execute the unit and system tests and use [JaCoCo][JaCoCo] to calculate the test coverage. 
+The human-readable coverage report is saved at `build/reports/jacoco/coverage/html/index.html`.
 
 <figure>
  <img src="{{ '/assets/images/creek-unit-test-coverage.png' | relative_url }}" alt="Unit test coverage">
 </figure>
 
-In this case, the test coverage hasn't actually improved by adding this unit test. 
-Meaning, arguably, this test is superfluous in this project. 
-However, more complex real-world solutions may still benefit from such a test.  
+In this case, the test coverage hasn't improved by adding unit tests. Meaning, arguably, this test is superfluous.
+
+While Creek recommends using system tests for functional testing, more complex real-world solutions often still 
+benefit from unit testing of the topology, to cover branches that are hard to reach with system tests.  
 
 **ProTip:** The repository also has a Gradle task and GitHub workflow step to upload the coverage report to 
 [coveralls.io][coveralls], should this be something you need, or the project can be customised to publish

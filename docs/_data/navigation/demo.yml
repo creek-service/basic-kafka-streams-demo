@@ -16,6 +16,8 @@
   children:
     - title: "System tests"
       url: /system-testing
+    - title: "Code coverage"
+      url: /system-testing-coverage
     - title: "Unit tests"
       url: /unit-testing
     - title: "Debugging"

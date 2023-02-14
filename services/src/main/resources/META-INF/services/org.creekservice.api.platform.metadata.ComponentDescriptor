@@ -14,4 +14,4 @@
 # limitations under the License.
 #
 
-io.github.creek.service.basic.kafka.streams.demo.services.ReverseServiceDescriptor
+io.github.creek.service.basic.kafka.streams.demo.services.HandleOccurrenceServiceDescriptor

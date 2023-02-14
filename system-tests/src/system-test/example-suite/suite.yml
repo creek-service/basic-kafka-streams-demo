@@ -2,11 +2,11 @@
 ---
 name: basic suite
 services:
-  - reverse-service
+  - handle-occurrence-service
 tests:
   - name: test 1
     inputs:
-      - input
+      - twitter.tweet.text
     expectations:
-      - output
+      - twitter.handle.usage
 # end-snippet
