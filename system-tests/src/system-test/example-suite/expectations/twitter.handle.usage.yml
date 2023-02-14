@@ -1,0 +1,18 @@
+# begin-snippet: all
+---
+!creek/kafka-topic@1
+topic: twitter.handle.usage
+records:
+  - key: "@ScottAdamsSays"
+    value: 1
+  - key: "@PepitoTheCat"
+    value: 2
+  - key: "@BillyM2k"
+    value: 1
+  - key: "@ericnakagawa"
+    value: 1
+  - key: "@teslaownersSV"
+    value: 1
+  - key: "@teslaownersSV"
+    value: 1
+# end-snippet

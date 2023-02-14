@@ -16,7 +16,7 @@ updates:
     schedule:
       interval: monthly
   - package-ecosystem: docker
-    directory: /reverse-service
+    directory: /handle-occurrence-service
     open-pull-requests-limit: 50
     schedule:
       interval: monthly

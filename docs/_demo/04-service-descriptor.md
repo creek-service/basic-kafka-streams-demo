@@ -1,9 +1,9 @@
 ---
-title: Define the service resources
+title: Define the service's resources
 permalink: /descriptor
 layout: single
 snippet_comment_prefix: "//"
-snippet_source: "../services/src/main/java/io/github/creek/service/basic/kafka/streams/demo/services/ReverseServiceDescriptor.java"
+snippet_source: "../services/src/main/java/io/github/creek/service/basic/kafka/streams/demo/services/HandleOccurrenceServiceDescriptor.java"
 ---
 
 Each service within an aggregate defines a _service descriptor_ in the `services` module of the repository.
@@ -15,13 +15,21 @@ The types of resources a descriptor can reference depends on the installed [Cree
 Services from other aggregates should only use the aggregate's public API defined in an [aggregate descriptor][aggDescriptor].
 {: .notice--info}
 
-This demo will use the [Kafka Streams extension][ksExt], and the service descriptor will include an _input topic_, 
-which the service will consume, and an _output topic_, which the service will produces to.
+This demo will use the [Kafka Streams extension][ksExt], and the `handle-occurrence-service`'s descriptor will define a
+`twitter.tweet.text` _input topic_, which the service will consume, and a `twitter.handle.usage` _output topic_, 
+which the service will produces to.
+
+**Note:** To keep this tutorial self-contained, the service's input topic is _owned_ by the service.
+It would be more common for an upstream service or aggregate to own the topic and for the topic's
+definition to be imported from there. This will be covered in a later tutorial. 
+{: .notice--warning}
+
+[todo]: http:// update note above with link to the tutorial on linking aggregates together.
 
 ## Define the topic resources
 
-The aggregate template provided a shell service descriptor in the repository named `ReverseServiceDescriptor.java`.
-Add the following to `ReverseServiceDescriptor.java` to define the service's input and output topic:
+The aggregate template provided a shell service descriptor in the repository named `HandleOccurrenceServiceDescriptor.java`.
+Add the following to the class to define the service's input and output topics:
 
 {% highlight java %}
 {% include_snippet includes-1 %}
@@ -40,21 +48,14 @@ Add the following to `ReverseServiceDescriptor.java` to define the service's inp
 The two class constants define the input and output topics the services use.
 These constants will be used later when building the Kafka Streams topology.
 
-The definition includes the topic name, the type stored in each Kafka record's key and value in the topic,
+Each topic definition includes the topic name, the types stored in the topic's records' key and value,
 and the topic config, which in this case is just the number of partitions.
 
 The `register` method wrapping each resource descriptor ensures they are registered with the outer service descriptor.
 
 **Note:** The [system tests]({{ "/system-testing" | relative_url}}) we'll define later will use the service descriptor 
-to provide the service metadata required to run the service, pipe in inputs and read outputs.
+to discover the service metadata required to run the service, pipe in inputs and read outputs.
 {: .notice--warning}
-
-**ProTip:** It's unusual for a service to _own_ its input topics. 
-Input topic descriptors are normally obtained from the owned output topic of another service or aggregate.
-It's used here to keep things simple for this introductory demo. 
-{: .notice--info}
-
-[todo]: Add link to service chaining demo to the tip above once it's available. 
 
 [creekExts]: https://www.creekservice.org/extensions/
 [ksExt]: https://github.com/creek-service/creek-kafka

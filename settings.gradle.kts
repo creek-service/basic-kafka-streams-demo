@@ -2,7 +2,7 @@ rootProject.name = "basic-kafka-streams-demo"
 
 include(
     "api",
-    "reverse-service",
+    "handle-occurrence-service",
     "services",
     "system-tests"
 )

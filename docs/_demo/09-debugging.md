@@ -8,7 +8,7 @@ The Gradle plugin used to run the system tests supports the debugging of the ser
 This makes debugging issues with system tests so much less painful.
 
 **Note:** Service debugging is currently only supported through the IntelliJ IDE. 
-If you're using another IDE, then please consider contributing to get service debugging working with your IDE.
+If you're using another IDE, then please consider contributing to get service debugging working for your IDE.
 {: .notice--warning}
 
 ## Prerequisites
@@ -16,12 +16,14 @@ If you're using another IDE, then please consider contributing to get service de
 Debugging of services currently requires the [AttachMe][attachMe] IntelliJ plugin to be installed.
 
 The `aggregate-template` repository has preconfigured the service to support debugging.
-Details of what's required, if you want to dig into the details, can be found in the 
+
+**ProTip:** Details of what configuration is required, if you want to dig into the details, can be found in the
 [creek-system-test][sysTestRequirements] and [system-test Gradle plugin][pluginRequirements] docs.
+{: .notice--info}
 
 ## Debugging a service
 
-With _AttachMe_ installed, the `reverse-service` can be debugged with the following steps.
+With [AttachMe][attachMe] plugin installed, the `handle-occurrence-service` can be debugged with the following steps:
 
 1. Create and run an `AttachMe` run configuration.
    <figure>
@@ -31,20 +33,20 @@ With _AttachMe_ installed, the `reverse-service` can be debugged with the follow
    <figure>
      <img src="{{ '/assets/images/creek-attachme-run-config.png' | relative_url }}" alt="AttacheMe run configuration">
    </figure>
-3. Place the required breakpoints in the code. For example, place one in the `TopologyBuilder`'s `switchKeyAndValue()`
+3. Place the required breakpoints in the code. For example, place one in the `TopologyBuilder`'s `extractHandles()`
    method.
    <figure>
      <img src="{{ '/assets/images/creek-add-breakpoint.png' | relative_url }}" alt="AttacheMe run configuration">
    </figure>
-4. Run the system tests, specifying which service to debug.
+4. Run the system tests, specifying which service to debug:
 
    ```
    ./gradlew systemTest \
-     --debug-service="reverse-service" \
+     --debug-service="handle-occurrence-service" \
      --verification-timeout-seconds=9999
    ```
 
-When the system tests start the `reverse-service` Docker container, the service will attach to the debugger.
+When the system tests start the `handle-occurrence-service` Docker container, the service will attach to the debugger.
 This will cause a new debug window to open and for the breakpoint to be hit:
 
 <figure>
@@ -61,5 +63,5 @@ in the [system test plugin][systemTestOptions] documentation.
 [attachMe]: https://plugins.jetbrains.com/plugin/13263-attachme
 [sysTestRequirements]: https://github.com/creek-service/creek-system-test#configuring-a-service-for-debugging
 [pluginRequirements]: https://github.com/creek-service/creek-system-test-gradle-plugin#dependency-management
-[system test plugin]: https://github.com/creek-service/creek-system-test-gradle-plugin#systemtest---systemtest
+[systemTestOptions]: https://github.com/creek-service/creek-system-test-gradle-plugin#systemtest---systemtest
 [todo]: update links below to point to creekservice.org as docs migrate.

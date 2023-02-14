@@ -1,0 +1,16 @@
+# begin-snippet: all
+---
+!creek/kafka-topic@1
+topic: twitter.tweet.text
+records:
+  - key: 1622262145390972929
+    value: "@ScottAdamsSays Documentaries are dangerous in this way. That said, MJ clearly had major issues. No documentary needed for that."
+  - key: 1622082025166442505
+    value: "@PepitoTheCat @BillyM2k @ericnakagawa @PepitoTheCat Responding to feedback, Twitter will enable a light, write-only API for bots providing good content that is free."
+  - key: 1622080465418043392
+    value: "@teslaownersSV Production will have red light bar"
+  - key: 1622000758617939969
+    value: "@teslaownersSV V11 has been tougher than expected, as  it is a significant rearchitecture of NNs, plus many more NNs replacing C++. Hoping to ship v11.3 end of week."
+  - key: 1621998713806721025
+    value: https://t.co/gbkqVT3MXq
+# end-snippet
