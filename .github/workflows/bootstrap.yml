@@ -1,0 +1,37 @@
+# A GitHub workflow that runs when the source template repository is used to create a new repository.
+# The workflow runs on the new repository, updating the repository code to the new owner and repository name,
+# Once the workflow has run, this workflow file can be deleted as it serves no further purpose.
+
+name: Bootstrap
+
+on:
+  push:
+    branches: [ main ]
+
+permissions:
+  contents: read
+
+jobs:
+  boostrap:
+    if: ${{ github.run_number == 1 }}
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
+      - name: Install zsh
+        run: sudo apt install zsh
+      - name: Run script
+        shell: zsh {0}
+        run: |
+          ./.creek/bootstrap.sh "${{ github.repository }}" "${{ github.repository_owner }}"
+      - name: Commit changes
+        run: |
+          git config --global user.email "95620007+Creek-Bot@users.noreply.github.com"
+          git config --global user.name "Creek Bot"
+          echo "adding files"
+          git add -A
+          echo "status"
+          git status
+          git commit -m "Bootstrap repo"
+          git push
