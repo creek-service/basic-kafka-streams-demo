@@ -52,7 +52,7 @@ function renamePackage() {
   oldBaseDir=$(echo "$1" | sed 's/\./\//g')
   newBaseDir=$(echo "$2" | sed 's/\./\//g')
 
-find . -type f -path "*$oldBaseDir*" -not \( -path "*/.git/*" -o -path "*/build/*" -o -path "*/.gradle/*" -o -path "*/.creek/*" \) -exec bash -c '
+  find . -type f -path "*$oldBaseDir*" -not \( -path "*/.git/*" -o -path "*/build/*" -o -path "*/.gradle/*" -o -path "*/.creek/*" \) -exec bash -c '
     newPath=${3/$1/$0}
     mkdir -p "$(dirname $newPath)"
     mv "$3" "$newPath"
