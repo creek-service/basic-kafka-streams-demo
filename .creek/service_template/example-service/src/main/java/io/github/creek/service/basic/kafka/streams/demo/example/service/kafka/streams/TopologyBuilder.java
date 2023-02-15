@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.github.creek.service.basic.kafka.streams.demo.service.kafka.streams;
+package io.github.creek.service.basic.kafka.streams.demo.example.service.kafka.streams;
 
 import static java.util.Objects.requireNonNull;
 import static org.creekservice.api.kafka.metadata.KafkaTopicDescriptor.DEFAULT_CLUSTER_NAME;

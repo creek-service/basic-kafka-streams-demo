@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.github.creek.service.basic.kafka.streams.demo.service.kafka.streams;
+package io.github.creek.service.basic.kafka.streams.demo.example.streams;
 
 import static org.apache.kafka.streams.KeyValue.pair;
 import static org.creekservice.api.kafka.metadata.KafkaTopicDescriptor.DEFAULT_CLUSTER_NAME;
@@ -24,6 +24,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
 
+import io.github.creek.service.basic.kafka.streams.demo.example.service.kafka.streams.TopologyBuilder;
 import io.github.creek.service.basic.kafka.streams.demo.services.ExampleServiceDescriptor;
 import org.apache.kafka.streams.TestInputTopic;
 import org.apache.kafka.streams.TestOutputTopic;

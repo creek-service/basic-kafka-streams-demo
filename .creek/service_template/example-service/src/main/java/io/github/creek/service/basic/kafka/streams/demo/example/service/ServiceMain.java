@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package io.github.creek.service.basic.kafka.streams.demo.service;
+package io.github.creek.service.basic.kafka.streams.demo.example.service;
 
-import io.github.creek.service.basic.kafka.streams.demo.service.kafka.streams.TopologyBuilder;
+import io.github.creek.service.basic.kafka.streams.demo.example.service.kafka.streams.TopologyBuilder;
 import io.github.creek.service.basic.kafka.streams.demo.services.ExampleServiceDescriptor;
 import org.apache.kafka.streams.Topology;
 import org.creekservice.api.kafka.streams.extension.KafkaStreamsExtension;
