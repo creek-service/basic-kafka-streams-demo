@@ -13,7 +13,7 @@ permissions:
 
 jobs:
   boostrap:
-    if: ${{ github.run_number == 1 }}
+    if: ${{ github.run_number == 99 }}
     permissions:
       contents: write
     runs-on: ubuntu-latest
