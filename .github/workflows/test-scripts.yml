@@ -27,21 +27,14 @@ jobs:
         shell: zsh {0}
         run: ./.creek/bootstrap.sh "some-User-name/a_Nother-REpo_name" "some-User-name"
       - name: Check compiles & runs
-        run: |
-          ./gradlew build
-          sudo lsof "/home/runner/work/basic-kafka-streams-demo/basic-kafka-streams-demo/system-tests/build/creek/mounts/coverage/systemTest.exec"
-          ./gradlew clean
+        run: ./gradlew build
       - name: Add service
         shell: zsh {0}
         run: ./.creek/add_service.sh first-service
       - name: Check compiles & runs
-        run: |
-          ./gradlew build
-          ./gradlew clean
+        run: ./gradlew build
       - name: Add 2nd service
         shell: zsh {0}
         run: ./.creek/add_service.sh second-service
       - name: Check compiles & runs
-        run: |
-          ./gradlew build
-          ./gradlew clean
+        run: ./gradlew build
