@@ -1,8 +1,10 @@
-# Aggregate example service
+# Handle Occurrence Service
 
-Boilerplate code for spinning up a Kafka Streams based service.
+A Kafka Streams based microservice that consumes the `twitter.tweet.text` topic, 
+scans the value for occurrences of Twitter handles, e.g. `@elonmusk`, and, for each encountered
+handle, produces a record to the `twitter.handle.occurrence` topic detailing the handle and the number of occurrences.
 
-Clone this module to add additional services.
+![creek-demo-design.svg](../docs/assets/images/creek-demo-design.svg)
 
 ## Backwards compatability
 

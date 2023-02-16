@@ -1,0 +1,40 @@
+# Workflow that checks the bootstrap, clean_up and add_service scripts in this repo produce valid code.
+
+name: Test Scripts
+
+on:
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test-scripts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
+      - name: Install zsh
+        run: sudo apt install zsh
+      - name: Set up Java
+        uses: actions/setup-java@1df8dbefe2a8cbc99770194893dd902763bee34b # v3.9.0
+        with:
+          java-version: '16'
+          distribution: 'adopt'
+          cache: gradle
+      - name: Run boostrap script
+        shell: zsh {0}
+        run: ./.creek/bootstrap.sh "some-User-name/a_Nother-REpo_name" "some-User-name"
+      - name: Check compiles & runs
+        run: ./gradlew static test
+      - name: Add service
+        shell: zsh {0}
+        run: ./.creek/add_service.sh first-service
+      - name: Check compiles & runs
+        run: ./gradlew static test
+      - name: Add 2nd service
+        shell: zsh {0}
+        run: ./.creek/add_service.sh second-service
+      - name: Check compiles & runs
+        run: ./gradlew static test

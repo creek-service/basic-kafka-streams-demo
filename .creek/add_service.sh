@@ -1,6 +1,6 @@
 #!/bin/zsh
 #
-# Copyright 2022 Creek Contributors (https://github.com/creek-service)
+# Copyright 2022-2023 Creek Contributors (https://github.com/creek-service)
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -39,6 +39,9 @@ then
     exit 1
 fi
 
+echo Prepare
+find . -type d -empty -delete
+
 if [ -d "$serviceName" ]; then
    echo "module already exists" >&2
    exit 1
@@ -57,11 +60,12 @@ then
 fi
 
 serviceClass=$(echo "$serviceName" | sed 's/-\([a-z]\)/\U\1/g' | sed 's/^\([a-z]\)/\U\1/')Descriptor
+serviceDotName=$(echo "$serviceName" | sed 's/-/./g')
 rootPackage=$(<.creek/service_template/root.package)
 
 # sedCode(sedCmd)
 function sedCode() {
-  find . -type f -not \( -path "./init.sh" -o -path "./init_headless.sh" -o -path "*/.git/*" -o -path "*/build/*" -o -path "*/.gradle/*" -o -path "*/.creek/*" \) -print0 | xargs -0 sed -i "$1"
+  find . -type f -not \( -path "*/.git/*" -o -path "*/build/*" -o -path "*/.gradle/*" -o -path "*/.creek/*" \) -print0 | xargs -0 sed -i "$1"
 }
 
 # replaceInCode(text-to-replace, replacement)
@@ -69,8 +73,22 @@ function replaceInCode() {
   sedCode "s/$1/$2/g"
 }
 
-echo Prepare
-find . -type d -empty -delete
+# renamePackage(old-pkg-name, new-pkg-name)
+function renamePackage() {
+  # Update code:
+  replaceInCode "$(echo "$1" | sed 's/\./\\./g')\." "$2."
+
+  # Move code:
+  oldBasePattern=$(echo "$1" | sed 's/\./\\\//g')
+  oldBaseDir=$(echo "$1" | sed 's/\./\//g')
+  newBaseDir=$(echo "$2" | sed 's/\./\//g')
+
+  find . -type f -path "*$oldBaseDir*" -not \( -path "*/.git/*" -o -path "*/build/*" -o -path "*/.gradle/*" -o -path "*/.creek/*" \) -exec bash -c '
+    newPath=${3/$1/$0}
+    mkdir -p "$(dirname $newPath)"
+    mv "$3" "$newPath"
+    ' "$newBaseDir" "$oldBasePattern" "$oldBaseDir" {} \;
+}
 
 echo "Creating $serviceClass"
 cp -R "$creekDir/service_template/services" "./"
@@ -82,20 +100,32 @@ find . -type f -name "ExampleServiceDescriptor.java" -not \( -path "*/.git/*" -o
 
 echo "Registering $serviceClass"
 
-if grep -q "provides ComponentDescriptor" "services/src/main/java/module-info.java"; then
-  sed -i 's/}/    provides ComponentDescriptor with\n}/g' "services/src/main/java/module-info.java"
+if ! grep -q "ComponentDescriptor with" "services/src/main/java/module-info.java"; then
+  sed -i "s/}/    provides org.creekservice.api.platform.metadata.ComponentDescriptor with\n\t\t$rootPackage.services.$serviceClass;\n}/g" "services/src/main/java/module-info.java"
+else
+  sed -i "s/ComponentDescriptor with/ComponentDescriptor with\n\t\t$rootPackage.services.$serviceClass,/g" "services/src/main/java/module-info.java"
 fi
 
-sed -i "s/provides ComponentDescriptor with/provides ComponentDescriptor with\n$rootPackage.$serviceClass}/g" "services/src/main/java/module-info.java"
+echo "\n$rootPackage.services.$serviceClass" >> services/src/main/resources/META-INF/services/org.creekservice.api.platform.metadata.ComponentDescriptor
 
 echo "Creating $serviceName module"
 
 cp -R "$creekDir/service_template/example-service" "$serviceName"
+replaceInCode "example\.service" "$serviceDotName"
 replaceInCode "example-service" "$serviceName"
 replaceInCode "ExampleServiceDescriptor" "$serviceClass"
 
+echo "Updating service root package to: $rootPackage.$serviceDotName"
+renamePackage "$rootPackage.example.service" "$rootPackage.$serviceDotName"
+
 echo adding new service module to settings.gradle.kts
 sed -i "s/include(/include(\n    \"$serviceName\",/g" settings.gradle.kts
+
+echo "adding new service's Docker image to Dependabot"
+echo "\n  - package-ecosystem: docker
+    directory: /$serviceName
+    schedule:
+      interval: monthly" >> .github/dependabot.yml
 
 echo Tidy up
 find . -type f -name "Keep.java" -not \( -path "*/.git/*" -o -path "*/.gradle/*" \) -exec rm {} \;
