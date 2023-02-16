@@ -115,8 +115,8 @@ replaceInCode "example\.service" "$serviceDotName"
 replaceInCode "example-service" "$serviceName"
 replaceInCode "ExampleServiceDescriptor" "$serviceClass"
 
-echo "Updating root packages to: $rootPackage"
-renamePackage "io.github.creek.service.basic.kafka.streams.demo" "$rootPackage"
+echo "Updating service root package to: $rootPackage.$serviceDotName"
+renamePackage "$rootPackage.example.service" "$rootPackage.$serviceDotName"
 
 echo adding new service module to settings.gradle.kts
 sed -i "s/include(/include(\n    \"$serviceName\",/g" settings.gradle.kts
