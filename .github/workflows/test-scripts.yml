@@ -29,7 +29,7 @@ jobs:
       - name: Check compiles & runs
         run: |
           ./gradlew build
-          lsof "/home/runner/work/basic-kafka-streams-demo/basic-kafka-streams-demo/system-tests/build/creek/mounts/coverage/systemTest.exec"
+          sudo lsof "/home/runner/work/basic-kafka-streams-demo/basic-kafka-streams-demo/system-tests/build/creek/mounts/coverage/systemTest.exec"
           ./gradlew clean
       - name: Add service
         shell: zsh {0}
