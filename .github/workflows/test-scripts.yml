@@ -29,6 +29,9 @@ jobs:
       - name: Check compiles & runs
         run: |
           ./gradlew build
+          docker container ls
+          ./gradlew --stop
+          docker container ls
           ./gradlew clean
       - name: Add service
         shell: zsh {0}
