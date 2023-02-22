@@ -1,6 +1,7 @@
 ---
 title: Debugging services
 permalink: /debugging
+description: Learn how the Creek aggregate template enables easy debugging of your microservice code while its running in a Docker container
 layout: single
 ---
 
@@ -26,18 +27,12 @@ The `aggregate-template` repository has preconfigured the service to support deb
 With [AttachMe][attachMe] plugin installed, the `handle-occurrence-service` can be debugged with the following steps:
 
 1. Create and run an `AttachMe` run configuration.
-   <figure>
-     <img src="{{ '/assets/images/creek-create-attachme-run-config.png' | relative_url }}" alt="AttacheMe run configuration">
-   </figure>
+   {% include figure image_path="/assets/images/creek-create-attachme-run-config.png" alt="AttacheMe run configuration" %}
 2. Name the new configuration, but leave the default port at the default `7857`.
-   <figure>
-     <img src="{{ '/assets/images/creek-attachme-run-config.png' | relative_url }}" alt="AttacheMe run configuration">
-   </figure>
+   {% include figure image_path="/assets/images/creek-attachme-run-config.png" alt="AttacheMe run configuration details" %}   
 3. Place the required breakpoints in the code. For example, place one in the `TopologyBuilder`'s `extractHandles()`
    method.
-   <figure>
-     <img src="{{ '/assets/images/creek-add-breakpoint.png' | relative_url }}" alt="AttacheMe run configuration">
-   </figure>
+   {% include figure image_path="/assets/images/creek-add-breakpoint.png" alt="Add breakpoint" %}
 4. Run the system tests, specifying which service to debug:
 
    ```
@@ -49,9 +44,7 @@ With [AttachMe][attachMe] plugin installed, the `handle-occurrence-service` can 
 When the system tests start the `handle-occurrence-service` Docker container, the service will attach to the debugger.
 This will cause a new debug window to open and for the breakpoint to be hit:
 
-<figure>
-  <img src="{{ '/assets/images/creek-breakpoint-hit.png' | relative_url }}" alt="AttacheMe run configuration">
-</figure>
+{% include figure image_path="/assets/images/creek-breakpoint-hit.png" alt="Breakpoint hit" %}
 
 Pretty cool, right?
 

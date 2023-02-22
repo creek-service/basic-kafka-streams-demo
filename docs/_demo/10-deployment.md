@@ -1,6 +1,7 @@
 ---
 title: Deployment
 permalink: /deployment
+description: Learn the features of the Creek aggregate template that will help when it comes to deploying your microservices.
 layout: single
 toc: true
 ---

@@ -1,6 +1,7 @@
 ---
 title: Bootstrap a new aggregate
 permalink: /bootstrap
+description: Learn how to use the Creek aggregate template to bootstrap your own Git repository for hosting Microservices
 layout: single
 ---
 
@@ -18,16 +19,11 @@ This will create a new repository with all the plumbing and boilerplate code in 
 ## Creating a new repository from the template
 
 1. Click [<i class="fab fa-fw fa-github"/>&nbsp; Create new aggregate][aggTempNew]{: .btn .btn--success} and fill in the details:
-   <figure>
-     <img src="{{ '/assets/images/creek-create-new-from-agg-template.png' | relative_url }}" alt="Create new aggregate repo">
-   </figure>
+   {% include figure image_path="/assets/images/creek-create-new-from-agg-template.png" alt="Create new aggregate repo" %}
 
 2. When GitHub creates the new repo, a [boostrap workflow][bootstrapWorkflow] will run to customise the new repository.
    Wait for this workflow to complete in the _Actions_ tab:
-
-   <figure>
-     <img src="{{ '/assets/images/creek-repo-bootstrap.png' | relative_url }}" alt="Wait for boostrap workflow">
-   </figure>
+   {% include figure image_path="/assets/images/creek-repo-bootstrap.png" alt="Wait for boostrap workflow" %}
 
 3. [Clone the new repository][cloneRepo] locally.
 4. Finish the initialisation of the repository by running the `clean_up.sh` script from the root of the repository.
@@ -39,7 +35,7 @@ This will create a new repository with all the plumbing and boilerplate code in 
    The clean-up script will finish off the customisation of the new repository, removing now redundant workflows, 
    scripts and code.
 
-6. Commit the changes back to the GitHub
+5. Commit the changes back to the GitHub
    ```
    git add -A
    git commit -m "clean_up script"
