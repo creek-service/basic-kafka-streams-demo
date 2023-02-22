@@ -1,6 +1,7 @@
 ---
 title: Writing unit tests
 permalink: /unit-testing
+description: Learn how Creek simplifies writing Kafka Streams topology unit tests.
 layout: single
 snippet_comment_prefix: "//"
 snippet_source: "../handle-occurrence-service/src/test/java/io/github/creek/service/basic/kafka/streams/demo/service/kafka/streams/TopologyBuilderTest.java"
@@ -80,9 +81,7 @@ As before, test coverage can be calculated by running the following Gradle comma
 This will execute the unit and system tests and use [JaCoCo][JaCoCo] to calculate the test coverage. 
 The human-readable coverage report is saved at `build/reports/jacoco/coverage/html/index.html`.
 
-<figure>
- <img src="{{ '/assets/images/creek-unit-test-coverage.png' | relative_url }}" alt="Unit test coverage">
-</figure>
+{% include figure image_path="/assets/images/creek-unit-test-coverage.png" alt="Unit test coverage" %}
 
 In this case, the test coverage hasn't improved by adding unit tests. Meaning, arguably, this test is superfluous.
 

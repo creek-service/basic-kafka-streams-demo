@@ -49,9 +49,7 @@ To keep this tutorial self-contained, the tutorial's service will _own_ its `twi
 is responsible for the topic, its configuration, and the data it contains.
 {: .notice--info}
 
-<figure>
-  <img src="{{ '/assets/images/creek-demo-design.svg' | relative_url }}" alt="Service design">
-</figure>
+{% include figure image_path="/assets/images/creek-demo-design.svg" alt="Service design" %}
 
 The service will search each tweet for Twitter handles, e.g. `@BarackObama`. For each handle, the service will produce
 a record to the `twitter.handle.usage` Kafka topic. 

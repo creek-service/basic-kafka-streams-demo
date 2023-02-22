@@ -1,6 +1,7 @@
 ---
 title: Add a microservice.
 permalink: /add-service
+description: Learn how to use the Creek aggregate template to quickly add new microservices to your aggregate repositories
 layout: single
 ---
 
@@ -15,9 +16,7 @@ Luckily, the `aggregate-tempalate` comes with an automated way of adding a new s
 1. Go to the `Actions` tab of the new repository on GitHub.
 2. Select `Add service module` from the list of available workflows on the left.
 3. Click the `Run workflow ▾` button and enter the service name as `handle-occurrence-service`: 
-   <figure>
-     <img src="{{ '/assets/images/creek-add-service.png' | relative_url }}" alt="Add new service">
-   </figure>
+   {% include figure image_path="/assets/images/creek-add-service.png" alt="Add new service" %}
 
    **Note:** Service names must be lowercase. Only alphanumerics and dashes are supported.
    {: .notice--warning}

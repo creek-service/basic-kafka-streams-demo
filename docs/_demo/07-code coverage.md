@@ -1,6 +1,7 @@
 ---
-title: Test coverage
 permalink: /system-testing-coverage
+title: Test coverage
+description: Learn how Creek captures code coverage metrics when running system test, which test your service running in a Docker container
 layout: single
 ---
 
@@ -16,9 +17,7 @@ Test coverage is calculated by running the following Gradle command:
 
 The human-readable coverage report is saved to `build/reports/jacoco/coverage/html/index.html`.
 
-<figure>
- <img src="{{ '/assets/images/creek-system-test-coverage.png' | relative_url }}" alt="System test coverage">
-</figure> 
+{% include figure image_path="/assets/images/creek-system-test-coverage.png" alt="System test coverage" %}
 
 With just the system tests, the test coverage is pretty good for our new service. 
 The only think really missing is coverage of the `io.github.creek.service.basic.kafka.streams.demo.api` package,

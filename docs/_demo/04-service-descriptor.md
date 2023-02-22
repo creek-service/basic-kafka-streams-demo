@@ -1,6 +1,7 @@
 ---
 title: Define the service's resources
 permalink: /descriptor
+description: Learn how to write a Creek service descriptor, which defines metadata about a microservice and the external resources it uses.
 layout: single
 snippet_comment_prefix: "//"
 snippet_source: "../services/src/main/java/io/github/creek/service/basic/kafka/streams/demo/services/HandleOccurrenceServiceDescriptor.java"
