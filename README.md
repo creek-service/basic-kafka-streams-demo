@@ -11,10 +11,6 @@ and associated [docs](docs/README.md).
 This repository is also a template repository to enable later tutorials, that build on this one. 
 Click the [Use this template](https://github.com/creek-service/basic-kafka-streams-demo/generate) button at the top to create a new repository from this template.
 
-## Contributing
-
-Contributions welcome!  Please fork, change and raise a PR.
-
 ### Gradle commands
 
 * `./gradlew` should be the go-to local command to run when developing.
