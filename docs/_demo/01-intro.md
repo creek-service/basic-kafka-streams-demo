@@ -57,9 +57,10 @@ The produced records have the Twitter handle in the key and the number of occurr
 
 ## Complete solution
 
-The completed tutorial can be viewed [on GitHub](https://github.com/creek-service/basic-kafka-streams-demo).
+The completed tutorial can be viewed [on GitHub][demoOnGh].
 
-[<i class="fab fa-fw fa-github"/>&nbsp; View on GitHub][aggTemp]{: .btn .btn--success}
+[<i class="fab fa-fw fa-github"/>&nbsp; View on GitHub][demoOnGh]{: .btn .btn--success}
 
  
 [aggTemp]: https://github.com/creek-service/aggregate-template
+[demoOnGh]: https://github.com/creek-service/basic-kafka-streams-demo
