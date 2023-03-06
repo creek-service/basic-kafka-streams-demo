@@ -34,7 +34,7 @@ rootPackage="$groupName.$modNamePrefix"
 
 # sedCode(sedCmd)
 function sedCode() {
-  find . -type f -not \( -path "*/.git/*" -o -path "*/build/*" -o -path "*/.gradle/*" -o -path "*/.creek/*.sh" \) -print0 | xargs -0 sed -i "$1"
+  find . -type f -not \( -path "*/.git/*" -o -path "*/build/*" -o -path "*/.gradle/*" \) -print0 | xargs -0 sed -i "$1"
 }
 
 # replaceInCode(text-to-replace, replacement)
@@ -52,7 +52,7 @@ function renamePackage() {
   oldBaseDir=$(echo "$1" | sed 's/\./\//g')
   newBaseDir=$(echo "$2" | sed 's/\./\//g')
 
-  find . -type f -path "*$oldBaseDir*" -not \( -path "*/.git/*" -o -path "*/build/*" -o -path "*/.gradle/*" -o -path "*/.creek/*.sh" \) -exec bash -c '
+  find . -type f -path "*$oldBaseDir*" -not \( -path "*/.git/*" -o -path "*/build/*" -o -path "*/.gradle/*" \) -exec bash -c '
     newPath=${3/$1/$0}
     mkdir -p "$(dirname $newPath)"
     mv "$3" "$newPath"
