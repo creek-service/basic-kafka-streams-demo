@@ -1,5 +1,5 @@
 ---
-title: Add a microservice.
+title: Add a microservice
 permalink: /add-service
 description: Learn how to use the Creek aggregate template to quickly add new microservices to your aggregate repositories
 layout: single

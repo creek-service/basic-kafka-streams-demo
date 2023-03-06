@@ -1,7 +1,7 @@
 ---
-title: Debugging services
+title: Debugging services running in Docker containers
 permalink: /debugging
-description: Learn how the Creek aggregate template enables easy debugging of your microservice code while its running in a Docker container
+description: Learn how the Creek aggregate template enables easy debugging of your microservice code running in a Docker container
 layout: single
 ---
 

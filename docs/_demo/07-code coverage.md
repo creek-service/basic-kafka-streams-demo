@@ -1,6 +1,6 @@
 ---
+title: System test coverage
 permalink: /system-testing-coverage
-title: Test coverage
 description: Learn how Creek captures code coverage metrics when running system test, which test your service running in a Docker container
 layout: single
 ---
