@@ -45,7 +45,7 @@ public final class HandleOccurrenceServiceDescriptor implements ServiceDescripto
     // formatting:off
 // begin-snippet: topic-resources
     // Define the tweet-text input topic, conceptually owned by this service:
-    public static final OwnedKafkaTopicInput<Long, String> TweetTextTopic =
+    public static final OwnedKafkaTopicInput<Long, String> TweetTextStream =
             register(
                     inputTopic(
                             "twitter.tweet.text", // Topic name
@@ -54,7 +54,7 @@ public final class HandleOccurrenceServiceDescriptor implements ServiceDescripto
                             withPartitions(5))); // Topic config
 
     // Define the output topic, again conceptually owned by this service:
-    public static final OwnedKafkaTopicOutput<String, Integer> TweetHandleUsageTopic =
+    public static final OwnedKafkaTopicOutput<String, Integer> TweetHandleUsageStream =
             register(outputTopic(
                     "twitter.handle.usage",
                     String.class, // (Twitter handle)

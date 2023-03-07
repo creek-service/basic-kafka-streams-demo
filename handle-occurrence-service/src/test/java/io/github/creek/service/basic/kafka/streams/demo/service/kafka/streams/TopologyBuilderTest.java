@@ -17,8 +17,8 @@
 package io.github.creek.service.basic.kafka.streams.demo.service.kafka.streams;
 
 // formatting:off
-import static io.github.creek.service.basic.kafka.streams.demo.services.HandleOccurrenceServiceDescriptor.TweetTextTopic;
-import static io.github.creek.service.basic.kafka.streams.demo.services.HandleOccurrenceServiceDescriptor.TweetHandleUsageTopic;
+import static io.github.creek.service.basic.kafka.streams.demo.services.HandleOccurrenceServiceDescriptor.TweetTextStream;
+import static io.github.creek.service.basic.kafka.streams.demo.services.HandleOccurrenceServiceDescriptor.TweetHandleUsageStream;
 import static org.creekservice.api.kafka.metadata.KafkaTopicDescriptor.DEFAULT_CLUSTER_NAME;
 import static org.creekservice.api.kafka.streams.test.TestTopics.inputTopic;
 import static org.creekservice.api.kafka.streams.test.TestTopics.outputTopic;
@@ -55,8 +55,8 @@ class TopologyBuilderTest {
     private Topology topology;
     // formatting:off
 // begin-snippet: topic-declarations
-    private TestInputTopic<Long, String> tweetTextTopic;
-    private TestOutputTopic<String, Integer> handleUsageTopic;
+    private TestInputTopic<Long, String> tweetTextStream;
+    private TestOutputTopic<String, Integer> handleUsageStream;
 // end-snippet
     // formatting:on
 
@@ -82,8 +82,8 @@ class TopologyBuilderTest {
         testDriver = new TopologyTestDriver(topology, ext.properties(DEFAULT_CLUSTER_NAME));
 
         // Create the topologies input and output topics"
-        tweetTextTopic = inputTopic(TweetTextTopic, ctx, testDriver);
-        handleUsageTopic = outputTopic(TweetHandleUsageTopic, ctx, testDriver);
+        tweetTextStream = inputTopic(TweetTextStream, ctx, testDriver);
+        handleUsageStream = outputTopic(TweetHandleUsageStream, ctx, testDriver);
     }
 // end-snippet
     // formatting:on
@@ -98,11 +98,11 @@ class TopologyBuilderTest {
     @Test
     void shouldOutputHandleOccurrences() {
         // When:
-        tweetTextTopic.pipeInput(1622262145390972929L, "@PepitoTheCat @BillyM2k @PepitoTheCat Responding to feedback, " +
+        tweetTextStream.pipeInput(1622262145390972929L, "@PepitoTheCat @BillyM2k @PepitoTheCat Responding to feedback, " +
                 "Twitter will enable a light, write-only API for bots providing good content that is free.");
 
         // Then:
-        assertThat(handleUsageTopic.readKeyValuesToList(), containsInAnyOrder(
+        assertThat(handleUsageStream.readKeyValuesToList(), containsInAnyOrder(
                 pair("@PepitoTheCat", 2),
                 pair("@BillyM2k", 1)
         ));

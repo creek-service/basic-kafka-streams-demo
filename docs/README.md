@@ -15,8 +15,7 @@ If you want to hack about with the site or add content, then follow these instru
 #### 1. Install the gems
 
 ```shell
-cd docs
-bundle install
+(cd docs && bundle install)
 ```
 
 #### 2. Update
@@ -26,7 +25,7 @@ Occasionally update gems
 ```shell
 git checkout main
 git pull
-bundle update
+(cd docs && bundle update)
 git checkout -b gems-update
 git add .
 git commit -m "updating gems"
