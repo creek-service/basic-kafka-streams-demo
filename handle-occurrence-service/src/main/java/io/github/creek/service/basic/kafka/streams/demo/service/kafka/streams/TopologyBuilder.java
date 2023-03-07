@@ -16,8 +16,8 @@
 
 package io.github.creek.service.basic.kafka.streams.demo.service.kafka.streams;
 
-import static io.github.creek.service.basic.kafka.streams.demo.services.HandleOccurrenceServiceDescriptor.TweetHandleUsageTopic;
-import static io.github.creek.service.basic.kafka.streams.demo.services.HandleOccurrenceServiceDescriptor.TweetTextTopic;
+import static io.github.creek.service.basic.kafka.streams.demo.services.HandleOccurrenceServiceDescriptor.TweetHandleUsageStream;
+import static io.github.creek.service.basic.kafka.streams.demo.services.HandleOccurrenceServiceDescriptor.TweetTextStream;
 import static java.util.Objects.requireNonNull;
 import static org.creekservice.api.kafka.metadata.KafkaTopicDescriptor.DEFAULT_CLUSTER_NAME;
 
@@ -50,8 +50,8 @@ public final class TopologyBuilder {
 
         // Pass a topic descriptor to the Kafka Streams extension to
         // obtain a typed `KafkaTopic` instance, which provides access to serde:
-        final KafkaTopic<Long, String> input = ext.topic(TweetTextTopic);
-        final KafkaTopic<String, Integer> output = ext.topic(TweetHandleUsageTopic);
+        final KafkaTopic<Long, String> input = ext.topic(TweetTextStream);
+        final KafkaTopic<String, Integer> output = ext.topic(TweetHandleUsageStream);
 
         // Build a simple topology:
         // Consume input topic:
