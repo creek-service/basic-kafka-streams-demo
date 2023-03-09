@@ -18,17 +18,16 @@ This will create a new repository with all the plumbing and boilerplate code in 
 
 ## Creating a new repository from the template
 
-1. Navigate to the [Creek Aggregate Template][tempOnGH]{:target="_blank"} on GitHub.  
-2. Click [<i class="fab fa-fw fa-github"/>&nbsp; Use this template][tempNew]{: .btn .btn--success}{:target="_blank"} to create a new repository,
+1. Click [<i class="fab fa-fw fa-github"/>&nbsp; Use this template][tempNew]{: .btn .btn--success}{:target="_blank"} to create a new repository,
    and fill in the details:
    {% include figure image_path="/assets/images/creek-create-new-from-agg-template.png" alt="Create new aggregate repo" %}
 
-3. When GitHub creates the new repo, a [boostrap workflow][bootstrapWorkflow] will run to customise the new repository.
+2. When GitHub creates the new repo, a [boostrap workflow][bootstrapWorkflow] will run to customise the new repository.
    Wait for this workflow to complete in the _Actions_ tab:
    {% include figure image_path="/assets/images/creek-repo-bootstrap.png" alt="Wait for boostrap workflow" %}
 
-4. [Clone the new repository][cloneRepo] locally.
-5. Finish the initialisation of the repository by running the `clean_up.sh` script from the root of the repository.
+3. [Clone the new repository][cloneRepo] locally.
+4. Finish the initialisation of the repository by running the `clean_up.sh` script from the root of the repository.
 
    ```
    ./.creek/clean_up.sh
@@ -37,7 +36,7 @@ This will create a new repository with all the plumbing and boilerplate code in 
    The clean-up script will finish off the customisation of the new repository, removing now redundant workflows, 
    scripts and code.
 
-6. Commit the changes back to the GitHub
+5. Commit the changes back to the GitHub
    ```
    git add -A
    git commit -m "clean_up script"
@@ -53,5 +52,5 @@ in the [aggregate template documentation][templateDocs].
 [tempNew]: https://github.com/creek-service/aggregate-template/generate
 [bootstrapWorkflow]: https://github.com/creek-service/aggregate-template/blob/main/.github/workflows/bootstrap.yml
 [cloneRepo]: https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository
-[templateDocs]: https://www.creekservice.org/aggregate-template
+[templateDocs]: https://www.creekservice.org/aggregate-template/
 [bcDDD]: https://martinfowler.com/bliki/BoundedContext.html
