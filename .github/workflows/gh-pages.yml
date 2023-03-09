@@ -18,7 +18,7 @@ concurrency:
 
 jobs:
   build_pages:
-    if: ${{ github.run_number != 1 }}
+    if: ${{ github.repository_owner == 'creek-service' }}
     runs-on: ubuntu-latest
     env:
       BUNDLE_GEMFILE: ${{ github.workspace }}/docs/Gemfile

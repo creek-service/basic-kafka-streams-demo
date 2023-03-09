@@ -16,7 +16,8 @@ producing usage counts to another topic.
 
 By the end of this tutorial you should know:
  * How to bootstrap a new repo from the [aggregate-template][aggTemp] repository.
- * How to define a service descriptor: metadata about the API of a service.
+ * How to add new microservices to an aggregate repository.
+ * How to define a service descriptor: metadata about the API of a service, i.e. its input and output topics.
  * How to obtain a `kafka` topic's serde, for use in a Kafka Streams topologies.
  * How to build and execute a Kafka Streams topology, using Creek.
  * How to write black-box system tests of the service's Docker image.
