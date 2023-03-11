@@ -27,12 +27,22 @@ Luckily, the `aggregate-tempalate` comes with an automated way of adding a new s
 4. Click the [Run workflow](){: .btn .btn--small .btn--disabled .btn--success} button below the service name.
 
 This will kick off a workflow that adds the new module, containing the boilerplate code for a new service,
-though you may need to refresh the web page to view it.
+though the page may need refreshing to view it.
 
 {% include figure image_path="/assets/images/creek-add-service-workflow-running.png" alt="Running workflow" %}
+
+**Note:** The workflow currently commits changes directly to the main branch.
+This is incompatible with [GitHub branch protect rules <i class="fas fa-external-link-alt"></i>][ghBranchProtectionRules]{:target="_blank"} that require, for example, status checks to pass.
+[Work is planned <i class="fas fa-external-link-alt"></i>][createPrIssue]{:target="_blank"} to switch to opening a PR instead,
+making it compatible with branch protection.
+Until then, you may need to temporarily disable any protection rules on the main branch.
+{: .notice--danger}
 
 Wait for the workflow to complete and pull down the changes to your local machine by running:
 
 ```shell
 git pull
 ```
+
+[ghBranchProtectionRules]: https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/defining-the-mergeability-of-pull-requests/about-protected-branches
+[createPrIssue]: https://github.com/creek-service/aggregate-template/issues/141

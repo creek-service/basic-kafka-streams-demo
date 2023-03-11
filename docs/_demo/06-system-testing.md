@@ -8,8 +8,9 @@ toc: true
 
 With the production code complete, let's look at adding some tests.
 
+Unit tests are useful to a point, but ideally you should also test functionality of the complete service.
 Creek [system-tests][systemTests] perform black-box testing of your service or services.
-It executes test suites against your complete services, and any required third-party services, running in a Docker containers.
+It executes test suites against your complete services, and any required third-party services, running in Docker containers.
 
 The Docker images being run are the same images you'll deploy into your environments.
 By testing the actual Docker image, you can be confident the service does what is intended, 
@@ -91,11 +92,8 @@ That test case feeds in the records in the `twitter.tweet.text` YAML file, and e
 {: .notice--info}
 
 **Protip:** A test suite can define `options` to customise the test suite. For example, the Kafka test extension defines
-a [`creek/kafka-options`][kafkaOptions] type.
+a [`creek/kafka-options`][kafkaOptions] type, that can be used to control required message handling and more.
 {: .notice--info}
-
-[todo]: add protip about customising additional record handling, ordering etc, using `creek/kafka-options@1`.
-
 
 ## Running the system tests
 

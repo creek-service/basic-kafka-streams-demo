@@ -7,7 +7,7 @@ snippet_comment_prefix: "//"
 snippet_source: "../services/src/main/java/io/github/creek/service/basic/kafka/streams/demo/services/HandleOccurrenceServiceDescriptor.java"
 ---
 
-Each service within an aggregate defines a _service descriptor_ in the `services` module of the repository.
+Each service within an aggregate defines a _service descriptor_ in the repository's `services` module.
 
 A _service descriptor_ defines the external resources a service uses and the api it exposes. 
 The types of resources a descriptor can reference depends on the installed [Creek extensions][creekExts].
