@@ -9,14 +9,14 @@ updates:
     directory: /
     open-pull-requests-limit: 50
     schedule:
-      interval: monthly
+      interval: daily
   - package-ecosystem: gradle
     directory: /
     open-pull-requests-limit: 50
     schedule:
-      interval: monthly
+      interval: daily
   - package-ecosystem: docker
     directory: /handle-occurrence-service
     open-pull-requests-limit: 50
     schedule:
-      interval: monthly
+      interval: daily
