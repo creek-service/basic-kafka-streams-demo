@@ -3,9 +3,9 @@
 [![build](https://github.com/creek-service/basic-kafka-streams-demo/actions/workflows/build.yml/badge.svg)](https://github.com/creek-service/basic-kafka-streams-demo/actions/workflows/build.yml)
 [![CodeQL](https://github.com/creek-service/basic-kafka-streams-demo/actions/workflows/codeql.yml/badge.svg)](https://github.com/creek-service/basic-kafka-streams-demo/actions/workflows/codeql.yml)
 
-# Basic Kafka Streams Demo
+# Basic Kafka Streams Tutorial
 
-Repo containing the completed [Basic Kafka Streams demo](https://www.creekservice.org/basic-kafka-streams-demo)
+Repo containing the completed [Basic Kafka Streams tutorial](https://www.creekservice.org/basic-kafka-streams-demo)
 and associated [docs](docs/README.md).
 
 This repository is also a template repository to enable later tutorials, that build on this one. 

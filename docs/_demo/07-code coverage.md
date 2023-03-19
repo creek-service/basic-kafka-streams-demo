@@ -22,9 +22,10 @@ The human-readable coverage report is saved to `build/reports/jacoco/coverage/ht
 With just the system tests, the test coverage is pretty good for our new service. 
 The only think really missing is coverage of the `io.github.creek.service.basic.kafka.streams.demo.api` package,
 and that is because we've not yet looked at utilising the aggregate descriptor defined in that package.
-The aggregate descriptor defines the API for the aggregate, one abstraction level up from services, and will be covered in a later tutorial.
 
-[todo]: which tutorial?
+**Note:** The aggregate descriptor defines the API on an aggregate, one abstraction level up from services,
+and will be covered in the final quick-start tutorial: [Kafka Streams: aggregate API tutorial](/ks-aggreagte-api-demo/)
+{: .notice--info}
 
 In the next step, we will add unit tests. However, with good system test coverage we recommend that unit testing
 is limited to testing edge cases that are hard, or impossible, to test using the system tests. Use system testing
