@@ -82,10 +82,9 @@ This maps to the [`bootstrap.servers`][bootstrapServersDocs] Kafka client config
 [ghContainers]: https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry
 [buildYml]: https://github.com/creek-service/aggregate-template/blob/main/.github/workflows/build.yml
 [bootstrapServersDocs]: https://kafka.apache.org/documentation/#producerconfigs_bootstrap.servers
-[kafkaExtEnvVars]: https://github.com/creek-service/creek-kafka/tree/main/streams-extension#system-environment-variables
+[kafkaExtEnvVars]: https://www.creekservice.org/creek-kafka/#system-environment-variables-1
 [containerReg]: https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry
 [demoGh]: https://github.com/creek-service/basic-kafka-streams-demo
 [handle-occurrence-service-image]: https://github.com/creek-service/basic-kafka-streams-demo/pkgs/container/basic-kafka-streams-demo-handle-occurrence-service
 [aggTempVersioning]: https://www.creekservice.org/aggregate-template/features/versioning
 [dockerPackage]: https://github.com/creek-service/basic-kafka-streams-demo/pkgs/container/basic-kafka-streams-demo-handle-occurrence-service
-[todo]: update links above once documentation migrates
