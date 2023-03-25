@@ -96,5 +96,4 @@ coverage reports elsewhere.
 [coveralls]: https://coveralls.io/
 [kafkaStreams]: https://kafka.apache.org/33/documentation/streams/developer-guide/dsl-topology-naming.html
 [JaCoCo]: https://github.com/jacoco/jacoco
-[ksTest]: https://github.com/creek-service/creek-kafka/tree/main/streams-test
-[todo]: update links above as docs move onto creekservice.org
+[ksTest]: https://www.creekservice.org/creek-kafka/#unit-testing-topologies

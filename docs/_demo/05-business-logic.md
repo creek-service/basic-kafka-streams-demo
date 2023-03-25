@@ -57,5 +57,4 @@ Check out [its JavaDoc <i class="fas fa-external-link-alt" aria-hidden="true"></
 
 [nameJavaDocs]: https://javadoc.io/doc/org.creekservice/creek-kafka-streams-extension/latest/creek.kafka.streams.extension/org/creekservice/api/kafka/streams/extension/util/Name.html
 [kafkaStreams]: https://kafka.apache.org/documentation/streams/
-[ksExt]: https://github.com/creek-service/creek-kafka
-[todo]: switch about links to proper creekservice.org links once each repo publishes docs.
+[ksExt]: https://www.creekservice.org/creek-kafka/

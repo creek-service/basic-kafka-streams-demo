@@ -59,6 +59,5 @@ to discover the service metadata required to run the service, pipe in inputs and
 {: .notice--warning}
 
 [creekExts]: https://www.creekservice.org/extensions/
-[ksExt]: https://github.com/creek-service/creek-kafka
+[ksExt]: https://www.creekservice.org/creek-kafka/
 [aggDescriptor]: https://www.creekservice.org/docs/descriptors/#aggregate-descriptor
-[todo]: switch about links to proper creekservice.org links once each repo publishes docs.
