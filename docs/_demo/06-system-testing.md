@@ -120,7 +120,7 @@ Very briefly, the system tests work by discovering the `handle-occurrence-servic
 The system tests inspect the service descriptor. 
 
 As the descriptor defines Kafka based resources, the system tests, with the help of the installed [Creek Kafka system-test extension][kafkaTestExt], 
-knows to start a Kafka broker and create any unowned topics.
+knows to start a Kafka broker and create any unowned topics, like the `twitter.tweet.text` topic.
 
 The service descriptor also defines the name of the service's Docker container, allowing the system tests to start the service.
 
