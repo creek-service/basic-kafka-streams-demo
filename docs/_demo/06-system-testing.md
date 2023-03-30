@@ -131,6 +131,6 @@ More information about the system tests can be found [here][systemTests].
 
 [systemTests]:https://github.com/creek-service/creek-system-test
 [testPlugin]: https://github.com/creek-service/creek-system-test-gradle-plugin
-[kafkaTestExt]: https://github.com/creek-service/creek-kafka/tree/main/test-extension
-[kafkaOptions]: https://github.com/creek-service/creek-kafka/tree/main/test-extension#option-model-extensions
+[kafkaTestExt]: https://www.creekservice.org/creek-kafka/#system-test-extension
+[kafkaOptions]: https://www.creekservice.org/creek-kafka/#option-model-extensions
 [todo]: switch about links to proper creekservice.org links once each repo publishes docs. 
