@@ -19,7 +19,9 @@
  *
  * <p>Apply to all java modules, usually excluding the root project in multi-module sets.
  *
- * <p>Version: 1.5
+ * <p>Version: 1.7
+ *  - 1.7: Switch to setting Java version via toolchain
+ *  - 1.6: Remove GitHub packages for snapshots
  *  - 1.5: Add filters to exclude generated sources
  *  - 1.4: Add findsecbugs-plugin
  *  - 1.3: Fail on warnings for test code too.
@@ -35,8 +37,9 @@ plugins {
 group = "io.github.creek.service"
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(11))
+    }
 }
 
 repositories {
