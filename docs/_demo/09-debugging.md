@@ -54,7 +54,7 @@ in the [system test plugin][systemTestOptions] documentation.
 {: .notice--info}
 
 [attachMe]: https://plugins.jetbrains.com/plugin/13263-attachme
-[sysTestRequirements]: https://github.com/creek-service/creek-system-test#configuring-a-service-for-debugging
+[sysTestRequirements]: /creek-system-test#configuring-a-service-for-debugging
 [pluginRequirements]: https://github.com/creek-service/creek-system-test-gradle-plugin#dependency-management
 [systemTestOptions]: https://github.com/creek-service/creek-system-test-gradle-plugin#systemtest---systemtest
 [todo]: update links below to point to creekservice.org as docs migrate.
