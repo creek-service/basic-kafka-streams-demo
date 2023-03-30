@@ -129,8 +129,8 @@ need to be able to serialize inputs and deserialize outputs.
 
 More information about the system tests can be found [here][systemTests].
 
-[systemTests]:https://github.com/creek-service/creek-system-test
+[systemTests]: /creek-system-test
 [testPlugin]: https://github.com/creek-service/creek-system-test-gradle-plugin
-[kafkaTestExt]: https://www.creekservice.org/creek-kafka/#system-test-extension
-[kafkaOptions]: https://www.creekservice.org/creek-kafka/#option-model-extensions
+[kafkaTestExt]: /creek-kafka/#system-test-extension
+[kafkaOptions]: /creek-kafka/#option-model-extensions
 [todo]: switch about links to proper creekservice.org links once each repo publishes docs. 
