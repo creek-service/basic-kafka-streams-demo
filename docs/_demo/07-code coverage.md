@@ -24,7 +24,7 @@ The only think really missing is coverage of the `io.github.creek.service.basic.
 and that is because we've not yet looked at utilising the aggregate descriptor defined in that package.
 
 **Note:** The aggregate descriptor defines the API on an aggregate, one abstraction level up from services,
-and will be covered in the final quick-start tutorial: [Kafka Streams: aggregate API tutorial](/ks-aggreagte-api-demo/)
+and will be covered in the final quick-start tutorial: [Kafka Streams: aggregate API tutorial](/ks-aggregate-api-demo/)
 {: .notice--info}
 
 In the next step, we will add unit tests. However, with good system test coverage we recommend that unit testing
