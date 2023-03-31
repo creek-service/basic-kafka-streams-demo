@@ -14,7 +14,7 @@ The types of resources a descriptor can reference depends on the installed [Cree
 
 **ProTip:** Service descriptors are accessible by other services within the aggregate, but not by those outside.
 Services from other aggregates should only use the aggregate's public API defined in its aggregate descriptor.
-More information on aggregate APIs and descriptors can be found in the [Kafka Streams: aggregate API tutorial](/ks-aggreagte-api-demo/).
+More information on aggregate APIs and descriptors can be found in the [Kafka Streams: aggregate API tutorial](/ks-aggregate-api-demo/).
 {: .notice--info}
 
 This demo will use the [Kafka Streams extension][ksExt], and the `handle-occurrence-service`'s descriptor will define a
@@ -24,7 +24,7 @@ which the service will produces to.
 **Note:** To keep this tutorial self-contained, the service's input topic is _owned_ by the service.
 It would be more common for an upstream service or aggregate to own the topic and for the topic's
 definition to be imported from there.
-The [Kafka Streams: aggregate API tutorial](/ks-aggreagte-api-demo/) covers how to define an aggregate descriptor to allow 
+The [Kafka Streams: aggregate API tutorial](/ks-aggregate-api-demo/) covers how to define an aggregate descriptor to allow 
 interacting with parts of an architecture that don't use Creek. 
 {: .notice--warning}
 
