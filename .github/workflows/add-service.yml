@@ -1,38 +1,83 @@
 # A Workflow for adding new service modules to a repo.
+#
+# The workflow can either commit directly to the main branch, or raise a PR.
+#
+# By default, PRs raised by the workflow will NOT have checks run against them (which is bad!).
+# To enable checks, create a PAT, with write permissions on pull requests, and update the workflow to use it.
+#
+# To update the workflow to use a PAT:
+#  1. Create a PAT, with write permissions on pull-requests.
+#     See https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
+#  2. Store the PAT in your organisation's secrets, named something appropriate, e.g. PR_TOKEN
+#  3. Replace usage of `secrets.GITHUB_TOKEN` below with PAT, e.g. `secrets.PR_TOKEN`.
+#  4. Recommended: simplify this workflow:
+#     i. So it _always_ raises a PR, i.e. remove `use-pr` input.
+#     ii. Remove the `Check code builds` step, as the PR will now build the code.
+#     iii. Remove the `contents: write` line, as the workflow no longer needs write access to the repo content.
+#     iv. Remove these instructions ;).
 
 name: Add service module
+run-name: "Add service module: ${{ inputs.service_name }}"
 
 on:
   workflow_dispatch:
     inputs:
+      use-pr:
+        description: |
+          Raise a PR, rather than commit directly. 
+          (PRs are compatible with branch protection, but require a PAT to run checks. 
+          See https://www.creekservice.org/aggregate-template/add-service for more info)
+        type: boolean
+        required: false
+        default: 'false'
       service_name:
         description: "Service name, e.g. my-service. Lowercase alphanumerics and dashes only."
         required: true
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   add_service:
     if: github.repository != 'creek-service/aggregate-template'
+    permissions:
+      contents: write
+      pull-requests: write
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@83b7061638ee4956cf7545a6f7efe594e5ad0247 # v3.5.1
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
       - name: Install zsh
         run: sudo apt install zsh
       - name: Run script
         shell: zsh {0}
-        run: |
-          ./.creek/add_service.sh "${{ github.event.inputs.service_name }}"
-      - name: Check it builds
-        run: ./gradlew check
-      - name: Commit changes
+        run: ./.creek/add_service.sh "${{ github.event.inputs.service_name }}"
+      - name: Format code
+        run: ./gradlew format
+      - name: Check code builds
+        run: ./gradlew build
+      - name: Configure Git
         run: |
           git config --global user.email "95620007+Creek-Bot@users.noreply.github.com"
           git config --global user.name "Creek Bot"
-          echo "adding files"
-          git add -A
-          echo "status"
+      - name: Create branch
+        if: ${{ github.event.inputs.use-pr == 'true' }}
+        run: |
+          git checkout -b "create-${{ github.event.inputs.service_name }}-${{ github.run_number }}"
+      - name: Add files
+        run: |
           git status
-          git commit -m "Adding service '${{ github.event.inputs.service_name }}'"
-          git push
+          git add -A
+          git commit -m "Trigger dependabot"
+      - name: Push to PR branch
+        if: ${{ github.event.inputs.use-pr == 'true' }}
+        run: |
+          git push --set-upstream origin "create-${{ github.event.inputs.service_name }}-${{ github.run_number }}"
+      - name: Create pull request
+        if: ${{ github.event.inputs.use-pr == 'true' }}
+        run: |
+          echo "PR created: $(gh pr create --title 'Add module for microservice ${{ github.event.inputs.service_name }}' --body 'PR created by the [${{ github.workflow }}](https://github.com/${{ github.repository }}/blob/main/${{ github.event.workflow }}) workflow, run [${{ github.run_id }}](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}).')" >> $GITHUB_STEP_SUMMARY
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Push to main
+        if: ${{ github.event.inputs.use-pr != 'true' }}
+        run: git push
