@@ -17,7 +17,7 @@ jobs:
     if: ${{ github.run_number != 1 }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@8f4b7f84864484a7bf31766abe9204da3cbe65b3 # v3.2.0
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.2.0
       - uses: gradle/wrapper-validation-action@8d49e559aae34d3e0eb16cde532684bc9702762b # v1.0.6
       - name: Set up JDK
         uses: actions/setup-java@5ffc13f4174014e2d4d4572b3d74c3fa61aeb2c2 # v3.11.0
@@ -40,7 +40,7 @@ jobs:
     concurrency:
       group: "${{ github.repository }}-release"
     steps:
-      - uses: actions/checkout@8f4b7f84864484a7bf31766abe9204da3cbe65b3 # v3.2.0
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.2.0
       - name: Fetch version history
         # Do NOT want to fetch all tags if building a specific tag.
         # Doing so could result in code published with wrong version, if newer tags have been pushed
