@@ -5,8 +5,8 @@ plugins {
     `module-convention` apply false
     `coverage-convention`
     `publishing-convention` apply false
-    id("pl.allegro.tech.build.axion-release") version "1.15.0" // https://plugins.gradle.org/plugin/pl.allegro.tech.build.axion-release
-    id("com.bmuschko.docker-remote-api") version "9.3.1" apply false
+    id("pl.allegro.tech.build.axion-release") version "1.15.4" // https://plugins.gradle.org/plugin/pl.allegro.tech.build.axion-release
+    id("com.bmuschko.docker-remote-api") version "9.3.2" apply false
 }
 
 project.version = scmVersion.version
@@ -34,14 +34,14 @@ subprojects {
 
     extra.apply {
         set("creekVersion", "0.4.1")            // https://mvnrepository.com/artifact/org.creekservice
-        set("kafkaVersion", "3.4.0")            // https://mvnrepository.com/artifact/org.apache.kafka/kafka-clients
+        set("kafkaVersion", "3.5.1")            // https://mvnrepository.com/artifact/org.apache.kafka/kafka-clients
         set("spotBugsVersion", "4.4.2")         // https://mvnrepository.com/artifact/com.github.spotbugs/spotbugs-annotations
-        set("guavaVersion", "31.1-jre")         // https://mvnrepository.com/artifact/com.google.guava/guava
+        set("guavaVersion", "32.1.2-jre")         // https://mvnrepository.com/artifact/com.google.guava/guava
         set("log4jVersion", "2.20.0")           // https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core
 
-        set("junitVersion", "5.9.2")            // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
+        set("junitVersion", "5.10.0")            // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
         set("junitPioneerVersion", "2.0.1")     // https://mvnrepository.com/artifact/org.junit-pioneer/junit-pioneer
-        set("mockitoVersion", "5.3.1")          // https://mvnrepository.com/artifact/org.mockito/mockito-junit-jupiter
+        set("mockitoVersion", "5.4.0")          // https://mvnrepository.com/artifact/org.mockito/mockito-junit-jupiter
         set("hamcrestVersion", "2.2")           // https://mvnrepository.com/artifact/org.hamcrest/hamcrest-core
     }
 
