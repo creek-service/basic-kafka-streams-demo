@@ -34,7 +34,7 @@ subprojects {
 
     extra.apply {
         set("creekVersion", "0.4.1")            // https://mvnrepository.com/artifact/org.creekservice
-        set("kafkaVersion", "3.6.1")            // https://mvnrepository.com/artifact/org.apache.kafka/kafka-clients
+        set("kafkaVersion", "3.7.0")            // https://mvnrepository.com/artifact/org.apache.kafka/kafka-clients
         set("spotBugsVersion", "4.4.2")         // https://mvnrepository.com/artifact/com.github.spotbugs/spotbugs-annotations
         set("guavaVersion", "33.0.0-jre")         // https://mvnrepository.com/artifact/com.google.guava/guava
         set("log4jVersion", "2.23.0")           // https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core
