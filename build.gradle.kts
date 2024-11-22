@@ -37,7 +37,7 @@ subprojects {
         set("kafkaVersion", "3.9.0")            // https://mvnrepository.com/artifact/org.apache.kafka/kafka-clients
         set("spotBugsVersion", "4.4.2")         // https://mvnrepository.com/artifact/com.github.spotbugs/spotbugs-annotations
         set("guavaVersion", "33.3.1-jre")         // https://mvnrepository.com/artifact/com.google.guava/guava
-        set("log4jVersion", "2.24.1")           // https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core
+        set("log4jVersion", "2.24.2")           // https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core
 
         set("junitVersion", "5.11.3")            // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
         set("junitPioneerVersion", "2.3.0")     // https://mvnrepository.com/artifact/org.junit-pioneer/junit-pioneer
