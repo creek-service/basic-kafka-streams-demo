@@ -5,7 +5,7 @@ plugins {
     `module-convention` apply false
     `coverage-convention`
     `publishing-convention` apply false
-    id("pl.allegro.tech.build.axion-release") version "1.18.18" // https://plugins.gradle.org/plugin/pl.allegro.tech.build.axion-release
+    id("pl.allegro.tech.build.axion-release") version "1.19.0" // https://plugins.gradle.org/plugin/pl.allegro.tech.build.axion-release
     id("com.bmuschko.docker-remote-api") version "9.4.0" apply false
 }
 
@@ -37,9 +37,9 @@ subprojects {
         set("kafkaVersion", "4.0.0")            // https://mvnrepository.com/artifact/org.apache.kafka/kafka-clients
         set("spotBugsVersion", "4.4.2")         // https://mvnrepository.com/artifact/com.github.spotbugs/spotbugs-annotations
         set("guavaVersion", "33.4.0-jre")         // https://mvnrepository.com/artifact/com.google.guava/guava
-        set("log4jVersion", "2.24.3")           // https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core
+        set("log4jVersion", "2.25.1")           // https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core
 
-        set("junitVersion", "5.12.2")            // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
+        set("junitVersion", "5.13.4")            // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
         set("junitPioneerVersion", "2.3.0")     // https://mvnrepository.com/artifact/org.junit-pioneer/junit-pioneer
         set("mockitoVersion", "5.15.2")          // https://mvnrepository.com/artifact/org.mockito/mockito-junit-jupiter
         set("hamcrestVersion", "3.0")           // https://mvnrepository.com/artifact/org.hamcrest/hamcrest-core
