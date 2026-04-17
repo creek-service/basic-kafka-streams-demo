@@ -40,7 +40,7 @@ group = "io.github.creek.service"
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(11))
+        languageVersion.set(JavaLanguageVersion.of(17))
     }
 }
 
@@ -77,7 +77,7 @@ tasks.test {
 
 spotless {
     java {
-        googleJavaFormat("1.15.0").aosp().reflowLongStrings()
+        googleJavaFormat("1.25.2").aosp().reflowLongStrings()
         indentWithSpaces()
         importOrder()
         removeUnusedImports()
