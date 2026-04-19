@@ -70,6 +70,7 @@ public final class TopologyBuilder {
         // Grab the cluster properties from Creek to build and return the Topology:
         return builder.build(ext.properties(DEFAULT_CLUSTER_NAME));
     }
+
     // end-snippet
 
     // begin-snippet: extract-method
