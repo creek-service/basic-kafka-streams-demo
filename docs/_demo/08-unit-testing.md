@@ -75,11 +75,11 @@ If you find this test more of a hindrance than a help... delete it! :smile:
 As before, test coverage can be calculated by running the following Gradle command:
 
 ```
-./gradlew coverage
+./gradlew jacocoTestReport
 ```
 
-This will execute the unit and system tests and use [JaCoCo][JaCoCo] to calculate the test coverage. 
-The human-readable coverage report is saved at `build/reports/jacoco/coverage/html/index.html`.
+This will execute the unit tests and use [JaCoCo][JaCoCo] to calculate the test coverage.
+The human-readable coverage report is saved at `<module>/build/reports/jacoco/test/html/index.html`.
 
 {% include figure image_path="/assets/images/creek-unit-test-coverage.png" alt="Unit test coverage" %}
 
@@ -88,12 +88,11 @@ In this case, the test coverage hasn't improved by adding unit tests. Meaning, a
 While Creek recommends using system tests for functional testing, more complex real-world solutions often still 
 benefit from unit testing of the topology, to cover branches that are hard to reach with system tests.  
 
-**ProTip:** The repository also has a Gradle task and GitHub workflow step to upload the coverage report to 
-[coveralls.io][coveralls], should this be something you need, or the project can be customised to publish
-coverage reports elsewhere.
+**ProTip:** The repository uploads coverage reports to [Codecov][codecov] automatically
+as part of the CI workflow, using the org-wide `CODECOV_TOKEN` secret.
 {: .notice--info}
 
-[coveralls]: https://coveralls.io/
+[codecov]: https://codecov.io/
 [kafkaStreams]: https://kafka.apache.org/33/documentation/streams/developer-guide/dsl-topology-naming.html
 [JaCoCo]: https://github.com/jacoco/jacoco
 [ksTest]: https://www.creekservice.org/creek-kafka/#unit-testing-topologies
