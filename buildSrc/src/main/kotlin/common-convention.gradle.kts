@@ -1,5 +1,5 @@
 /*
- * Copyright 2022-2023 Creek Contributors (https://github.com/creek-service)
+ * Copyright 2022-2025 Creek Contributors (https://github.com/creek-service)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,9 @@
  * <p>Apply to all java modules, usually excluding the root project in multi-module sets.
  *
  * <p>Versions:
+ *  - 1.13: indentWithSpaces -> leadingTabsToSpaces and a few others
+ *  - 1.12: XML reporting for spotbugs
+ *  - 1.11: Add explicit checkstyle tool version
  *  - 1.10: Add ability to exclude containerised tests
  *  - 1.9: Add `allDeps` task.
  *  - 1.8: Tweak test config to reduce build speed.
@@ -49,11 +52,11 @@ repositories {
 }
 
 dependencies {
-    spotbugsPlugins("com.h3xstream.findsecbugs:findsecbugs-plugin:1.12.0")
+    spotbugsPlugins("com.h3xstream.findsecbugs:findsecbugs-plugin:1.14.0")
 }
 
 configurations.all {
-    // Reduce chance of build servers running into compilation issues due to stale snapshots:
+    // Reduce the chance of build servers running into compilation issues due to stale snapshots:
     resolutionStrategy.cacheChangingModulesFor(15, TimeUnit.MINUTES)
 }
 
@@ -64,7 +67,8 @@ tasks.withType<JavaCompile> {
 
 tasks.test {
     useJUnitPlatform()
-    setForkEvery(5)
+
+    forkEvery = 5
     maxParallelForks = Runtime.getRuntime().availableProcessors()
     testLogging {
         showStandardStreams = true
@@ -78,7 +82,7 @@ tasks.test {
 spotless {
     java {
         googleJavaFormat("1.25.2").aosp().reflowLongStrings()
-        indentWithSpaces()
+        leadingTabsToSpaces()
         importOrder()
         removeUnusedImports()
         trimTrailingWhitespace()
@@ -92,15 +96,27 @@ spotbugs {
     excludeFilter.set(rootProject.file("config/spotbugs/suppressions.xml"))
 
     tasks.spotbugsMain {
-        reports.create("html") {
-            required.set(true)
-            setStylesheet("fancy-hist.xsl")
+        reports {
+            create("html") {
+                required.set(true)
+                setStylesheet("fancy-hist.xsl")
+            }
+
+            create("xml") {
+                required.set(true)
+            }
         }
     }
     tasks.spotbugsTest {
-        reports.create("html") {
-            required.set(true)
-            setStylesheet("fancy-hist.xsl")
+        reports {
+            create("html") {
+                required.set(true)
+                setStylesheet("fancy-hist.xsl")
+            }
+
+            create("xml") {
+                required.set(true)
+            }
         }
     }
 }
