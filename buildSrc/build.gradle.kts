@@ -40,7 +40,7 @@ kotlin {
 dependencies {
     implementation("com.github.spotbugs.snom:spotbugs-gradle-plugin:6.4.8")                // https://plugins.gradle.org/plugin/com.github.spotbugs
     implementation("com.diffplug.spotless:spotless-plugin-gradle:8.4.0")                   // https://plugins.gradle.org/plugin/com.diffplug.spotless
-    implementation("org.javamodularity:moduleplugin:2.0.0")                                // https://plugins.gradle.org/plugin/org.javamodularity.moduleplugin
+    implementation("org.javamodularity:moduleplugin:1.8.15")                                // https://plugins.gradle.org/plugin/org.javamodularity.moduleplugin
     implementation("io.github.gradle-nexus:publish-plugin:2.0.0")                           // https://plugins.gradle.org/plugin/io.github.gradle-nexus.publish-plugin
     implementation("org.creekservice:creek-system-test-gradle-plugin:0.4.1")                // https://plugins.gradle.org/plugin/org.creekservice.system.test
 }
