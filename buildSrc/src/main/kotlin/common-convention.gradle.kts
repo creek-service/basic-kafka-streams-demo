@@ -39,7 +39,7 @@ plugins {
     id("com.diffplug.spotless")
 }
 
-group = "org.creekservice"
+group = "io.github.creek.service"
 
 java {
     toolchain {
@@ -50,18 +50,10 @@ java {
 repositories {
     mavenCentral()
 
-    maven {
-        url = uri("https://central.sonatype.com/repository/maven-snapshots/")
-        mavenContent {
-            includeGroup("org.creekservice")
-            snapshotsOnly()
-        }
-    }
 }
 
 dependencies {
     spotbugsPlugins("com.h3xstream.findsecbugs:findsecbugs-plugin:1.14.0")
-    checkstyle("com.puppycrawl.tools:checkstyle:10.26.1")
 }
 
 configurations.all {
