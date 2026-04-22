@@ -6,7 +6,7 @@ plugins {
     `coverage-convention`
     `publishing-convention` apply false
     id("pl.allegro.tech.build.axion-release") version "1.21.1" // https://plugins.gradle.org/plugin/pl.allegro.tech.build.axion-release
-    id("com.bmuschko.docker-remote-api") version "9.4.0" apply false
+    id("com.bmuschko.docker-remote-api") version "10.0.0" apply false
 }
 
 project.version = scmVersion.version
@@ -39,7 +39,7 @@ subprojects {
         set("guavaVersion", "33.5.0-jre")         // https://mvnrepository.com/artifact/com.google.guava/guava
         set("log4jVersion", "2.25.4")           // https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core
 
-        set("junitVersion", "5.13.4")            // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
+        set("junitVersion", "6.0.3")            // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
         set("junitPioneerVersion", "2.3.0")     // https://mvnrepository.com/artifact/org.junit-pioneer/junit-pioneer
         set("mockitoVersion", "5.23.0")          // https://mvnrepository.com/artifact/org.mockito/mockito-junit-jupiter
     }
