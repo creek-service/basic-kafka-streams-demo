@@ -31,6 +31,11 @@ dependencies {
 }
 
 tasks.systemTest {
+    doFirst {
+        // Ensure the coverage mount directory exists before the system test executor tries to mount it:
+        layout.buildDirectory.dir("creek/mounts/coverage").get().asFile.mkdirs()
+    }
+
     // Make the systemTest task be dependent on the output of all Docker image build tasks:
     rootProject.allprojects.flatMap {
         it.tasks.withType(DockerBuildImage::class)
