@@ -30,6 +30,7 @@ repositories {
             password = System.getenv("GITHUB_TOKEN") ?: ""
         }
     }
+    maven { url = uri("https://central.sonatype.com/repository/maven-snapshots/") }
 }
 
 val jvmTargetVer = JavaLanguageVersion.of(17)
