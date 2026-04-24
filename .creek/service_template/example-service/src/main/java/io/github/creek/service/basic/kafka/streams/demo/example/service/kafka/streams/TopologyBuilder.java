@@ -17,7 +17,7 @@
 package io.github.creek.service.basic.kafka.streams.demo.example.service.kafka.streams;
 
 import static java.util.Objects.requireNonNull;
-import static org.creekservice.api.kafka.metadata.KafkaTopicDescriptor.DEFAULT_CLUSTER_NAME;
+import static org.creekservice.api.kafka.metadata.topic.KafkaTopicDescriptor.DEFAULT_CLUSTER_NAME;
 
 import io.github.creek.service.basic.kafka.streams.demo.services.ExampleServiceDescriptor;
 import org.apache.kafka.streams.KeyValue;

@@ -17,7 +17,7 @@
 package io.github.creek.service.basic.kafka.streams.demo.example.streams;
 
 import static org.apache.kafka.streams.KeyValue.pair;
-import static org.creekservice.api.kafka.metadata.KafkaTopicDescriptor.DEFAULT_CLUSTER_NAME;
+import static org.creekservice.api.kafka.metadata.topic.KafkaTopicDescriptor.DEFAULT_CLUSTER_NAME;
 import static org.creekservice.api.kafka.streams.test.TestTopics.inputTopic;
 import static org.creekservice.api.kafka.streams.test.TestTopics.outputTopic;
 import static org.hamcrest.MatcherAssert.assertThat;
