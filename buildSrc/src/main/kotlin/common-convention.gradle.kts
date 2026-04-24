@@ -48,7 +48,7 @@ java {
 }
 
 repositories {
-    mavenLocal() // TODO: remove once next release available
+    mavenLocal()
     mavenCentral()
 
     // TODO: remove once next release available

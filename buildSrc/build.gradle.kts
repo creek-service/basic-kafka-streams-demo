@@ -19,7 +19,7 @@ plugins {
 }
 
 repositories {
-    mavenLocal() // TODO: remove once next release available
+    mavenLocal()
     mavenCentral()
     gradlePluginPortal()
 }
