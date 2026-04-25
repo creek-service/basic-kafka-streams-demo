@@ -39,7 +39,6 @@ allprojects {
         dependsOn(tasks.test)
 
         // Include system test coverage data (collected via Jacoco agent running inside Docker).
-        // Uses lazy file providers so missing files (subprojects with no system tests) are ignored.
         rootProject.subprojects.forEach { sub ->
             executionData.from(sub.layout.buildDirectory.file("creek/mounts/coverage/systemTest.exec"))
         }
