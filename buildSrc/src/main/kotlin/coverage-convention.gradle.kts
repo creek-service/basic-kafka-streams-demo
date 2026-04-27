@@ -17,7 +17,7 @@
 /**
  * Standard coverage configuration of Creek aggregates, utilising Jacoco and Codecov.
  *
- * <p>Version: 1.4
+ * <p>Version: 1.5
  *
  * <p>Apply to root project only
  */
@@ -41,4 +41,10 @@ allprojects {
             xml.required.set(true)
         }
     }
+}
+
+tasks.register("coverage") {
+    group = "creek"
+    description = "generate coverage report"
+    dependsOn("jacocoTestReport")
 }
