@@ -27,8 +27,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 // begin-snippet: includes-2
-import org.creekservice.api.kafka.metadata.OwnedKafkaTopicInput;
-import org.creekservice.api.kafka.metadata.OwnedKafkaTopicOutput;
+import org.creekservice.api.kafka.metadata.topic.OwnedKafkaTopicInput;
+import org.creekservice.api.kafka.metadata.topic.OwnedKafkaTopicOutput;
 // end-snippet
 import org.creekservice.api.platform.metadata.ComponentInput;
 import org.creekservice.api.platform.metadata.ComponentInternal;

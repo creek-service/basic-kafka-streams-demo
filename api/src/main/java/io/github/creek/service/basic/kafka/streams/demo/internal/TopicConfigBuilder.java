@@ -23,7 +23,7 @@ import java.time.Duration;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import org.creekservice.api.kafka.metadata.KafkaTopicConfig;
+import org.creekservice.api.kafka.metadata.topic.KafkaTopicConfig;
 
 @SuppressWarnings("unused") // What is unused today may be used tomorrow...
 public final class TopicConfigBuilder {
