@@ -17,7 +17,7 @@
 /**
  * Standard coverage configuration of Creek aggregates, utilising Jacoco and Codecov.
  *
- * <p>Version: 1.4
+ * <p>Version: 1.5
  *
  * <p>Apply to root project only
  */
@@ -25,8 +25,11 @@
 plugins {
     java
     jacoco
-    id("org.creekservice.system.test")
 }
+
+// Applied imperatively to avoid versionCatalogs conflict in generatePrecompiledScriptPluginAccessors
+// when using Gradle 8.1+ (where versionCatalogs became stable and is registered in synthetic projects)
+apply(plugin = "org.creekservice.system.test")
 
 repositories {
     mavenCentral()
