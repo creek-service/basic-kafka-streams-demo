@@ -24,7 +24,7 @@ import static org.junit.Assert.assertThrows;
 import java.time.Duration;
 import java.util.Map;
 import org.apache.kafka.common.config.TopicConfig;
-import org.creekservice.api.kafka.metadata.KafkaTopicConfig;
+import org.creekservice.api.kafka.metadata.topic.KafkaTopicConfig;
 import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.Test;
 

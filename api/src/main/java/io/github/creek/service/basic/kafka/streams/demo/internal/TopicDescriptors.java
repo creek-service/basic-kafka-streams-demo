@@ -21,22 +21,24 @@ import static org.creekservice.api.kafka.metadata.SerializationFormat.serializat
 
 import java.net.URI;
 import java.util.Optional;
-import org.creekservice.api.kafka.metadata.CreatableKafkaTopicInternal;
-import org.creekservice.api.kafka.metadata.KafkaTopicConfig;
-import org.creekservice.api.kafka.metadata.KafkaTopicDescriptor;
-import org.creekservice.api.kafka.metadata.KafkaTopicDescriptor.PartDescriptor;
-import org.creekservice.api.kafka.metadata.KafkaTopicInput;
-import org.creekservice.api.kafka.metadata.KafkaTopicInternal;
-import org.creekservice.api.kafka.metadata.KafkaTopicOutput;
-import org.creekservice.api.kafka.metadata.OwnedKafkaTopicInput;
-import org.creekservice.api.kafka.metadata.OwnedKafkaTopicOutput;
 import org.creekservice.api.kafka.metadata.SerializationFormat;
+import org.creekservice.api.kafka.metadata.topic.CreatableKafkaTopicInternal;
+import org.creekservice.api.kafka.metadata.topic.KafkaTopicConfig;
+import org.creekservice.api.kafka.metadata.topic.KafkaTopicDescriptor;
+import org.creekservice.api.kafka.metadata.topic.KafkaTopicDescriptor.PartDescriptor;
+import org.creekservice.api.kafka.metadata.topic.KafkaTopicDescriptor.PartDescriptor.Part;
+import org.creekservice.api.kafka.metadata.topic.KafkaTopicInput;
+import org.creekservice.api.kafka.metadata.topic.KafkaTopicInternal;
+import org.creekservice.api.kafka.metadata.topic.KafkaTopicOutput;
+import org.creekservice.api.kafka.metadata.topic.OwnedKafkaTopicInput;
+import org.creekservice.api.kafka.metadata.topic.OwnedKafkaTopicOutput;
 
 /**
  * Helper for creating topic descriptors.
  *
- * <p>Wondering where the builds are for {@link org.creekservice.api.kafka.metadata.KafkaTopicInput}
- * or {@link org.creekservice.api.kafka.metadata.KafkaTopicOutput}? These should only be created by
+ * <p>Wondering where the builds are for {@link
+ * org.creekservice.api.kafka.metadata.topic.KafkaTopicInput} or {@link
+ * org.creekservice.api.kafka.metadata.topic.KafkaTopicOutput}? These should only be created by
  * calling {@link OwnedKafkaTopicInput#toOutput()} and {@link OwnedKafkaTopicOutput#toInput()} on an
  * owned topic descriptor, respectively.
  */
@@ -139,10 +141,19 @@ public final class TopicDescriptors {
 
     private static final class KafkaPart<T> implements PartDescriptor<T> {
 
+        private final Part part;
         private final Class<T> type;
+        private final KafkaTopicDescriptor<?, ?> topic;
 
-        KafkaPart(final Class<T> type) {
+        KafkaPart(final Part part, final Class<T> type, final KafkaTopicDescriptor<?, ?> topic) {
+            this.part = requireNonNull(part, "part");
             this.type = requireNonNull(type, "type");
+            this.topic = requireNonNull(topic, "topic");
+        }
+
+        @Override
+        public Part name() {
+            return part;
         }
 
         @Override
@@ -154,12 +165,16 @@ public final class TopicDescriptors {
         public Class<T> type() {
             return type;
         }
+
+        @Override
+        public KafkaTopicDescriptor<?, ?> topic() {
+            return topic;
+        }
     }
 
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     private abstract static class TopicDescriptor<K, V> implements KafkaTopicDescriptor<K, V> {
 
-        private final URI id;
         private final String topicName;
         private final PartDescriptor<K> key;
         private final PartDescriptor<V> value;
@@ -171,14 +186,9 @@ public final class TopicDescriptors {
                 final Class<V> valueType,
                 final Optional<TopicConfigBuilder> config) {
             this.topicName = requireNonNull(topicName, "topicName");
-            this.key = new KafkaPart<>(keyType);
-            this.value = new KafkaPart<>(valueType);
+            this.key = new KafkaPart<>(Part.key, keyType, this);
+            this.value = new KafkaPart<>(Part.value, valueType, this);
             this.config = requireNonNull(config, "config").map(TopicConfigBuilder::build);
-            this.id = KafkaTopicDescriptor.super.id();
-        }
-
-        public URI id() {
-            return id;
         }
 
         public String name() {
