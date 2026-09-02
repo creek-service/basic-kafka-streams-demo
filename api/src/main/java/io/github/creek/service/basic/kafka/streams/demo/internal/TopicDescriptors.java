@@ -176,7 +176,8 @@ public final class TopicDescriptors {
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     @SuppressFBWarnings(
             value = "CT_CONSTRUCTOR_THROW",
-            justification = "Abstract base class with final subclasses - safe from finalizer attacks")
+            justification =
+                    "Abstract base class with final subclasses - safe from finalizer attacks")
     private abstract static class TopicDescriptor<K, V> implements KafkaTopicDescriptor<K, V> {
 
         private final String topicName;
