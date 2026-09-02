@@ -8,4 +8,10 @@
         <!-- Exclude generated sources   -->
         <Source name="~.*[\\/]build[\\/]generated[\\/]source.*" />
     </Match>
+
+    <Match>
+        <!-- Abstract base class with final subclasses - safe from finalizer attacks -->
+        <Class name="io.github.creek.service.basic.kafka.streams.demo.internal.TopicDescriptors$TopicDescriptor" />
+        <Bug pattern="CT_CONSTRUCTOR_THROW" />
+    </Match>
 </FindBugsFilter>
