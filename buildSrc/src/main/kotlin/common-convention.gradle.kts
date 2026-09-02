@@ -52,6 +52,8 @@ repositories {
 }
 
 dependencies {
+    val spotBugsVersion: String by rootProject.extra
+    compileOnly("com.github.spotbugs:spotbugs-annotations:$spotBugsVersion")
     spotbugsPlugins("com.h3xstream.findsecbugs:findsecbugs-plugin:1.14.0")
 }
 
