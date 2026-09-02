@@ -52,7 +52,6 @@ repositories {
 }
 
 dependencies {
-    compileOnly("com.github.spotbugs:spotbugs-annotations:4.4.2")
     spotbugsPlugins("com.h3xstream.findsecbugs:findsecbugs-plugin:1.14.0")
 }
 

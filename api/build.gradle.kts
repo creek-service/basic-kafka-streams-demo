@@ -6,6 +6,7 @@ val kafkaVersion: String by extra
 val creekVersion : String by extra
 
 dependencies {
+    compileOnly("com.github.spotbugs:spotbugs-annotations:4.4.2")
     api("org.creekservice:creek-kafka-metadata:$creekVersion")
 
     // To avoid dependency hell downstream, avoid adding any more dependencies except Creek metadata jars and test dependencies.
