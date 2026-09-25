@@ -28,6 +28,9 @@ dependencies {
 
     // Install the creek-kafka system-test extension:
     systemTestExtension("org.creekservice:creek-kafka-test-extension:$creekVersion")
+
+    // Install the creek-kafka-json-serde extension:
+    systemTestExtension("org.creekservice:creek-kafka-json-serde:$creekVersion")
 }
 
 tasks.systemTest {

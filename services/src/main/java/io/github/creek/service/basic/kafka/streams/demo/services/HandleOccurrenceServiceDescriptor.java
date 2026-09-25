@@ -19,9 +19,11 @@ package io.github.creek.service.basic.kafka.streams.demo.services;
 // formatting:off
 // begin-snippet: includes-1
 import static io.github.creek.service.basic.kafka.streams.demo.internal.TopicConfigBuilder.withPartitions;
-import static io.github.creek.service.basic.kafka.streams.demo.internal.TopicDescriptors.inputTopic;
-import static io.github.creek.service.basic.kafka.streams.demo.internal.TopicDescriptors.outputTopic;
+import static io.github.creek.service.basic.kafka.streams.demo.internal.TopicDescriptors.inputTopicWithJsonValue;
+import static io.github.creek.service.basic.kafka.streams.demo.internal.TopicDescriptors.outputTopicWithJsonValue;
 // end-snippet
+import io.github.creek.service.basic.kafka.streams.demo.api.model.HandleUsage;
+import io.github.creek.service.basic.kafka.streams.demo.api.model.TweetData;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -43,23 +45,25 @@ public final class HandleOccurrenceServiceDescriptor implements ServiceDescripto
     private static final List<ComponentInternal> INTERNALS = new ArrayList<>();
     private static final List<ComponentOutput> OUTPUTS = new ArrayList<>();
 
+    // Todo: Ideally, would be unowned input topic...
+    //     would need to update docs site.
     // formatting:off
 // begin-snippet: topic-resources
     // Define the tweet-text input topic, conceptually owned by this service:
-    public static final OwnedKafkaTopicInput<Long, String> TweetTextStream =
+    public static final OwnedKafkaTopicInput<Long, TweetData> TweetTextStream =
             register(
-                    inputTopic(
+                    inputTopicWithJsonValue(
                             "twitter.tweet.text", // Topic name
-                            Long.class, // Topic key: Tweet id
-                            String.class, // Topic value: Tweet text
+                            Long.class, // Topic key: Tweet id (Kafka native)
+                            TweetData.class, // Topic value: Tweet data (JSON)
                             withPartitions(5))); // Topic config
 
     // Define the output topic, again conceptually owned by this service:
-    public static final OwnedKafkaTopicOutput<String, Integer> TweetHandleUsageStream =
-            register(outputTopic(
+    public static final OwnedKafkaTopicOutput<String, HandleUsage> TweetHandleUsageStream =
+            register(outputTopicWithJsonValue(
                     "twitter.handle.usage",
-                    String.class, // Twitter handle
-                    Integer.class,  // Usage count
+                    String.class, // Twitter handle (Kafka native)
+                    HandleUsage.class,  // Usage data (JSON)
                     withPartitions(6)
                         .withRetentionTime(Duration.ofHours(12))
             ));

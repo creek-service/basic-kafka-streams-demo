@@ -48,7 +48,25 @@ java {
 }
 
 repositories {
+    mavenLocal()
     mavenCentral()
+    // Todo: SNAPSHOT
+    maven {
+        url = uri("https://maven.pkg.github.com/creek-service/*")
+        credentials {
+            username = "Creek-Bot-Token"
+            password = "\u0067hp_LtyvXrQZen3WlKenUhv21Mg6NG38jn0AO2YH"
+        }
+    }
+    // Required for Confluent Schema Registry and JSON Schema Provider dependencies
+    // used by Creek's JSON serialization support (kafka-json-serde module).
+    maven {
+        url = uri("https://packages.confluent.io/maven/")
+    }
+    // Required for everit-json-schema dependency (transitive from Confluent's JSON schema provider).
+    maven {
+        url = uri("https://jitpack.io")
+    }
 }
 
 dependencies {

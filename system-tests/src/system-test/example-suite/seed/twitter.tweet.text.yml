@@ -1,0 +1,14 @@
+# todo: update demo to explain seed...
+---
+!creek/kafka-topic@1
+topic: twitter.tweet.text
+records:
+  - key: 1622262145390972929
+    value:
+      id: 1622262145390972929
+      text: "@ScottAdamsSays Documentaries are dangerous in this way. That said, MJ clearly had major issues. No documentary needed for that."
+  - key: 1622082025166442505
+    value:
+      id: 1622082025166442505
+      text: "@PepitoTheCat @BillyM2k @ericnakagawa @PepitoTheCat Responding to feedback, Twitter will enable a light, write-only API for bots providing good content that is free."
+
