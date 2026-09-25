@@ -50,13 +50,10 @@ java {
 repositories {
     mavenLocal()
     mavenCentral()
-    // Todo: SNAPSHOT
+    // Todo: SNAPSHOT - remove once creek-kafka cuts a release. Public, unauthenticated repo Creek
+    //   publishes SNAPSHOTs of every library & plugin to on every push to main:
     maven {
-        url = uri("https://maven.pkg.github.com/creek-service/*")
-        credentials {
-            username = "Creek-Bot-Token"
-            password = "\u0067hp_LtyvXrQZen3WlKenUhv21Mg6NG38jn0AO2YH"
-        }
+        url = uri("https://central.sonatype.com/repository/maven-snapshots/")
     }
     // Required for Confluent Schema Registry and JSON Schema Provider dependencies
     // used by Creek's JSON serialization support (kafka-json-serde module).

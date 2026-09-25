@@ -18,7 +18,9 @@ public final class TestTopics {
             final TopologyTestDriver testDriver) {
         final KafkaTopic<K, V> topic = ext.topic(topicDescriptor);
         return testDriver.createInputTopic(
-                topicDescriptor.name(), topic.keySerde().serializer(), topic.valueSerde().serializer());
+                topicDescriptor.name(),
+                topic.keySerde().serializer(),
+                topic.valueSerde().serializer());
     }
 
     @SuppressWarnings("resource")
@@ -28,6 +30,8 @@ public final class TestTopics {
             final TopologyTestDriver testDriver) {
         final KafkaTopic<K, V> topic = ext.topic(topicDescriptor);
         return testDriver.createOutputTopic(
-                topicDescriptor.name(), topic.keySerde().deserializer(), topic.valueSerde().deserializer());
+                topicDescriptor.name(),
+                topic.keySerde().deserializer(),
+                topic.valueSerde().deserializer());
     }
 }
