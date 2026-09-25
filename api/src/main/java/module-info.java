@@ -12,7 +12,8 @@ module basic.kafka.streams.demo.api {
             basic.kafka.streams.demo.services,
             basic.kafka.streams.demo.service;
 
-    // Todo: Why this?
+    // Required so Jackson (used by the JSON serde) can reflectively access the record's canonical
+    // constructor and component accessors at runtime.
     opens io.github.creek.service.basic.kafka.streams.demo.api.model;
 
     provides ComponentDescriptor with

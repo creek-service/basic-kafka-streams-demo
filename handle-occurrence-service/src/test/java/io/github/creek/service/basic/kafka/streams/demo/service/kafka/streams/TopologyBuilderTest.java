@@ -70,10 +70,8 @@ class TopologyBuilderTest {
                 CreekServices.builder(new HandleOccurrenceServiceDescriptor())
                         // configure creek to work with mocks for Kafka Streams.
                         .with(KafkaStreamsExtensionOptions.testBuilder().build())
-                        // Todo: Update docs to cover JSON changes.
                         // Required when using JSON serialization for topic values/keys.
                         // Registers JSON serializers/deserializers with the test framework.
-                        // Todo: defaults() method?
                         .with(JsonSerdeExtensionOptions.testBuilder().build())
                         .build();
     }

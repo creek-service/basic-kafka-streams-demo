@@ -10,7 +10,6 @@ val jacksonVersion : String by extra
 dependencies {
     api("org.creekservice:creek-kafka-metadata:$creekVersion")
     api("com.fasterxml.jackson.core:jackson-annotations:$jacksonVersion")
-    // Todo: API or implementation?
     implementation("org.creekservice:creek-base-annotation:$creekVersion")
 
     // Todo:

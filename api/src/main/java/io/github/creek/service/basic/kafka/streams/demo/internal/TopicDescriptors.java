@@ -254,8 +254,7 @@ public final class TopicDescriptors {
             this.format = requireNonNull(format, "format");
             this.topic = requireNonNull(topic, "topic");
             this.schema =
-                    // Todo: Invert.
-                    format.equals(JsonSchemaKafkaSerde.format())
+                    JsonSchemaKafkaSerde.format().equals(format)
                             ? Optional.of(
                                     // Todo: won't always be owned, right?
                                     new OwnedJsonSchema<>(part, type, schemaRegistryName, topic))
