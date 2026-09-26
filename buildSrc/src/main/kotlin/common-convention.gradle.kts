@@ -50,8 +50,7 @@ java {
 repositories {
     mavenLocal()
     mavenCentral()
-    // Todo: SNAPSHOT - remove once creek-kafka cuts a release. Public, unauthenticated repo Creek
-    //   publishes SNAPSHOTs of every library & plugin to on every push to main:
+    // Todo: SNAPSHOT - remove once creek-kafka cuts a release.
     maven {
         url = uri("https://central.sonatype.com/repository/maven-snapshots/")
     }

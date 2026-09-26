@@ -1,4 +1,4 @@
-# todo: update demo to explain seed...
+# begin-snippet: all
 ---
 !creek/kafka-topic@1
 topic: twitter.tweet.text
@@ -11,4 +11,5 @@ records:
     value:
       id: 1622082025166442505
       text: "@PepitoTheCat @BillyM2k @ericnakagawa @PepitoTheCat Responding to feedback, Twitter will enable a light, write-only API for bots providing good content that is free."
+# end-snippet
 

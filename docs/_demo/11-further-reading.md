@@ -13,8 +13,10 @@ aggregate's api, and how to use Creek to interact with parts of a system that pr
 
 Additional tutorials will be added over time. These can be found on the [tutorials page]({{ site.url | append: "/tutorials/" }}).
 
-The payloads used in this tutorial were simple types like `Integer` and `String`.  
-Obviously, this massively limits Creek's utility and is why Creek is still in alpha release.
-Work to extend this to more complex types using, schema validated, JSON serialization, will be
-[starting soon <i class="fas fa-external-link-alt"></i>](https://github.com/creek-service/creek-kafka/issues/25){:target="_blank"}.
+This tutorial's topic values use schema-validated JSON, via the [Creek Kafka JSON serde <i class="fas fa-external-link-alt" aria-hidden="true"></i>][jsonSerde]{:target="_blank"},
+with the schemas generated automatically from the `TweetData` and `HandleUsage` Java records defined
+[earlier](/descriptor). See that page, and the linked docs, for more on how it works, including how
+Creek uses a Schema Registry to share and validate schemas between services.
 {: .notice--info}
+
+[jsonSerde]: https://www.creekservice.org/creek-kafka/#json-schema-format

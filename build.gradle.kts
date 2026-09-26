@@ -7,7 +7,6 @@ plugins {
     `publishing-convention` apply false
     id("pl.allegro.tech.build.axion-release") version "1.21.1" // https://plugins.gradle.org/plugin/pl.allegro.tech.build.axion-release
     id("com.bmuschko.docker-remote-api") version "10.0.0" apply false
-    // Todo: SNAPSHOT
     id("org.creekservice.schema.json") version "0.4.5-SNAPSHOT" apply false
 }
 
@@ -35,7 +34,6 @@ subprojects {
     }
 
     extra.apply {
-        // Todo: SNAPSHOT
         set("creekVersion", "0.4.5-SNAPSHOT")            // https://mvnrepository.com/artifact/org.creekservice
         set("kafkaVersion", "4.3.0")            // https://mvnrepository.com/artifact/org.apache.kafka/kafka-clients
         set("spotBugsVersion", "4.4.2")         // https://mvnrepository.com/artifact/com.github.spotbugs/spotbugs-annotations
@@ -74,19 +72,6 @@ subprojects {
                 // Need a known Kafka version for module patching to work:
                 useVersion(kafkaVersion)
             }
-//            // Todo: SNAPSHOT
-//            // Use local creek-kafka snapshot to test schema registry feature:
-//            val useSnapshot =
-//                requested.name.startsWith("creek-kafka") || requested.name.startsWith("creek-platform") || requested.name.startsWith("creek-system-test") || requested.name.startsWith("creek-base")
-//
-//            if (requested.group == "org.creekservice" && useSnapshot) {
-//                useVersion("0.4.5-SNAPSHOT")
-//            }
-//            // Keep other creek modules at 0.4.4:
-//            val force44 = requested.name.startsWith("creek-service") || requested.name.startsWith("creek-test")
-//            if (requested.group == "org.creekservice" && force44) {
-//                useVersion(creekVersion)
-//            }
         }
     }
 }

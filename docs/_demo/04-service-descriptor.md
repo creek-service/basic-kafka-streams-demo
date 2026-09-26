@@ -30,6 +30,58 @@ interacting with parts of an architecture that don't use Creek.
 
 [todo]: http:// update note above with link to the tutorial on linking aggregates together.
 
+## Define the JSON payload types
+
+Rather than using primitive Kafka types for topic values, this demo uses schema-validated JSON, via the
+[Creek Kafka JSON serde][jsonSerde]. The Java types used for topic values live in the repository's `api`
+module, so they can be shared with, and their schema understood by, any other service or aggregate that
+consumes the topic.
+
+Add the following record to `api/src/main/java/io/github/creek/service/basic/kafka/streams/demo/api/model/TweetData.java`:
+
+{% highlight java %}
+{% include_snippet tweet-data from ../api/src/main/java/io/github/creek/service/basic/kafka/streams/demo/api/model/TweetData.java %}
+{% endhighlight %}
+
+...and the following to `api/src/main/java/io/github/creek/service/basic/kafka/streams/demo/api/model/HandleUsage.java`:
+
+{% highlight java %}
+{% include_snippet handle-usage from ../api/src/main/java/io/github/creek/service/basic/kafka/streams/demo/api/model/HandleUsage.java %}
+{% endhighlight %}
+
+The `@GeneratesSchema` annotation tells Creek's [JSON schema Gradle plugin][jsonSchemaPlugin] to generate a
+JSON schema for the type. The plugin introspects the type, including its compact constructor, so the
+constraints enforced there — a required, non-empty `text`/`handle`, and a `count` greater than zero — are
+reflected in the generated schema too.
+
+The `api` module's `build.gradle.kts` applies the plugin and tells it which module to scan for annotated types:
+
+{% highlight kotlin %}
+plugins {
+    `java-library`
+    id("org.creekservice.schema.json")
+}
+
+dependencies {
+    // ...
+    jsonSchemaGenerator("org.creekservice:creek-json-schema-generator:$creekVersion")
+}
+
+creek.schema.json {
+    typeScanning.moduleWhiteList(moduleName)
+    subTypeScanning.moduleWhiteList(moduleName)
+}
+{% endhighlight %}
+
+**Note:** The `api` module's `module-info.java` also needs to `opens` the package containing these types,
+so that Jackson, which the JSON serde uses under the hood, can reflectively access the record's canonical
+constructor and component accessors at runtime.
+{: .notice--info}
+
+**ProTip:** Run `./gradlew :api:generateJsonSchema` to generate the schemas without running a full build.
+The generated schema files are written under `api/build/generated/resources/schema/main/`.
+{: .notice--info}
+
 ## Define the topic resources
 
 The aggregate template used to bootstrap the repository provided a shell service descriptor in the repository named 
@@ -56,7 +108,17 @@ The two class constants define the input and output topics the services use.
 These constants will be used later when building the Kafka Streams topology.
 
 Each topic definition includes the topic name, the types stored in the topic's records' key and value,
-and the topic config.
+and the topic config. The `inputTopicWithJsonValue`/`outputTopicWithJsonValue` factory methods used here
+declare a topic whose key uses Kafka's native format (`Long`/`String`, in this case) and whose value is
+the JSON type defined in the previous step. The `TopicDescriptors` helper class, generated for you when
+the repo was bootstrapped, also has plain `inputTopic`/`outputTopic` methods for topics that should use
+Kafka's native format for both key and value.
+
+**Note:** A topic's JSON schema is a resource, just like the topic itself, and is _owned_ by whichever
+service owns the topic. If another service later consumes this topic as an input, by calling
+`toInput()` on `TweetHandleUsageStream` (see the [next tutorial](/ks-connected-services-demo/)), the
+schema remains owned by _this_ service — the consuming service only gets an _unowned_ reference to it.
+{: .notice--info}
 
 In this instance, the topic config defines the number of partitions and, for one topic, the retention time for 
 records in the topic. If no retention time was set, the cluster default would be used.
@@ -78,3 +140,5 @@ to discover the service metadata required to run the service, pipe in inputs and
 
 [creekExts]: https://www.creekservice.org/extensions/
 [ksExt]: https://www.creekservice.org/creek-kafka
+[jsonSerde]: https://www.creekservice.org/creek-kafka/#json-schema-format
+[jsonSchemaPlugin]: https://github.com/creek-service/creek-json-schema-gradle-plugin

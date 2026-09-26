@@ -19,23 +19,23 @@ package io.github.creek.service.basic.kafka.streams.demo.internal;
 import static java.util.Objects.requireNonNull;
 import static org.creekservice.api.kafka.metadata.SerializationFormat.serializationFormat;
 
-import java.net.URI;
 import java.util.Optional;
 import java.util.stream.Stream;
 import org.creekservice.api.kafka.metadata.SerializationFormat;
 import org.creekservice.api.kafka.metadata.schema.JsonSchemaDescriptor;
 import org.creekservice.api.kafka.metadata.schema.OwnedJsonSchemaDescriptor;
+import org.creekservice.api.kafka.metadata.schema.UnownedJsonSchemaDescriptor;
 import org.creekservice.api.kafka.metadata.serde.JsonSchemaKafkaSerde;
 import org.creekservice.api.kafka.metadata.topic.CreatableKafkaTopicInternal;
 import org.creekservice.api.kafka.metadata.topic.KafkaTopicConfig;
 import org.creekservice.api.kafka.metadata.topic.KafkaTopicDescriptor;
-import org.creekservice.api.kafka.metadata.topic.KafkaTopicDescriptor.PartDescriptor;
 import org.creekservice.api.kafka.metadata.topic.KafkaTopicDescriptor.PartDescriptor.Part;
 import org.creekservice.api.kafka.metadata.topic.KafkaTopicInput;
 import org.creekservice.api.kafka.metadata.topic.KafkaTopicInternal;
 import org.creekservice.api.kafka.metadata.topic.KafkaTopicOutput;
 import org.creekservice.api.kafka.metadata.topic.OwnedKafkaTopicInput;
 import org.creekservice.api.kafka.metadata.topic.OwnedKafkaTopicOutput;
+import org.creekservice.api.platform.metadata.OwnedResource;
 import org.creekservice.api.platform.metadata.ResourceDescriptor;
 
 /**
@@ -77,9 +77,6 @@ public final class TopicDescriptors {
             final TopicConfigBuilder config) {
         return inputTopic(topicName, keyType, KAFKA_FORMAT, valueType, KAFKA_FORMAT, config);
     }
-
-    // Todo: could have these methods determine key/value formats by seeing if they are supported by
-    //   Kafka format and using JSON if not.
 
     /**
      * Create an input Kafka topic descriptor with custom serialization formats.
@@ -235,114 +232,6 @@ public final class TopicDescriptors {
     }
 
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-    private static final class KeyValueDescriptor<T> implements PartDescriptor<T> {
-
-        private final Part part;
-        private final Class<T> type;
-        private final SerializationFormat format;
-        private final KafkaTopicDescriptor<?, ?> topic;
-        private final Optional<JsonSchemaDescriptor<T>> schema;
-
-        KeyValueDescriptor(
-                final Part part,
-                final Class<T> type,
-                final SerializationFormat format,
-                final KafkaTopicDescriptor<?, ?> topic,
-                final String schemaRegistryName) {
-            this.part = requireNonNull(part, "part");
-            this.type = requireNonNull(type, "type");
-            this.format = requireNonNull(format, "format");
-            this.topic = requireNonNull(topic, "topic");
-            this.schema =
-                    JsonSchemaKafkaSerde.format().equals(format)
-                            ? Optional.of(
-                                    // Todo: won't always be owned, right?
-                                    new OwnedJsonSchema<>(part, type, schemaRegistryName, topic))
-                            : Optional.empty();
-        }
-
-        @Override
-        public Part name() {
-            return part;
-        }
-
-        @Override
-        public SerializationFormat format() {
-            return format;
-        }
-
-        @Override
-        public Class<T> type() {
-            return type;
-        }
-
-        @Override
-        public KafkaTopicDescriptor<?, ?> topic() {
-            return topic;
-        }
-
-        @Override
-        public Stream<? extends ResourceDescriptor> resources() {
-            return schema.stream();
-        }
-
-        private static final class OwnedJsonSchema<T> implements OwnedJsonSchemaDescriptor<T> {
-            private final Part part;
-            private final Class<T> type;
-            private final String schemaRegistryName;
-            private final KafkaTopicDescriptor<?, ?> topic;
-
-            // Todo: Accept PartDescriptor, not part and topic.
-            private OwnedJsonSchema(
-                    final Part part,
-                    final Class<T> type,
-                    final String schemaRegistryName,
-                    final KafkaTopicDescriptor<?, ?> topic) {
-                this.part = part;
-                this.type = type;
-                this.schemaRegistryName = schemaRegistryName;
-                this.topic = topic;
-            }
-
-            @Override
-            public String schemaRegistryName() {
-                return schemaRegistryName;
-            }
-
-            @Override
-            public PartDescriptor<T> part() {
-                return new PartDescriptor<T>() {
-                    @Override
-                    public Part name() {
-                        return part;
-                    }
-
-                    @Override
-                    public SerializationFormat format() {
-                        return JsonSchemaKafkaSerde.format();
-                    }
-
-                    @Override
-                    public Class<T> type() {
-                        return type;
-                    }
-
-                    @Override
-                    public KafkaTopicDescriptor<?, ?> topic() {
-                        return topic;
-                    }
-
-                    // Todo: why return self?  Badly structured?
-                    @Override
-                    public Stream<? extends ResourceDescriptor> resources() {
-                        return Stream.of(OwnedJsonSchema.this);
-                    }
-                };
-            }
-        }
-    }
-
-    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     private abstract static class TopicDescriptor<K, V> implements KafkaTopicDescriptor<K, V> {
 
         private static final String DEFAULT_SCHEMA_REGISTRY_NAME = "default";
@@ -360,12 +249,8 @@ public final class TopicDescriptors {
                 final SerializationFormat valueFormat,
                 final Optional<TopicConfigBuilder> config) {
             this.topicName = requireNonNull(topicName, "topicName");
-            this.key =
-                    new KeyValueDescriptor<>(
-                            Part.key, keyType, keyFormat, this, DEFAULT_SCHEMA_REGISTRY_NAME);
-            this.value =
-                    new KeyValueDescriptor<>(
-                            Part.value, valueType, valueFormat, this, DEFAULT_SCHEMA_REGISTRY_NAME);
+            this.key = new KeyValueDescriptor<>(Part.key, keyType, keyFormat);
+            this.value = new KeyValueDescriptor<>(Part.value, valueType, valueFormat);
             this.config = requireNonNull(config, "config").map(TopicConfigBuilder::build);
         }
 
@@ -383,6 +268,105 @@ public final class TopicDescriptors {
 
         public KafkaTopicConfig config() {
             return config.orElseThrow();
+        }
+
+        /**
+         * Describes one part (key or value) of a topic's records.
+         *
+         * <p>This is an inner class of the topic it describes, so that a JSON schema descriptor can
+         * be typed as {@link OwnedJsonSchemaDescriptor} or {@link UnownedJsonSchemaDescriptor}
+         * according to the ownership of the enclosing topic: a schema is owned by the service that
+         * owns the topic, and unowned when the topic is an unowned input obtained from another
+         * service's output via {@link OwnedKafkaTopicOutput#toInput()}.
+         */
+        @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
+        private final class KeyValueDescriptor<T> implements PartDescriptor<T> {
+
+            private final Part part;
+            private final Class<T> type;
+            private final SerializationFormat format;
+            private final Optional<? extends JsonSchemaDescriptor<T>> schema;
+
+            KeyValueDescriptor(
+                    final Part part, final Class<T> type, final SerializationFormat format) {
+                this.part = requireNonNull(part, "part");
+                this.type = requireNonNull(type, "type");
+                this.format = requireNonNull(format, "format");
+                this.schema =
+                        JsonSchemaKafkaSerde.format().equals(format)
+                                ? Optional.of(
+                                        topic() instanceof OwnedResource
+                                                ? new OwnedJsonSchema(DEFAULT_SCHEMA_REGISTRY_NAME)
+                                                : new UnownedJsonSchema(
+                                                        DEFAULT_SCHEMA_REGISTRY_NAME))
+                                : Optional.empty();
+            }
+
+            @Override
+            public Part name() {
+                return part;
+            }
+
+            @Override
+            public SerializationFormat format() {
+                return format;
+            }
+
+            @Override
+            public Class<T> type() {
+                return type;
+            }
+
+            @Override
+            public KafkaTopicDescriptor<?, ?> topic() {
+                return TopicDescriptor.this;
+            }
+
+            @Override
+            public Stream<? extends ResourceDescriptor> resources() {
+                return schema.stream();
+            }
+
+            /**
+             * Common behaviour of the owned and unowned schema descriptors.
+             *
+             * <p>These are inner classes of the part descriptor so that {@link #part()} can return
+             * the enclosing part: the mutual self-reference is what lets a schema descriptor point
+             * back at the topic part it describes, which the metadata API requires.
+             */
+            private abstract class BaseJsonSchema implements JsonSchemaDescriptor<T> {
+
+                private final String schemaRegistryName;
+
+                private BaseJsonSchema(final String schemaRegistryName) {
+                    this.schemaRegistryName =
+                            requireNonNull(schemaRegistryName, "schemaRegistryName");
+                }
+
+                @Override
+                public String schemaRegistryName() {
+                    return schemaRegistryName;
+                }
+
+                @Override
+                public PartDescriptor<T> part() {
+                    return KeyValueDescriptor.this;
+                }
+            }
+
+            private final class OwnedJsonSchema extends BaseJsonSchema
+                    implements OwnedJsonSchemaDescriptor<T> {
+                private OwnedJsonSchema(final String schemaRegistryName) {
+                    super(schemaRegistryName);
+                }
+            }
+
+            private final class UnownedJsonSchema extends BaseJsonSchema
+                    implements UnownedJsonSchemaDescriptor<T> {
+                private UnownedJsonSchema(final String schemaRegistryName) {
+                    super(schemaRegistryName);
+                }
+            }
         }
     }
 
@@ -409,27 +393,8 @@ public final class TopicDescriptors {
 
         @Override
         public KafkaTopicInput<K, V> toInput() {
-            return new KafkaTopicInput<>() {
-                @Override
-                public URI id() {
-                    return OutputTopicDescriptor.this.id();
-                }
-
-                @Override
-                public String name() {
-                    return OutputTopicDescriptor.this.name();
-                }
-
-                @Override
-                public PartDescriptor<K> key() {
-                    return OutputTopicDescriptor.this.key();
-                }
-
-                @Override
-                public PartDescriptor<V> value() {
-                    return OutputTopicDescriptor.this.value();
-                }
-            };
+            return new UnownedInputTopicDescriptor<>(
+                    name(), key().type(), key().format(), value().type(), value().format());
         }
     }
 
@@ -456,27 +421,34 @@ public final class TopicDescriptors {
 
         @Override
         public KafkaTopicOutput<K, V> toOutput() {
-            return new KafkaTopicOutput<>() {
-                @Override
-                public URI id() {
-                    return InputTopicDescriptor.this.id();
-                }
+            return new UnownedOutputTopicDescriptor<>(
+                    name(), key().type(), key().format(), value().type(), value().format());
+        }
+    }
 
-                @Override
-                public String name() {
-                    return InputTopicDescriptor.this.name();
-                }
+    private static final class UnownedInputTopicDescriptor<K, V> extends TopicDescriptor<K, V>
+            implements KafkaTopicInput<K, V> {
 
-                @Override
-                public PartDescriptor<K> key() {
-                    return InputTopicDescriptor.this.key();
-                }
+        UnownedInputTopicDescriptor(
+                final String topicName,
+                final Class<K> keyType,
+                final SerializationFormat keyFormat,
+                final Class<V> valueType,
+                final SerializationFormat valueFormat) {
+            super(topicName, keyType, keyFormat, valueType, valueFormat, Optional.empty());
+        }
+    }
 
-                @Override
-                public PartDescriptor<V> value() {
-                    return InputTopicDescriptor.this.value();
-                }
-            };
+    private static final class UnownedOutputTopicDescriptor<K, V> extends TopicDescriptor<K, V>
+            implements KafkaTopicOutput<K, V> {
+
+        UnownedOutputTopicDescriptor(
+                final String topicName,
+                final Class<K> keyType,
+                final SerializationFormat keyFormat,
+                final Class<V> valueType,
+                final SerializationFormat valueFormat) {
+            super(topicName, keyType, keyFormat, valueType, valueFormat, Optional.empty());
         }
     }
 

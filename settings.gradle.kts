@@ -1,9 +1,9 @@
-pluginManagement { // Todo: SNAPSHOT
+pluginManagement {
     repositories {
         mavenLocal()
         gradlePluginPortal()
 
-        // Public, unauthenticated repo Creek publishes SNAPSHOTs of every library & plugin to on every push to main:
+        // Todo: SNAPSHOT
         maven {
             url = uri("https://central.sonatype.com/repository/maven-snapshots/")
         }

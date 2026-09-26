@@ -20,6 +20,7 @@ import static java.util.Objects.requireNonNull;
 
 import org.creekservice.api.base.annotation.schema.GeneratesSchema;
 
+// begin-snippet: tweet-data
 @GeneratesSchema
 public record TweetData(long id, String text) {
 
@@ -30,9 +31,4 @@ public record TweetData(long id, String text) {
         }
     }
 }
-
-// Todo: Can the model be moved to services?
-//   Or, idealy, have the demo show output topics from the aggregate?
-// Todo: Annotate text param with min length,.
-
-// Todo: Consider adding a timestamp field? Maybe removing the Id field?
+// end-snippet

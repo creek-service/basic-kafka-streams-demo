@@ -12,9 +12,6 @@ dependencies {
     api("com.fasterxml.jackson.core:jackson-annotations:$jacksonVersion")
     implementation("org.creekservice:creek-base-annotation:$creekVersion")
 
-    // Todo:
-    //  1. doesn't regen unless the build/generated/resource dir deleted. Deleting more nested dir the task is skipped due to onlyIf.
-    //  2. If the tool fails, it is skipped next time - likely same cause as #1
     jsonSchemaGenerator("org.creekservice:creek-json-schema-generator:$creekVersion")
 
     // To avoid dependency hell downstream, avoid adding any more dependencies except Creek metadata jars and test dependencies.

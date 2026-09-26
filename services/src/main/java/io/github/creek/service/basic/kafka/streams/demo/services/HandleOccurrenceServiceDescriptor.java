@@ -45,8 +45,6 @@ public final class HandleOccurrenceServiceDescriptor implements ServiceDescripto
     private static final List<ComponentInternal> INTERNALS = new ArrayList<>();
     private static final List<ComponentOutput> OUTPUTS = new ArrayList<>();
 
-    // Todo: Ideally, would be unowned input topic...
-    //     would need to update docs site.
     // formatting:off
 // begin-snippet: topic-resources
     // Define the tweet-text input topic, conceptually owned by this service:

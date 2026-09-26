@@ -20,6 +20,7 @@ import static java.util.Objects.requireNonNull;
 
 import org.creekservice.api.base.annotation.schema.GeneratesSchema;
 
+// begin-snippet: handle-usage
 @GeneratesSchema
 public record HandleUsage(String handle, int count) {
 
@@ -33,3 +34,4 @@ public record HandleUsage(String handle, int count) {
         }
     }
 }
+// end-snippet

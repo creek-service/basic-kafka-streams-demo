@@ -11,9 +11,16 @@ toc: true
 Secondary to system testing, it can be useful to unit test a topology. 
 With good system test coverage this may not be necessary. If it is needed, then Creek can help.
 
-The [creek-kafka-streams-test][ksTest] library provides topology test helpers: `TestKafkaStreamsExtensionOptions` 
-can be used to initialise Creek without a real Kafka cluster to talk to, and `TestTopics` provides some factory 
-methods for creating the test topic instances used in the unit test.
+The [creek-kafka-streams-extension][ksExt] library provides `KafkaStreamsExtensionOptions.testBuilder()`, which
+can be used to initialise Creek without a real Kafka cluster to talk to, and this repository's own `TestTopics`
+class (in the same package as the test below) provides some factory methods for creating the test topic
+instances used in the unit test.
+
+**Note:** As this demo's topics use JSON values, the test setup also installs `JsonSerdeExtensionOptions.testBuilder()`,
+from the [`creek-kafka-json-serde`][jsonSerde] library, alongside `KafkaStreamsExtensionOptions.testBuilder()`.
+This registers JSON serializers/deserializers with the test framework, using a mock Schema Registry client, so
+no real Schema Registry is needed to unit test a topology that uses JSON-schema'd topics.
+{: .notice--info}
 
 ## Add a unit test
 
@@ -95,4 +102,5 @@ as part of the CI workflow, using the org-wide `CODECOV_TOKEN` secret.
 [codecov]: https://codecov.io/
 [kafkaStreams]: https://kafka.apache.org/33/documentation/streams/developer-guide/dsl-topology-naming.html
 [JaCoCo]: https://github.com/jacoco/jacoco
-[ksTest]: https://www.creekservice.org/creek-kafka/#unit-testing-topologies
+[ksExt]: https://www.creekservice.org/creek-kafka/#unit-testing-topologies
+[jsonSerde]: https://www.creekservice.org/creek-kafka/#json-schema-format
