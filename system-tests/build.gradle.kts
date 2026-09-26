@@ -20,7 +20,7 @@ plugins {
     id("org.creekservice.system.test")
 }
 
-val creekVersion : String by extra
+val creekVersion : String by project
 
 dependencies {
     // Make the `services` module, which contains the handle-occurrence-service's descriptor, available to the system tests:

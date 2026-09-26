@@ -32,25 +32,13 @@ subprojects {
         apply(plugin = "publishing-convention")
     }
 
-    extra.apply {
-        set("creekVersion", "0.4.4")            // https://mvnrepository.com/artifact/org.creekservice
-        set("kafkaVersion", "4.3.1")            // https://mvnrepository.com/artifact/org.apache.kafka/kafka-clients
-        set("spotBugsVersion", "4.4.2")         // https://mvnrepository.com/artifact/com.github.spotbugs/spotbugs-annotations
-        set("guavaVersion", "33.7.1-jre")         // https://mvnrepository.com/artifact/com.google.guava/guava
-        set("log4jVersion", "2.26.1")           // https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core
-
-        set("junitVersion", "6.1.3")            // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
-        set("junitPioneerVersion", "2.3.0")     // https://mvnrepository.com/artifact/org.junit-pioneer/junit-pioneer
-        set("mockitoVersion", "5.23.0")          // https://mvnrepository.com/artifact/org.mockito/mockito-junit-jupiter
-    }
-
-    val creekVersion : String by extra
-    val guavaVersion : String by extra
-    val log4jVersion : String by extra
-    val kafkaVersion : String by extra
-    val junitVersion: String by extra
-    val junitPioneerVersion: String by extra
-    val mockitoVersion: String by extra
+    val creekVersion : String by project
+    val guavaVersion : String by project
+    val log4jVersion : String by project
+    val kafkaVersion : String by project
+    val junitVersion: String by project
+    val junitPioneerVersion: String by project
+    val mockitoVersion: String by project
 
     dependencies {
         testImplementation("org.creekservice:creek-test-hamcrest:$creekVersion")

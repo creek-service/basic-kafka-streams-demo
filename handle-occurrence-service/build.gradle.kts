@@ -6,9 +6,9 @@ plugins {
     id("com.bmuschko.docker-remote-api")
 }
 
-val creekVersion : String by extra
-val kafkaVersion : String by extra
-val log4jVersion : String by extra
+val creekVersion : String by project
+val kafkaVersion : String by project
+val log4jVersion : String by project
 
 dependencies {
     implementation(project(":services"))
