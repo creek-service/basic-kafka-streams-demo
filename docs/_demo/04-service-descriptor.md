@@ -4,7 +4,6 @@ permalink: /descriptor
 description: Learn how to write a Creek service descriptor, which defines metadata about a microservice and the external resources it uses.
 layout: single
 snippet_comment_prefix: "//"
-snippet_source: "../services/src/main/java/io/github/creek/service/basic/kafka/streams/demo/services/HandleOccurrenceServiceDescriptor.java"
 ---
 
 Each service within an aggregate defines a _service descriptor_ in the repository's `services` module.
@@ -89,15 +88,15 @@ The aggregate template used to bootstrap the repository provided a shell service
 Add the following to the class to define the service's input and output topics:
 
 {% highlight java %}
-{% include_snippet includes-1 %}
+{% include_snippet includes-1 from ../services/src/main/java/io/github/creek/service/basic/kafka/streams/demo/services/HandleOccurrenceServiceDescriptor.java %}
 
-{% include_snippet includes-2 %}
+{% include_snippet includes-2 from ../services/src/main/java/io/github/creek/service/basic/kafka/streams/demo/services/HandleOccurrenceServiceDescriptor.java %}
 
-{% include_snippet class-name %}
+{% include_snippet class-name from ../services/src/main/java/io/github/creek/service/basic/kafka/streams/demo/services/HandleOccurrenceServiceDescriptor.java %}
 
     ...
 
-{% include_snippet topic-resources %}
+{% include_snippet topic-resources from ../services/src/main/java/io/github/creek/service/basic/kafka/streams/demo/services/HandleOccurrenceServiceDescriptor.java %}
 
     ...
 }
