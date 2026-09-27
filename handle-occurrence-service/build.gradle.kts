@@ -6,9 +6,8 @@ plugins {
     id("com.bmuschko.docker-remote-api")
 }
 
-val creekVersion : String by project
-val kafkaVersion : String by project
-val log4jVersion : String by project
+val creekVersion = project.property("creekVersion") as String
+val log4jVersion = project.property("log4jVersion") as String
 
 dependencies {
     implementation(project(":services"))
@@ -21,7 +20,7 @@ dependencies {
 }
 
 // Patch Kafka Streams test jar into main Kafka Streams module to avoid split packages:
-modularity.patchModule("kafka.streams", "kafka-streams-test-utils-$kafkaVersion.jar")
+modularity.patchModule("kafka.streams", "kafka-streams-test-utils-${property("kafkaVersion")}.jar")
 
 application {
     mainModule.set("basic.kafka.streams.demo.service")
