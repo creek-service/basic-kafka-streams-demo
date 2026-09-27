@@ -8,6 +8,7 @@ val creekVersion : String by extra
 val jacksonVersion : String by extra
 
 dependencies {
+    compileOnly("com.github.spotbugs:spotbugs-annotations:4.4.2")
     api("org.creekservice:creek-kafka-metadata:$creekVersion")
     api("com.fasterxml.jackson.core:jackson-annotations:$jacksonVersion")
     implementation("org.creekservice:creek-base-annotation:$creekVersion")

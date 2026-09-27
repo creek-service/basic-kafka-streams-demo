@@ -5,6 +5,7 @@ module basic.kafka.streams.demo.api {
     requires transitive creek.kafka.metadata;
     requires com.fasterxml.jackson.annotation;
     requires creek.base.annotation;
+    requires static com.github.spotbugs.annotations;
 
     exports io.github.creek.service.basic.kafka.streams.demo.api;
     exports io.github.creek.service.basic.kafka.streams.demo.api.model;
