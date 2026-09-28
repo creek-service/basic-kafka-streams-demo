@@ -20,16 +20,16 @@ allprojects {
 subprojects {
     project.version = project.parent?.version!!
 
-    apply(plugin = "common-convention")
-    apply(plugin = "module-convention")
+    pluginManager.apply("common-convention")
+    pluginManager.apply("module-convention")
 
     if (!name.startsWith("test-")) {
-        apply(plugin = "jacoco")
+        pluginManager.apply("jacoco")
     }
 
     // Only publish the API module, as this is the only module other repos should need.
     if (name == "api") {
-        apply(plugin = "publishing-convention")
+        pluginManager.apply("publishing-convention")
     }
 
     val creekVersion = property("creekVersion") as String
