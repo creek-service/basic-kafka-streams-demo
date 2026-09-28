@@ -32,8 +32,8 @@ subprojects {
         apply(plugin = "publishing-convention")
     }
 
-    val creekVersion = project.property("creekVersion") as String
-    val junitVersion = project.property("junitVersion") as String
+    val creekVersion = property("creekVersion") as String
+    val junitVersion = property("junitVersion") as String
 
     dependencies {
         testImplementation("org.creekservice:creek-test-hamcrest:$creekVersion")
