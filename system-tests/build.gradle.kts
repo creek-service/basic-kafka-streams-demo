@@ -20,14 +20,12 @@ plugins {
     id("org.creekservice.system.test")
 }
 
-val creekVersion : String by extra
-
 dependencies {
     // Make the `services` module, which contains the handle-occurrence-service's descriptor, available to the system tests:
     systemTestComponent(project(":services"))
 
     // Install the creek-kafka system-test extension:
-    systemTestExtension("org.creekservice:creek-kafka-test-extension:$creekVersion")
+    systemTestExtension("org.creekservice:creek-kafka-test-extension:${property("creekVersion")}")
 }
 
 tasks.systemTest {
