@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package io.github.creek.service.basic.kafka.streams.demo.service;
+package io.github.creek.service.basic.kafka.streams.demo.handle.occurrence.service;
 
-import io.github.creek.service.basic.kafka.streams.demo.service.kafka.streams.TopologyBuilder;
+import io.github.creek.service.basic.kafka.streams.demo.handle.occurrence.service.kafka.streams.TopologyBuilder;
 import io.github.creek.service.basic.kafka.streams.demo.services.HandleOccurrenceServiceDescriptor;
 import org.apache.kafka.streams.Topology;
 import org.creekservice.api.kafka.streams.extension.KafkaStreamsExtension;

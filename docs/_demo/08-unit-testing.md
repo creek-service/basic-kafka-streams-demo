@@ -4,7 +4,7 @@ permalink: /unit-testing
 description: Learn how Creek simplifies writing Kafka Streams topology unit tests.
 layout: single
 snippet_comment_prefix: "//"
-snippet_source: "../handle-occurrence-service/src/test/java/io/github/creek/service/basic/kafka/streams/demo/service/kafka/streams/TopologyBuilderTest.java"
+snippet_source: "../handle-occurrence-service/src/test/java/io/github/creek/service/basic/kafka/streams/demo/handle/occurrence/service/kafka/streams/TopologyBuilderTest.java"
 toc: true
 ---
 

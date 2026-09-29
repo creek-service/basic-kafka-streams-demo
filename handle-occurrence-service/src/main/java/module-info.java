@@ -1,4 +1,4 @@
-module basic.kafka.streams.demo.service {
+module basic.kafka.streams.demo.handle.occurrence.service {
     requires basic.kafka.streams.demo.services;
     requires creek.service.context;
     requires creek.kafka.streams.extension;

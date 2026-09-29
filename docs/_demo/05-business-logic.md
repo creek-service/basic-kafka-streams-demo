@@ -4,7 +4,7 @@ permalink: /business-logic
 description: Learn how to add your business logic to Kafka Streams microservices created using the Creek aggregate template
 layout: single
 snippet_comment_prefix: "//"
-snippet_source: "../handle-occurrence-service/src/main/java/io/github/creek/service/basic/kafka/streams/demo/service/kafka/streams/TopologyBuilder.java"
+snippet_source: "../handle-occurrence-service/src/main/java/io/github/creek/service/basic/kafka/streams/demo/handle/occurrence/service/kafka/streams/TopologyBuilder.java"
 ---
 
 With the topic resources defined in the last step, it's time to write a simple [Kafka Streams][kafkaStreams] 

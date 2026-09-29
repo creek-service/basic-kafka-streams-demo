@@ -43,21 +43,5 @@ Wait for the workflow to complete and pull down the changes to your local machin
 git pull
 ```
 
-## Simplify the generated package name
-
-The workflow names the new service's Java package after the full service name, e.g.
-`...demo.handle.occurrence.service`. As this aggregate only has the one service, simplify this down to just
-`...demo.service` (in both `src/main` and `src/test`) so it doesn't stutter — rename the package directories
-and update the `package`/`import` statements, `module-info.java`, `build.gradle.kts`'s `mainModule`/`mainClass`,
-and `include/bin/run.sh`'s `--module` argument to match.
-
-**ProTip:** If your aggregate has multiple services, each with its own distinct purpose, it usually makes
-more sense to keep the full, service-specific package name instead.
-{: .notice--info}
-
-While you're in there, delete the generated `// Remove if not using JSON payloads:`-style comments in the new
-service's `build.gradle.kts` and `module-info.java` — they're guidance for repos bootstrapped without JSON
-support, and this tutorial uses it.
-
 [ghBranchProtectionRules]: https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/defining-the-mergeability-of-pull-requests/about-protected-branches
 [aggTempAddService]: https://www.creekservice.org/aggregate-template/add-service
