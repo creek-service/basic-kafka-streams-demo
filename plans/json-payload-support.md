@@ -8,21 +8,22 @@ been trimmed — see git history of this file if it's ever needed.
 
 | Repo | Role | PR | CI |
 |---|---|---|---|
-| `aggregate-template` | Bootstrap template every repo below is created from | [#1004](https://github.com/creek-service/aggregate-template/pull/1004) | Local build/system tests pass; new PR checks running after `d582649`; review comments addressed (Outstanding #1) |
-| `basic-kafka-streams-demo` | Tutorial 1 | [#758](https://github.com/creek-service/basic-kafka-streams-demo/pull/758) | Local build/system tests pass; new PR checks running after `2ee0ac4` |
-| `ks-connected-services-demo` | Tutorial 2 | [#686](https://github.com/creek-service/ks-connected-services-demo/pull/686) | Local build/system tests pass; new PR checks running after `0adb6ea` |
-| `ks-aggregate-api-demo` | Tutorial 3 | [#644](https://github.com/creek-service/ks-aggregate-api-demo/pull/644) | Local build/system tests pass; new PR checks running after `e8665f3` |
-| `wip-state-stores-demo` | State-stores demo (WIP) | [#190](https://github.com/creek-service/wip-state-stores-demo/pull/190) | Local build/system tests pass; new PR checks running after `88dce3e` |
+| `aggregate-template` | Bootstrap template every repo below is created from | [#1004](https://github.com/creek-service/aggregate-template/pull/1004) | Local build/system tests and current PR checks pass; review comments addressed |
+| `basic-kafka-streams-demo` | Tutorial 1 | [#758](https://github.com/creek-service/basic-kafka-streams-demo/pull/758) | Fresh tutorial replay, local build/system tests, docs build and current PR checks pass; step-4 status `009bce2` |
+| `ks-connected-services-demo` | Tutorial 2 | [#686](https://github.com/creek-service/ks-connected-services-demo/pull/686) | Fresh tutorial replay, local build/system tests, docs build and current PR checks pass; latest `9c87d28` |
+| `ks-aggregate-api-demo` | Tutorial 3 | [#644](https://github.com/creek-service/ks-aggregate-api-demo/pull/644) | Fresh tutorial replay, local build/system tests, docs build and current PR checks pass; latest `5bd3e45` |
+| `wip-state-stores-demo` | State-stores demo (WIP) | [#190](https://github.com/creek-service/wip-state-stores-demo/pull/190) | Published starter steps replayed; local build/system tests, docs build and current PR checks pass; latest `2fd31de`. No state-store lesson yet |
 | `connected-services-demo` | Older 2-service demo, looks superseded by `ks-connected-services-demo` | — | Ask maintainer: archive instead of updating? |
-| `creek-service.github.io` | Main docs site | — | Not started (Outstanding #6) |
+| `creek-service.github.io` | Main docs site | — | Not started (step 9) |
 
 All five code PRs target `0.4.5-SNAPSHOT`, are drafts, and are blocked on the real `0.5.0` release.
+The next scheduled work is the four demo doc-site reviews (step 5). The WIP state-store lesson
+cannot be checked until it is written; its published starter steps have been verified.
+CI status above was checked on 2026-09-29 against the pushed step-4 code commits; pushing this
+status-only plan update may start a new run on `basic-kafka-streams-demo#758`.
 
-`aggregate-template`'s `TopicDescriptors` took on a different (better) design than the four demo
-repos: `inputTopic`/`internalTopic`/`creatableInternalTopic`/`outputTopic` now **default to a JSON
-value + Kafka-native key** (an explicit-format overload exists for anything else), rather than the
-demo repos' approach of adding separate `inputTopicWithJsonValue`/`outputTopicWithJsonValue` methods
-alongside natively-defaulting originals. The demo repos need migrating to match (Outstanding #3).
+`aggregate-template`'s `TopicDescriptors` defaults to a JSON value and Kafka-native key; all
+four demos now use the same API (step 2). An explicit-format overload handles native values.
 
 ---
 
@@ -152,7 +153,7 @@ Progress:
 | `ks-aggregate-api-demo` | DONE, PUSHED — `2b6a3b8` (on `pr_/wonderful-rubin-97rrz3`, rebased on a concurrent Codecov-fix commit `3cc0a56`); `./gradlew build systemTest` + Jekyll build pass |
 | `wip-state-stores-demo` | DONE, PUSHED — `348ae75` (on `pr_/quirky-meitner-l0649g`); `./gradlew build systemTest` pass; docs build pass (pre-existing unrelated Sass deprecation warnings only) |
 
-### 4. Reproducibility check: does following the tutorial from a fresh repo actually produce the demo repo?
+### 4. Reproducibility check — DONE for published tutorials; WIP lesson not yet written
 
 For `basic-kafka-streams-demo`, start directly from `aggregate-template`. The other three tutorials
 explicitly start from a **completed basic demo**, so first reproduce that demo and then fork the
@@ -219,7 +220,8 @@ passed in the four demos (the template's docs were not rebuilt in this pass).
 For the template, aggregate-API demo and state-stores demo, initial Docker runs encountered
 obsolete `commons-validator` jars left in `build/docker` by Gradle's Copy task; the old contexts
 were preserved in the approved temporary directory and the clean-context reruns passed. At the
-the latest GitHub check, all five PRs' build/analysis/pages/script checks passed (2026-09-29).
+latest GitHub check, all five PRs' build/analysis/pages/script checks passed (2026-09-29),
+including checks triggered by the step-4 commits.
 `aggregate-template#1004` showed `BEHIND` earlier; that was not a CI failure.
 
 Use a disposable template checkout for the basic demo, then fork its completed reproduction for
@@ -326,7 +328,7 @@ and the expected topology instead of suggesting disabling the test. A newly gene
 `TestTopics` helper is retained in the service and template. Connected-demo code/docs/fixtures
 were pushed as `9c87d28`; basic-demo bootstrap fix was pushed as `6652a09`.
 
-#### Remaining tutorial blockers
+#### Tutorial boundary and resolved blockers
 
 - `ks-aggregate-api-demo` (resolved in `5bd3e45`): The tutorial previously described primitive
   payloads, `UsageCount`, and native-`String` input despite starting from JSON-enabled basic.
@@ -345,7 +347,7 @@ were pushed as `9c87d28`; basic-demo bootstrap fix was pushed as `6652a09`.
   documented fixture migration, but no state-store lesson exists to verify; completing that
   separate tutorial needs its missing pages and implementation.
 
-### 5. Doc site review:
+### 5. Doc site review — NEXT
 
 For each of `basic-kafka-streams-demo`, `ks-connected-services-demo`, `ks-aggregate-api-demo`,
 `wip-state-stores-demo`:
