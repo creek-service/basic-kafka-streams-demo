@@ -1,7 +1,9 @@
+// begin-snippet: plugins
 plugins {
     `java-library`
     id("org.creekservice.schema.json")
 }
+// end-snippet
 
 // begin-snippet: dependencies
 dependencies {
@@ -20,7 +22,9 @@ dependencies {
 }
 // end-snippet
 
+// begin-snippet: schema-plugin
 creek.schema.json {
     typeScanning.moduleWhiteList(moduleName)
     subTypeScanning.moduleWhiteList(moduleName)
 }
+// end-snippet

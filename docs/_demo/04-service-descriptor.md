@@ -18,7 +18,7 @@ More information on aggregate APIs and descriptors can be found in the [Kafka St
 
 This demo will use the [Kafka Streams extension][ksExt], and the `handle-occurrence-service`'s descriptor will define a
 `twitter.tweet.text` _input topic_, which the service will consume, and a `twitter.handle.usage` _output topic_, 
-which the service will produces to.
+which the service will produce to.
 
 **Note:** To keep this tutorial self-contained, the service's input topic is _owned_ by the service.
 It would be more common for an upstream service or aggregate to own the topic and for the topic's
@@ -57,21 +57,12 @@ and positive `count` constraints in the generated schema.
 The `api` module's `build.gradle.kts` applies the plugin and tells it which module to scan for annotated types:
 
 {% highlight kotlin %}
-plugins {
-    `java-library`
-    id("org.creekservice.schema.json")
-}
+{% include_snippet plugins from ../api/build.gradle.kts %}
 
-dependencies {
-    // ...
-    jsonSchemaGenerator("org.creekservice:creek-json-schema-generator:$creekVersion")
-}
-
-creek.schema.json {
-    typeScanning.moduleWhiteList(moduleName)
-    subTypeScanning.moduleWhiteList(moduleName)
-}
+{% include_snippet schema-plugin from ../api/build.gradle.kts %}
 {% endhighlight %}
+
+The plugin and its `jsonSchemaGenerator` dependency are in the same build file (the full dependencies block is shown below).
 
 **Note:** The `api` module's `module-info.java` also needs to `opens` the package containing these types,
 so that Jackson, which the JSON serde uses under the hood, can reflectively access the record's canonical
