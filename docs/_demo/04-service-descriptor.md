@@ -82,6 +82,36 @@ constructor and component accessors at runtime.
 The generated schema files are written under `api/build/generated/resources/schema/main/`.
 {: .notice--info}
 
+### A word about dependencies
+
+The annotations used above don't come for free. The `api` module's `build.gradle.kts` needs the following
+dependencies:
+
+{% highlight kotlin %}
+{% include_snippet dependencies from ../api/build.gradle.kts %}
+{% endhighlight %}
+
+`jackson-annotations` provides `@JsonProperty`, and `swagger-annotations` provides `@Schema`. Both are only
+needed to drive schema generation, so `swagger-annotations` is declared `compileOnlyApi` to keep it off the
+runtime/Docker classpath while still being visible to anything compiling against this module's types, with a
+matching `testCompileOnly` entry for the test module. `spotbugs-annotations` is unrelated to JSON — it's
+needed to compile the `@SuppressFBWarnings` annotations already present on some of the template-provided
+`internal` classes.
+
+Because `swagger-annotations` is compile-only, the `api` module's `module-info.java` needs a matching
+`requires static` entry, alongside the `opens` covered above:
+
+```
+requires static io.swagger.v3.oas.annotations;
+```
+
+Add a `swaggerAnnotationsVersion` property to the root `gradle.properties`, alongside the existing
+`jacksonVersion` one:
+
+```
+swaggerAnnotationsVersion=2.2.54
+```
+
 ## Define the topic resources
 
 The aggregate template used to bootstrap the repository provided a shell service descriptor in the repository named 

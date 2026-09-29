@@ -3,6 +3,7 @@ plugins {
     id("org.creekservice.schema.json")
 }
 
+// begin-snippet: dependencies
 dependencies {
     compileOnly("com.github.spotbugs:spotbugs-annotations:4.4.2")
     compileOnlyApi("io.swagger.core.v3:swagger-annotations:${property("swaggerAnnotationsVersion")}")
@@ -17,6 +18,7 @@ dependencies {
     testCompileOnly("io.swagger.core.v3:swagger-annotations:${property("swaggerAnnotationsVersion")}")
     testImplementation("org.apache.kafka:kafka-clients:${property("kafkaVersion")}")
 }
+// end-snippet
 
 creek.schema.json {
     typeScanning.moduleWhiteList(moduleName)
