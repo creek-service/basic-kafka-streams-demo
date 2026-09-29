@@ -8,11 +8,11 @@ been trimmed — see git history of this file if it's ever needed.
 
 | Repo | Role | PR | CI |
 |---|---|---|---|
-| `aggregate-template` | Bootstrap template every repo below is created from | [#1004](https://github.com/creek-service/aggregate-template/pull/1004) | ✅ green, but has **unaddressed review comments** — see Outstanding #1 |
-| `basic-kafka-streams-demo` | Tutorial 1 | [#758](https://github.com/creek-service/basic-kafka-streams-demo/pull/758) | ✅ green |
-| `ks-connected-services-demo` | Tutorial 2 | [#686](https://github.com/creek-service/ks-connected-services-demo/pull/686) | ✅ green |
-| `ks-aggregate-api-demo` | Tutorial 3 | [#644](https://github.com/creek-service/ks-aggregate-api-demo/pull/644) | ✅ green |
-| `wip-state-stores-demo` | State-stores demo (WIP) | [#190](https://github.com/creek-service/wip-state-stores-demo/pull/190) | ✅ green |
+| `aggregate-template` | Bootstrap template every repo below is created from | [#1004](https://github.com/creek-service/aggregate-template/pull/1004) | Local build/system tests pass; new PR checks running after `d582649`; review comments addressed (Outstanding #1) |
+| `basic-kafka-streams-demo` | Tutorial 1 | [#758](https://github.com/creek-service/basic-kafka-streams-demo/pull/758) | Local build/system tests pass; new PR checks running after `2ee0ac4` |
+| `ks-connected-services-demo` | Tutorial 2 | [#686](https://github.com/creek-service/ks-connected-services-demo/pull/686) | Local build/system tests pass; new PR checks running after `0adb6ea` |
+| `ks-aggregate-api-demo` | Tutorial 3 | [#644](https://github.com/creek-service/ks-aggregate-api-demo/pull/644) | Local build/system tests pass; new PR checks running after `e8665f3` |
+| `wip-state-stores-demo` | State-stores demo (WIP) | [#190](https://github.com/creek-service/wip-state-stores-demo/pull/190) | Local build/system tests pass; new PR checks running after `88dce3e` |
 | `connected-services-demo` | Older 2-service demo, looks superseded by `ks-connected-services-demo` | — | Ask maintainer: archive instead of updating? |
 | `creek-service.github.io` | Main docs site | — | Not started (Outstanding #6) |
 
@@ -206,6 +206,22 @@ Progress (2026-09-29):
 | `ks-aggregate-api-demo` | Awaiting completed basic-demo reproduction (tutorial explicitly uses that as its template) | Not started | Not started |
 | `wip-state-stores-demo` | Awaiting completed basic-demo reproduction (tutorial explicitly uses that as its template) | Not started | Not started |
 
+Package-alignment fixes are **committed and pushed** to all five PR branches (2026-09-29):
+`aggregate-template` `d582649`, `basic-kafka-streams-demo` `2ee0ac4`,
+`ks-connected-services-demo` `0adb6ea`, `ks-aggregate-api-demo` `e8665f3`, and
+`wip-state-stores-demo` `88dce3e`. The template's topology tests now share the production
+topology package, so `add_service.sh` renames both without a new script branch. The real demos'
+first-service production and test packages match what the script generates; second-service tests
+in the connected-services and state-stores demos, plus the retained `.creek/service_template`
+test sources, were aligned. The basic tutorial no longer asks the reader to rename packages.
+`./gradlew format build systemTest` passed locally in all five repos; the Jekyll docs build
+passed in the four demos (the template's docs were not rebuilt in this pass).
+For the template, aggregate-API demo and state-stores demo, initial Docker runs encountered
+obsolete `commons-validator` jars left in `build/docker` by Gradle's Copy task; the old contexts
+were preserved in the approved temporary directory and the clean-context reruns passed. At the
+latest GitHub check the new PR build/analysis checks were still running; do not count them green
+until they finish. `aggregate-template#1004` also showed `BEHIND` (not a CI failure).
+
 Use a disposable template checkout for the basic demo, then fork its completed reproduction for
 the later demos; keep actual demo checkouts and uncommitted changes intact. Record differences
 and the exact verification performed here.
@@ -229,7 +245,9 @@ Template findings:
 2. `add_service.sh` previously left tests in `...example.streams` because the template put them
    outside the production `...example.service.kafka.streams` package that the script renames.
    This wasn't build-breaking, but produced misleading test packages. The template test files
-   have now been moved alongside `TopologyBuilder`; the existing script renames both together.
+    have now been moved alongside `TopologyBuilder` (pushed `d582649`); the existing script
+    renames both together. A fresh bootstrap/clean-up/add-service run verified the generated
+    production and test paths match without manual moves.
    The four demo repos' retained service templates and the already-generated second-service tests
    were aligned too. Builds and Docker system tests pass in all five real checkouts.
 
@@ -240,7 +258,7 @@ conclusion about which side should change:
    produces `...demo.handle.occurrence.service`. The recently added manual package-rename section
    in `03-add-service.md` has been removed; production classes, tests, module declarations,
    launcher/build configuration, and snippet paths now use the generated package without any
-   reader action.
+    reader action (pushed `2ee0ac4`; corresponding changes pushed to the other three demos).
 2. `04-service-descriptor.md` documented the `@JsonProperty`/`@Schema` annotations (step 3's
    schema-fidelity fix) but never explained the `api/build.gradle.kts` dependency additions
    (`jackson-annotations`, `swagger-annotations`, `spotbugs-annotations`), the matching
