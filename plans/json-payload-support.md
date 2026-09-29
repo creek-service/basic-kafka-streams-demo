@@ -202,9 +202,9 @@ Progress (2026-09-29):
 | Demo | Fresh bootstrap | Follow tutorial / diff | Fixes / verification |
 |---|---|---|---|
 | `basic-kafka-streams-demo` | Fresh corrected-template bootstrap → clean_up → add_service passes at `/private/var/folders/_t/0frj1b2s3k974hxrlns3hgsc0000gn/T/opencode/repro-package-fix` | Applied tutorial's models, descriptor, topology, unit tests, YAML fixtures, and API dependencies; reader-authored code/fixtures match the real demo; unrelated generated-scaffolding drift remains | Reproduction `./gradlew format build` (includes Docker system test) passes; real demo build/system tests and Jekyll previously passed |
-| `ks-connected-services-demo` | Forked completed basic reproduction and ran basic-demo `bootstrap.sh`, `clean_up.sh`, `add_service.sh handle-occurrence-filtering-service` at `/private/var/folders/_t/0frj1b2s3k974hxrlns3hgsc0000gn/T/opencode/repro-connected-json` | Applied new service model/descriptor/topology/test and system-test fixtures; corrected old native-String first-service drift in real demo; main tutorial-authored files and fixtures now match; inherited scaffolding drift remains | Reproduction and real repo both pass `./gradlew format build systemTest` (Docker); real docs Jekyll build passes; changes not yet committed/pushed |
-| `ks-aggregate-api-demo` | Awaiting completed basic-demo reproduction (tutorial explicitly uses that as its template) | Not started | Not started |
-| `wip-state-stores-demo` | Awaiting completed basic-demo reproduction (tutorial explicitly uses that as its template) | Not started | Not started |
+| `ks-connected-services-demo` | Forked completed basic reproduction and ran basic-demo `bootstrap.sh`, `clean_up.sh`, `add_service.sh handle-occurrence-filtering-service` at `/private/var/folders/_t/0frj1b2s3k974hxrlns3hgsc0000gn/T/opencode/repro-connected-json` | Applied new service model/descriptor/topology/test and system-test fixtures; corrected old native-String first-service drift in real demo; main tutorial-authored files and fixtures now match; inherited scaffolding drift remains | Reproduction and real repo both pass `./gradlew format build systemTest` (Docker); real docs Jekyll build passes; pushed `9c87d28` |
+| `ks-aggregate-api-demo` | Forked completed basic reproduction; ran basic-demo bootstrap/clean-up at `/private/var/folders/_t/0frj1b2s3k974hxrlns3hgsc0000gn/T/opencode/repro-aggregate-json` | Retained inherited `TweetData`/`HandleUsage` JSON and first-service topology/fixtures; moved topic ownership to aggregate descriptors, registered external descriptor, updated unit-test schema mock; core tutorial files match real demo, with unrelated scaffolding drift | Both fork and real repo pass `./gradlew format build` (real repo also explicit `systemTest`); real Jekyll build passes; pushed `5bd3e45` to PR #644 |
+| `wip-state-stores-demo` | Forked completed basic reproduction; ran basic-demo bootstrap/clean-up and `add_service.sh handle-scoreboard-service` at `/private/var/folders/_t/0frj1b2s3k974hxrlns3hgsc0000gn/T/opencode/repro-state-json` | Realigned checked-in code/template to generated `wip.state.stores.demo` package and inherited basic service. The WIP add-service page now instructs moving seed tweets to ordinary inputs, because this repo's expectation observer missed four seed-derived records; no state-store lesson exists yet | Fresh checkout and aligned real repo pass Docker-backed builds after fixture migration; real docs Jekyll build passes; pushed `2fd31de` to PR #190 |
 
 Package-alignment fixes are **committed and pushed** to all five PR branches (2026-09-29):
 `aggregate-template` `d582649`, `basic-kafka-streams-demo` `2ee0ac4`,
@@ -219,8 +219,8 @@ passed in the four demos (the template's docs were not rebuilt in this pass).
 For the template, aggregate-API demo and state-stores demo, initial Docker runs encountered
 obsolete `commons-validator` jars left in `build/docker` by Gradle's Copy task; the old contexts
 were preserved in the approved temporary directory and the clean-context reruns passed. At the
-latest GitHub check the new PR build/analysis checks were still running; do not count them green
-until they finish. `aggregate-template#1004` also showed `BEHIND` (not a CI failure).
+the latest GitHub check, all five PRs' build/analysis/pages/script checks passed (2026-09-29).
+`aggregate-template#1004` showed `BEHIND` earlier; that was not a CI failure.
 
 Use a disposable template checkout for the basic demo, then fork its completed reproduction for
 the later demos; keep actual demo checkouts and uncommitted changes intact. Record differences
@@ -239,7 +239,67 @@ When using the completed basic demo as a template for later tutorials, its *own*
 `.creek/bootstrap.sh` also changes the aggregate descriptor test's public class name without
 renaming the test file. The same fix already made in `aggregate-template` is now applied to the
 basic-demo bootstrap script; fresh connected-services bootstrap verified it. This basic-demo
-script change is not yet committed/pushed.
+script change was pushed as `6652a09` (with these status notes).
+
+Initial finding: the tutorial's descriptor page still said `inputTopicWithJsonValue`/
+`outputTopicWithJsonValue`, but the template's `TopicDescriptors` now defaults `inputTopic`/
+`outputTopic` to JSON values — this was stale prose left over from step 2/3's code changes; the
+descriptor doc has since been corrected as part of this step.
+
+Template findings:
+
+1. **`aggregate-template`'s `bootstrap.sh` bug (fixed, pushed `4cd2d05`).** It renames
+   `ExampleAggregateDescriptor.java` to the aggregate's class name, and its global text-replace
+   happens to also rename the class *inside* `ExampleAggregateDescriptorTest.java` — but never
+   renames that test *file*, leaving a filename/class-name mismatch that fails to compile
+   (`class BasicKafkaStreamsDemoAggregateDescriptorTest` inside a file still called
+   `ExampleAggregateDescriptorTest.java`). This would hit anyone bootstrapping a new aggregate
+   from the template, independent of JSON support. Fixed by also renaming the test file.
+2. `add_service.sh` previously left tests in `...example.streams` because the template put them
+   outside the production `...example.service.kafka.streams` package that the script renames.
+    This wasn't build-breaking, but produced misleading test packages. The template test files
+    have now been moved alongside `TopologyBuilder` (pushed `d582649`); the existing script
+    renames both together. A fresh bootstrap/clean-up/add-service run verified the generated
+    production and test paths match without manual moves.
+   The four demo repos' retained service templates and the already-generated second-service tests
+   were aligned too. Builds and Docker system tests pass in all five real checkouts.
+
+The previous docs fix `84e810e` identified two apparent gaps, but the first was a mistaken
+conclusion about which side should change:
+
+1. The demo code, not the tutorial, was wrong to use `...demo.service` when `add_service.sh`
+   produces `...demo.handle.occurrence.service`. The recently added manual package-rename section
+   in `03-add-service.md` has been removed; production classes, tests, module declarations,
+   launcher/build configuration, and snippet paths now use the generated package without any
+    reader action (pushed `2ee0ac4`; corresponding changes pushed to the other three demos).
+2. `04-service-descriptor.md` documented the `@JsonProperty`/`@Schema` annotations (step 3's
+   schema-fidelity fix) but never explained the `api/build.gradle.kts` dependency additions
+   (`jackson-annotations`, `swagger-annotations`, `spotbugs-annotations`), the matching
+   `module-info.java` `requires static io.swagger.v3.oas.annotations;`, or the new
+   `swaggerAnnotationsVersion` `gradle.properties` entry needed to compile them. Added an "A word
+   about dependencies" section mirroring `ks-aggregate-api-demo`'s existing page, with a
+   `begin-snippet`/`end-snippet`-wrapped `dependencies` block added to `api/build.gradle.kts` so
+    the doc can quote it directly.
+
+The earlier reproduction incorporated a rejected manual package rename. The corrected fresh
+reproduction now builds and passes tests; remaining differences are JSON-unrelated drift and cosmetics:
+- Copyright years and other pure template-version drift (Docker base image tag, Gradle wrapper
+  version, `spotbugs`/`spotless`/`moduleplugin` plugin versions, axion-release plugin version,
+  GitHub Actions workflow content, checkstyle config) — expected, since the reproduction was
+  bootstrapped "today" against a repo whose scaffolding was generated at various earlier points;
+  the "Tips" section below already covers this class of drift. Fixed by refreshing the
+  reproduction's `buildSrc/` from the real repo once, after diagnosing that a stale
+  `spotbugs-gradle-plugin` version (6.4.8 vs current 6.5.11) changed whether SpotBugs'
+  `CT_CONSTRUCTOR_THROW` detector fires on `TopicDescriptors`' private constructors, in turn
+  making the already-necessary `@SuppressFBWarnings` on them look like a *useless* suppression
+  (itself a SpotBugs violation) — a build-breaking false-positive purely from an out-of-date
+  plugin pin, not a real defect.
+- Missing per-module `README.md` files (e.g. `handle-occurrence-service/README.md`) and a design
+  diagram — hand-authored repo polish, not produced by the template or taught by the tutorial.
+- A couple of stray empty directories and trailing-newline/`.DS_Store` noise in the real repo.
+
+The four real demos, their service templates, and `aggregate-template` now follow the agreed
+package convention. The corrected basic replay confirms the reader-authored files match.
 
 #### `ks-connected-services-demo`: findings and fixes
 
@@ -263,68 +323,27 @@ if maintaining seed coverage in the connected suite becomes a requirement. The f
 service unit-test docs also now give the actual permissive mock schema-store setup (the old
 `JsonSerdeExtensionOptions.testBuilder()` example could not resolve its unowned input schema)
 and the expected topology instead of suggesting disabling the test. A newly generated
-`TestTopics` helper is retained in the service and template.
+`TestTopics` helper is retained in the service and template. Connected-demo code/docs/fixtures
+were pushed as `9c87d28`; basic-demo bootstrap fix was pushed as `6652a09`.
 
-Initial finding: the tutorial's descriptor page still said `inputTopicWithJsonValue`/
-`outputTopicWithJsonValue`, but the template's `TopicDescriptors` now defaults `inputTopic`/
-`outputTopic` to JSON values — this was stale prose left over from step 2/3's code changes; the
-descriptor doc has since been corrected as part of this step.
+#### Remaining tutorial blockers
 
-Template findings:
-
-1. **`aggregate-template`'s `bootstrap.sh` bug (fixed, pushed `4cd2d05`).** It renames
-   `ExampleAggregateDescriptor.java` to the aggregate's class name, and its global text-replace
-   happens to also rename the class *inside* `ExampleAggregateDescriptorTest.java` — but never
-   renames that test *file*, leaving a filename/class-name mismatch that fails to compile
-   (`class BasicKafkaStreamsDemoAggregateDescriptorTest` inside a file still called
-   `ExampleAggregateDescriptorTest.java`). This would hit anyone bootstrapping a new aggregate
-   from the template, independent of JSON support. Fixed by also renaming the test file.
-2. `add_service.sh` previously left tests in `...example.streams` because the template put them
-   outside the production `...example.service.kafka.streams` package that the script renames.
-   This wasn't build-breaking, but produced misleading test packages. The template test files
-    have now been moved alongside `TopologyBuilder` (pushed `d582649`); the existing script
-    renames both together. A fresh bootstrap/clean-up/add-service run verified the generated
-    production and test paths match without manual moves.
-   The four demo repos' retained service templates and the already-generated second-service tests
-   were aligned too. Builds and Docker system tests pass in all five real checkouts.
-
-The previous docs fix `84e810e` identified two apparent gaps, but the first was a mistaken
-conclusion about which side should change:
-
-1. The demo code, not the tutorial, was wrong to use `...demo.service` when `add_service.sh`
-   produces `...demo.handle.occurrence.service`. The recently added manual package-rename section
-   in `03-add-service.md` has been removed; production classes, tests, module declarations,
-   launcher/build configuration, and snippet paths now use the generated package without any
-    reader action (pushed `2ee0ac4`; corresponding changes pushed to the other three demos).
-2. `04-service-descriptor.md` documented the `@JsonProperty`/`@Schema` annotations (step 3's
-   schema-fidelity fix) but never explained the `api/build.gradle.kts` dependency additions
-   (`jackson-annotations`, `swagger-annotations`, `spotbugs-annotations`), the matching
-   `module-info.java` `requires static io.swagger.v3.oas.annotations;`, or the new
-   `swaggerAnnotationsVersion` `gradle.properties` entry needed to compile them. Added an "A word
-   about dependencies" section mirroring `ks-aggregate-api-demo`'s existing page, with a
-   `begin-snippet`/`end-snippet`-wrapped `dependencies` block added to `api/build.gradle.kts` so
-   the doc can quote it directly.
-
-The earlier reproduction built and passed tests, but it incorporated a manual package rename
-that has now been rejected. Reproduce again from the updated template before calling the basic
-demo fully reconciled. Other differences observed previously were JSON-unrelated drift and cosmetics:
-- Copyright years and other pure template-version drift (Docker base image tag, Gradle wrapper
-  version, `spotbugs`/`spotless`/`moduleplugin` plugin versions, axion-release plugin version,
-  GitHub Actions workflow content, checkstyle config) — expected, since the reproduction was
-  bootstrapped "today" against a repo whose scaffolding was generated at various earlier points;
-  the "Tips" section below already covers this class of drift. Fixed by refreshing the
-  reproduction's `buildSrc/` from the real repo once, after diagnosing that a stale
-  `spotbugs-gradle-plugin` version (6.4.8 vs current 6.5.11) changed whether SpotBugs'
-  `CT_CONSTRUCTOR_THROW` detector fires on `TopicDescriptors`' private constructors, in turn
-  making the already-necessary `@SuppressFBWarnings` on them look like a *useless* suppression
-  (itself a SpotBugs violation) — a build-breaking false-positive purely from an out-of-date
-  plugin pin, not a real defect.
-- Missing per-module `README.md` files (e.g. `handle-occurrence-service/README.md`) and a design
-  diagram — hand-authored repo polish, not produced by the template or taught by the tutorial.
-- A couple of stray empty directories and trailing-newline/`.DS_Store` noise in the real repo.
-
-The four real demos, their service templates, and `aggregate-template` now follow the agreed
-package convention; rechecking fresh tutorial reproduction is still outstanding.
+- `ks-aggregate-api-demo` (resolved in `5bd3e45`): The tutorial previously described primitive
+  payloads, `UsageCount`, and native-`String` input despite starting from JSON-enabled basic.
+  Preserved inherited JSON records and fixtures instead; descriptor ownership is now the only
+  change taught by the tutorial. A service-only unit test needs a permissive schema-store mock
+  after aggregate ownership changes. The fork and real repo both pass Docker system tests.
+- `wip-state-stores-demo`: Only intro/bootstrap/add-service pages are published; the checked-in
+  second service remains a generated shell, not a state-store implementation. The repo was using
+  `io.github.creek.service.connected.services.demo`, whereas its bootstrap generates
+  `io.github.creek.service.wip.state.stores.demo`; production/test/template packages and module
+  names have now been realigned in `2fd31de`. The inherited basic test's two seed tweets initially
+  produced four missing expected outputs in this repo (despite the basic fork passing): the
+  expectation observer can start after seed records have already been processed. As in the
+  connected demo, the two records now live in regular inputs, explicitly taught on the WIP
+  add-service page. The published WIP portion matches the reproduced starting point plus this
+  documented fixture migration, but no state-store lesson exists to verify; completing that
+  separate tutorial needs its missing pages and implementation.
 
 ### 5. Doc site review:
 
