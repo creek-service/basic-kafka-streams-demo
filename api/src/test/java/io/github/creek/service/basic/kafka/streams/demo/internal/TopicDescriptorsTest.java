@@ -19,10 +19,8 @@ package io.github.creek.service.basic.kafka.streams.demo.internal;
 import static io.github.creek.service.basic.kafka.streams.demo.internal.TopicDescriptors.KAFKA_FORMAT;
 import static io.github.creek.service.basic.kafka.streams.demo.internal.TopicDescriptors.creatableInternalTopic;
 import static io.github.creek.service.basic.kafka.streams.demo.internal.TopicDescriptors.inputTopic;
-import static io.github.creek.service.basic.kafka.streams.demo.internal.TopicDescriptors.inputTopicWithJsonValue;
 import static io.github.creek.service.basic.kafka.streams.demo.internal.TopicDescriptors.internalTopic;
 import static io.github.creek.service.basic.kafka.streams.demo.internal.TopicDescriptors.outputTopic;
-import static io.github.creek.service.basic.kafka.streams.demo.internal.TopicDescriptors.outputTopicWithJsonValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.hasSize;
@@ -69,7 +67,7 @@ class TopicDescriptorsTest {
     void shouldCreateInputTopic() {
         // When:
         final OwnedKafkaTopicInput<Long, String> topic =
-                inputTopic("name", Long.class, String.class, config);
+                inputTopic("name", Long.class, KAFKA_FORMAT, String.class, KAFKA_FORMAT, config);
 
         // Then:
         assertThat(topic.id().toString(), is("kafka-topic://default/name"));
@@ -85,7 +83,7 @@ class TopicDescriptorsTest {
     void shouldConvertInputTopicToOutput() {
         // Given:
         final OwnedKafkaTopicInput<Long, String> input =
-                inputTopic("name", Long.class, String.class, config);
+                inputTopic("name", Long.class, KAFKA_FORMAT, String.class, KAFKA_FORMAT, config);
 
         // When:
         final KafkaTopicOutput<Long, String> output = input.toOutput();
@@ -103,7 +101,7 @@ class TopicDescriptorsTest {
     void shouldCreateInternalTopic() {
         // When:
         final KafkaTopicInternal<Long, String> topic =
-                internalTopic("name", Long.class, String.class);
+                internalTopic("name", Long.class, KAFKA_FORMAT, String.class, KAFKA_FORMAT);
 
         // Then:
         assertThat(topic.name(), is("name"));
@@ -117,7 +115,8 @@ class TopicDescriptorsTest {
     void shouldCreateCreatableInternalTopic() {
         // When:
         final CreatableKafkaTopicInternal<Long, String> topic =
-                creatableInternalTopic("name", Long.class, String.class, config);
+                creatableInternalTopic(
+                        "name", Long.class, KAFKA_FORMAT, String.class, KAFKA_FORMAT, config);
 
         // Then:
         assertThat(topic.name(), is("name"));
@@ -132,7 +131,7 @@ class TopicDescriptorsTest {
     void shouldCreateOutputTopic() {
         // When:
         final OwnedKafkaTopicOutput<Long, String> topic =
-                outputTopic("name", Long.class, String.class, config);
+                outputTopic("name", Long.class, KAFKA_FORMAT, String.class, KAFKA_FORMAT, config);
 
         // Then:
         assertThat(topic.id().toString(), is("kafka-topic://default/name"));
@@ -148,7 +147,7 @@ class TopicDescriptorsTest {
     void shouldConvertOutputTopicToInput() {
         // Given:
         final OwnedKafkaTopicOutput<Long, String> output =
-                outputTopic("name", Long.class, String.class, config);
+                outputTopic("name", Long.class, KAFKA_FORMAT, String.class, KAFKA_FORMAT, config);
 
         // When:
         final KafkaTopicInput<Long, String> input = output.toInput();
@@ -166,7 +165,7 @@ class TopicDescriptorsTest {
     void shouldOwnJsonSchemaOnOwnedOutputTopic() {
         // When:
         final OwnedKafkaTopicOutput<Long, TweetData> topic =
-                outputTopicWithJsonValue("name", Long.class, TweetData.class, config);
+                outputTopic("name", Long.class, TweetData.class, config);
 
         // Then:
         assertThat(topic.resources().toList(), hasSize(1));
@@ -179,7 +178,7 @@ class TopicDescriptorsTest {
     void shouldNotOwnJsonSchemaOnUnownedInput() {
         // Given:
         final OwnedKafkaTopicOutput<Long, TweetData> output =
-                outputTopicWithJsonValue("name", Long.class, TweetData.class, config);
+                outputTopic("name", Long.class, TweetData.class, config);
 
         // When:
         final KafkaTopicInput<Long, TweetData> input = output.toInput();
@@ -196,7 +195,7 @@ class TopicDescriptorsTest {
     void shouldNotOwnJsonSchemaOnUnownedOutput() {
         // Given:
         final OwnedKafkaTopicInput<Long, TweetData> input =
-                inputTopicWithJsonValue("name", Long.class, TweetData.class, config);
+                inputTopic("name", Long.class, TweetData.class, config);
 
         // When:
         final KafkaTopicOutput<Long, TweetData> output = input.toOutput();
@@ -212,7 +211,7 @@ class TopicDescriptorsTest {
     void shouldGiveOwnedAndUnownedSchemaTheSameResourceId() {
         // Given:
         final OwnedKafkaTopicOutput<Long, TweetData> output =
-                outputTopicWithJsonValue("name", Long.class, TweetData.class, config);
+                outputTopic("name", Long.class, TweetData.class, config);
 
         // When:
         final KafkaTopicInput<Long, TweetData> input = output.toInput();
@@ -227,7 +226,7 @@ class TopicDescriptorsTest {
     void shouldPointSchemaPartBackAtEnclosingPartDescriptor() {
         // When:
         final OwnedKafkaTopicOutput<Long, TweetData> topic =
-                outputTopicWithJsonValue("name", Long.class, TweetData.class, config);
+                outputTopic("name", Long.class, TweetData.class, config);
 
         // Then:
         final JsonSchemaDescriptor<?> schema =
@@ -239,7 +238,7 @@ class TopicDescriptorsTest {
     void shouldDescribeNoSchemaForKafkaFormattedParts() {
         // When:
         final OwnedKafkaTopicOutput<Long, String> topic =
-                outputTopic("name", Long.class, String.class, config);
+                outputTopic("name", Long.class, KAFKA_FORMAT, String.class, KAFKA_FORMAT, config);
 
         // Then:
         assertThat(topic.resources().toList(), is(empty()));

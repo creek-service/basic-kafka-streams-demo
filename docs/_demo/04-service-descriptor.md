@@ -49,9 +49,8 @@ Add the following record to `api/src/main/java/io/github/creek/service/basic/kaf
 {% endhighlight %}
 
 The `@GeneratesSchema` annotation tells Creek's [JSON schema Gradle plugin][jsonSchemaPlugin] to generate a
-JSON schema for the type. The plugin introspects the type, including its compact constructor, so the
-constraints enforced there — a required, non-empty `text`/`handle`, and a `count` greater than zero — are
-reflected in the generated schema too.
+JSON schema for the type. The plugin does not infer the compact constructor's validation rules:
+the generated schemas do not yet require non-null, non-empty `text`/`handle` or a positive `count`.
 
 The `api` module's `build.gradle.kts` applies the plugin and tells it which module to scan for annotated types:
 
@@ -107,11 +106,9 @@ The two class constants define the input and output topics the services use.
 These constants will be used later when building the Kafka Streams topology.
 
 Each topic definition includes the topic name, the types stored in the topic's records' key and value,
-and the topic config. The `inputTopicWithJsonValue`/`outputTopicWithJsonValue` factory methods used here
-declare a topic whose key uses Kafka's native format (`Long`/`String`, in this case) and whose value is
-the JSON type defined in the previous step. The `TopicDescriptors` helper class, generated for you when
-the repo was bootstrapped, also has plain `inputTopic`/`outputTopic` methods for topics that should use
-Kafka's native format for both key and value.
+and the topic config. By default, `inputTopic` and `outputTopic` use Kafka's native format for the key
+(`Long`/`String`, in this case) and schema-validated JSON for the value defined in the previous step.
+For other formats, use their overloads that accept explicit key and value serialization formats.
 
 **Note:** A topic's JSON schema is a resource, just like the topic itself, and is _owned_ by whichever
 service owns the topic. If another service later consumes this topic as an input, by calling
