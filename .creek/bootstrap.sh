@@ -77,6 +77,7 @@ replaceInCode "basic-kafka-streams-demo" "${(L)${repoName}}"
 echo "Updating aggregate descriptor to: $aggregateClass"
 replaceInCode "BasicKafkaStreamsDemoAggregateDescriptor" "$aggregateClass"
 mv "api/src/main/java/io/github/creek/service/basic/kafka/streams/demo/api/BasicKafkaStreamsDemoAggregateDescriptor.java" "api/src/main/java/io/github/creek/service/basic/kafka/streams/demo/api/$aggregateClass.java"
+mv "api/src/test/java/io/github/creek/service/basic/kafka/streams/demo/api/BasicKafkaStreamsDemoAggregateDescriptorTest.java" "api/src/test/java/io/github/creek/service/basic/kafka/streams/demo/api/${aggregateClass}Test.java"
 
 echo "Updating root packages to: $rootPackage"
 renamePackage "io.github.creek.service.basic.kafka.streams.demo" "$rootPackage"

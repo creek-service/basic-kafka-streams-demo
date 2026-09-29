@@ -201,8 +201,8 @@ Progress (2026-09-29):
 
 | Demo | Fresh bootstrap | Follow tutorial / diff | Fixes / verification |
 |---|---|---|---|
-| `basic-kafka-streams-demo` | Fresh corrected-template bootstrap → clean_up → add_service passes, including `format`, at `/private/var/folders/_t/0frj1b2s3k974hxrlns3hgsc0000gn/T/opencode/repro-package-fix`; production and tests now have matching generated packages | Reapply tutorial content and re-diff: the earlier reproduction manually renamed packages, but the agreed fix is for the demo to retain generated names | Updated real repo passes `./gradlew format build systemTest` (Docker/Kafka system tests included) and Jekyll; full fresh tutorial replay still pending |
-| `ks-connected-services-demo` | Awaiting completed basic-demo reproduction (tutorial explicitly uses that as its template) | Not started | Not started |
+| `basic-kafka-streams-demo` | Fresh corrected-template bootstrap → clean_up → add_service passes at `/private/var/folders/_t/0frj1b2s3k974hxrlns3hgsc0000gn/T/opencode/repro-package-fix` | Applied tutorial's models, descriptor, topology, unit tests, YAML fixtures, and API dependencies; reader-authored code/fixtures match the real demo; unrelated generated-scaffolding drift remains | Reproduction `./gradlew format build` (includes Docker system test) passes; real demo build/system tests and Jekyll previously passed |
+| `ks-connected-services-demo` | Forked completed basic reproduction and ran basic-demo `bootstrap.sh`, `clean_up.sh`, `add_service.sh handle-occurrence-filtering-service` at `/private/var/folders/_t/0frj1b2s3k974hxrlns3hgsc0000gn/T/opencode/repro-connected-json` | Applied new service model/descriptor/topology/test and system-test fixtures; corrected old native-String first-service drift in real demo; main tutorial-authored files and fixtures now match; inherited scaffolding drift remains | Reproduction and real repo both pass `./gradlew format build systemTest` (Docker); real docs Jekyll build passes; changes not yet committed/pushed |
 | `ks-aggregate-api-demo` | Awaiting completed basic-demo reproduction (tutorial explicitly uses that as its template) | Not started | Not started |
 | `wip-state-stores-demo` | Awaiting completed basic-demo reproduction (tutorial explicitly uses that as its template) | Not started | Not started |
 
@@ -227,6 +227,43 @@ the later demos; keep actual demo checkouts and uncommitted changes intact. Reco
 and the exact verification performed here.
 
 #### `basic-kafka-streams-demo`: findings and fixes
+
+The corrected fresh replay now passes the full build, including the seed-data Docker system test.
+Its model records, service descriptor, topology, unit test and YAML fixtures match the demo
+exactly. Many remaining files differ because the checked-in demo retains older generated
+scaffolding and plugin versions; distinguish that drift from tutorial-authored differences when
+comparing. In particular, the template uses a different SpotBugs version from the demos, so its
+`TopicDescriptors` does not need the same constructor suppressions.
+
+When using the completed basic demo as a template for later tutorials, its *own*
+`.creek/bootstrap.sh` also changes the aggregate descriptor test's public class name without
+renaming the test file. The same fix already made in `aggregate-template` is now applied to the
+basic-demo bootstrap script; fresh connected-services bootstrap verified it. This basic-demo
+script change is not yet committed/pushed.
+
+#### `ks-connected-services-demo`: findings and fixes
+
+The checked-in connected-services demo predated the completed JSON-enabled basic tutorial:
+its first service declared `twitter.tweet.text` as `Long`/native `String` and its fixtures sent
+scalar values. A fork of the actual basic tutorial instead retains `Long`/JSON `TweetData`;
+feeding the old fixtures into that service failed deserialization. The demo now retains the
+basic model, descriptor and topology, uses `TweetData` in its unit test, and uses JSON objects in
+the system-test inputs. `04-service-descriptor.md` was corrected where it claimed the previous
+tutorial used primitive values. The connected tutorial's own president-tweet inputs also use
+`TweetData` objects.
+
+The inherited basic test suite seeded two tweets before the service started. With both services
+in the connected test suite, those seed-derived *output* records were not observed by the
+expectation check (4 expected records missing, twice reproducible); putting the same records in
+regular input made the combined test pass. The connected suite now moves those two tweets into
+`inputs/twitter.tweet.text.yml` and removes the seed file, with an explicit tutorial instruction.
+The basic demo still covers the original seed-data scenario. The exact two-service observation
+behavior is not yet explained at the Creek system-test implementation level; investigate in #709
+if maintaining seed coverage in the connected suite becomes a requirement. The filtering
+service unit-test docs also now give the actual permissive mock schema-store setup (the old
+`JsonSerdeExtensionOptions.testBuilder()` example could not resolve its unowned input schema)
+and the expected topology instead of suggesting disabling the test. A newly generated
+`TestTopics` helper is retained in the service and template.
 
 Initial finding: the tutorial's descriptor page still said `inputTopicWithJsonValue`/
 `outputTopicWithJsonValue`, but the template's `TopicDescriptors` now defaults `inputTopic`/
