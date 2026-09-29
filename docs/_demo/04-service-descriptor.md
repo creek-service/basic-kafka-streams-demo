@@ -101,16 +101,16 @@ needed to compile the `@SuppressFBWarnings` annotations already present on some 
 Because `swagger-annotations` is compile-only, the `api` module's `module-info.java` needs a matching
 `requires static` entry, alongside the `opens` covered above:
 
-```
-requires static io.swagger.v3.oas.annotations;
-```
+{% highlight java %}
+{% include_snippet requires-static-swagger from ../api/src/main/java/module-info.java %}
+{% endhighlight %}
 
 Add a `swaggerAnnotationsVersion` property to the root `gradle.properties`, alongside the existing
 `jacksonVersion` one:
 
-```
-swaggerAnnotationsVersion=2.2.54
-```
+{% highlight properties %}
+{% include_snippet swagger-annotations-version from ../gradle.properties %}
+{% endhighlight %}
 
 ## Define the topic resources
 
