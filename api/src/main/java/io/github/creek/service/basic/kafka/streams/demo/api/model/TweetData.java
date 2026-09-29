@@ -18,11 +18,14 @@ package io.github.creek.service.basic.kafka.streams.demo.api.model;
 
 import static java.util.Objects.requireNonNull;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.creekservice.api.base.annotation.schema.GeneratesSchema;
 
 // begin-snippet: tweet-data
 @GeneratesSchema
-public record TweetData(long id, String text) {
+public record TweetData(
+        long id, @JsonProperty(required = true) @Schema(minLength = 1) String text) {
 
     public TweetData {
         requireNonNull(text, "text");

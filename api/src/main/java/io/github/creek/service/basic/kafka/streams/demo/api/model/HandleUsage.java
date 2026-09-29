@@ -18,11 +18,15 @@ package io.github.creek.service.basic.kafka.streams.demo.api.model;
 
 import static java.util.Objects.requireNonNull;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.creekservice.api.base.annotation.schema.GeneratesSchema;
 
 // begin-snippet: handle-usage
 @GeneratesSchema
-public record HandleUsage(String handle, int count) {
+public record HandleUsage(
+        @JsonProperty(required = true) @Schema(minLength = 1) String handle,
+        @Schema(minimum = "1") int count) {
 
     public HandleUsage {
         requireNonNull(handle, "handle");

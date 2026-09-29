@@ -49,8 +49,10 @@ Add the following record to `api/src/main/java/io/github/creek/service/basic/kaf
 {% endhighlight %}
 
 The `@GeneratesSchema` annotation tells Creek's [JSON schema Gradle plugin][jsonSchemaPlugin] to generate a
-JSON schema for the type. The plugin does not infer the compact constructor's validation rules:
-the generated schemas do not yet require non-null, non-empty `text`/`handle` or a positive `count`.
+JSON schema for the type. The plugin does not infer the compact constructor's validation rules automatically,
+so they're expressed explicitly: `@JsonProperty(required = true)` marks non-optional fields as required, and
+Swagger's `@Schema(minLength = ...)`/`@Schema(minimum = ...)` annotations capture the non-empty `text`/`handle`
+and positive `count` constraints in the generated schema.
 
 The `api` module's `build.gradle.kts` applies the plugin and tells it which module to scan for annotated types:
 
