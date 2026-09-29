@@ -16,3 +16,6 @@ out
 
 # Kotlin compiler session files
 buildSrc/.kotlin/
+
+# Local work plans
+/plans/
