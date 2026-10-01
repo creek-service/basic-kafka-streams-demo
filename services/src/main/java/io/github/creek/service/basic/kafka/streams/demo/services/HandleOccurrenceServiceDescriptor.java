@@ -1,5 +1,5 @@
 /*
- * Copyright 2021-2025 Creek Contributors (https://github.com/creek-service)
+ * Copyright 2021-2026 Creek Contributors (https://github.com/creek-service)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,6 +22,8 @@ import static io.github.creek.service.basic.kafka.streams.demo.internal.TopicCon
 import static io.github.creek.service.basic.kafka.streams.demo.internal.TopicDescriptors.inputTopic;
 import static io.github.creek.service.basic.kafka.streams.demo.internal.TopicDescriptors.outputTopic;
 // end-snippet
+import io.github.creek.service.basic.kafka.streams.demo.api.model.HandleUsage;
+import io.github.creek.service.basic.kafka.streams.demo.api.model.TweetData;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -46,20 +48,20 @@ public final class HandleOccurrenceServiceDescriptor implements ServiceDescripto
     // formatting:off
 // begin-snippet: topic-resources
     // Define the tweet-text input topic, conceptually owned by this service:
-    public static final OwnedKafkaTopicInput<Long, String> TweetTextStream =
+    public static final OwnedKafkaTopicInput<Long, TweetData> TweetTextStream =
             register(
                     inputTopic(
                             "twitter.tweet.text", // Topic name
-                            Long.class, // Topic key: Tweet id
-                            String.class, // Topic value: Tweet text
+                            Long.class, // Topic key: Tweet id (Kafka native)
+                            TweetData.class, // Topic value: Tweet data (JSON)
                             withPartitions(5))); // Topic config
 
     // Define the output topic, again conceptually owned by this service:
-    public static final OwnedKafkaTopicOutput<String, Integer> TweetHandleUsageStream =
+    public static final OwnedKafkaTopicOutput<String, HandleUsage> TweetHandleUsageStream =
             register(outputTopic(
                     "twitter.handle.usage",
-                    String.class, // Twitter handle
-                    Integer.class,  // Usage count
+                    String.class, // Twitter handle (Kafka native)
+                    HandleUsage.class,  // Usage data (JSON)
                     withPartitions(6)
                         .withRetentionTime(Duration.ofHours(12))
             ));

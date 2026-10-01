@@ -4,7 +4,6 @@ permalink: /descriptor
 description: Learn how to write a Creek service descriptor, which defines metadata about a microservice and the external resources it uses.
 layout: single
 snippet_comment_prefix: "//"
-snippet_source: "../services/src/main/java/io/github/creek/service/basic/kafka/streams/demo/services/HandleOccurrenceServiceDescriptor.java"
 ---
 
 Each service within an aggregate defines a _service descriptor_ in the repository's `services` module.
@@ -19,7 +18,7 @@ More information on aggregate APIs and descriptors can be found in the [Kafka St
 
 This demo will use the [Kafka Streams extension][ksExt], and the `handle-occurrence-service`'s descriptor will define a
 `twitter.tweet.text` _input topic_, which the service will consume, and a `twitter.handle.usage` _output topic_, 
-which the service will produces to.
+which the service will produce to.
 
 **Note:** To keep this tutorial self-contained, the service's input topic is _owned_ by the service.
 It would be more common for an upstream service or aggregate to own the topic and for the topic's
@@ -30,6 +29,80 @@ interacting with parts of an architecture that don't use Creek.
 
 [todo]: http:// update note above with link to the tutorial on linking aggregates together.
 
+## Define the JSON payload types
+
+Rather than using primitive Kafka types for topic values, this demo uses schema-validated JSON, via the
+[Creek Kafka JSON serde][jsonSerde]. The Java types used for topic values live in the repository's `api`
+module, so they can be shared with, and their schema understood by, any other service or aggregate that
+consumes the topic.
+
+Add the following record to `api/src/main/java/io/github/creek/service/basic/kafka/streams/demo/api/model/TweetData.java`:
+
+{% highlight java %}
+{% include_snippet tweet-data from ../api/src/main/java/io/github/creek/service/basic/kafka/streams/demo/api/model/TweetData.java %}
+{% endhighlight %}
+
+...and the following to `api/src/main/java/io/github/creek/service/basic/kafka/streams/demo/api/model/HandleUsage.java`:
+
+{% highlight java %}
+{% include_snippet handle-usage from ../api/src/main/java/io/github/creek/service/basic/kafka/streams/demo/api/model/HandleUsage.java %}
+{% endhighlight %}
+
+The `@GeneratesSchema` annotation tells Creek's [JSON schema Gradle plugin][jsonSchemaPlugin] to generate a
+JSON schema for the type. The plugin does not infer the compact constructor's validation rules automatically,
+so they're expressed explicitly: `@JsonProperty(required = true)` marks non-optional fields as required, and
+Swagger's `@Schema(minLength = ...)`/`@Schema(minimum = ...)` annotations capture the non-empty `text`/`handle`
+and positive `count` constraints in the generated schema.
+
+The `api` module's `build.gradle.kts` applies the plugin and tells it which module to scan for annotated types:
+
+{% highlight kotlin %}
+{% include_snippet plugins from ../api/build.gradle.kts %}
+
+{% include_snippet schema-plugin from ../api/build.gradle.kts %}
+{% endhighlight %}
+
+The plugin and its `jsonSchemaGenerator` dependency are in the same build file (the full dependencies block is shown below).
+
+**Note:** The `api` module's `module-info.java` also needs to `opens` the package containing these types,
+so that Jackson, which the JSON serde uses under the hood, can reflectively access the record's canonical
+constructor and component accessors at runtime.
+{: .notice--info}
+
+**ProTip:** Run `./gradlew :api:generateJsonSchema` to generate the schemas without running a full build.
+The generated schema files are written under `api/build/generated/resources/schema/main/`.
+{: .notice--info}
+
+### A word about dependencies
+
+The annotations used above don't come for free. The `api` module's `build.gradle.kts` needs the following
+dependencies:
+
+{% highlight kotlin %}
+{% include_snippet dependencies from ../api/build.gradle.kts %}
+{% endhighlight %}
+
+`jackson-annotations` provides `@JsonProperty`, and `swagger-annotations` provides `@Schema`. Both are only
+needed to drive schema generation, so `swagger-annotations` is declared `compileOnlyApi` to keep it off the
+runtime/Docker classpath while still being visible to anything compiling against this module's types, with a
+matching `testCompileOnly` entry for the test module. `spotbugs-annotations` is unrelated to JSON — it's
+needed to compile the `@SuppressFBWarnings` annotations already present on some of the template-provided
+`internal` classes.
+
+Because `swagger-annotations` is compile-only, the `api` module's `module-info.java` needs a matching
+`requires static` entry, alongside the `opens` covered above:
+
+{% highlight java %}
+{% include_snippet requires-static-swagger from ../api/src/main/java/module-info.java %}
+{% endhighlight %}
+
+Add a `swaggerAnnotationsVersion` property to the root `gradle.properties`, alongside the existing
+`jacksonVersion` one:
+
+{% highlight properties %}
+{% include_snippet swagger-annotations-version from ../gradle.properties %}
+{% endhighlight %}
+
 ## Define the topic resources
 
 The aggregate template used to bootstrap the repository provided a shell service descriptor in the repository named 
@@ -37,15 +110,15 @@ The aggregate template used to bootstrap the repository provided a shell service
 Add the following to the class to define the service's input and output topics:
 
 {% highlight java %}
-{% include_snippet includes-1 %}
+{% include_snippet includes-1 from ../services/src/main/java/io/github/creek/service/basic/kafka/streams/demo/services/HandleOccurrenceServiceDescriptor.java %}
 
-{% include_snippet includes-2 %}
+{% include_snippet includes-2 from ../services/src/main/java/io/github/creek/service/basic/kafka/streams/demo/services/HandleOccurrenceServiceDescriptor.java %}
 
-{% include_snippet class-name %}
+{% include_snippet class-name from ../services/src/main/java/io/github/creek/service/basic/kafka/streams/demo/services/HandleOccurrenceServiceDescriptor.java %}
 
     ...
 
-{% include_snippet topic-resources %}
+{% include_snippet topic-resources from ../services/src/main/java/io/github/creek/service/basic/kafka/streams/demo/services/HandleOccurrenceServiceDescriptor.java %}
 
     ...
 }
@@ -56,7 +129,15 @@ The two class constants define the input and output topics the services use.
 These constants will be used later when building the Kafka Streams topology.
 
 Each topic definition includes the topic name, the types stored in the topic's records' key and value,
-and the topic config.
+and the topic config. By default, `inputTopic` and `outputTopic` use Kafka's native format for the key
+(`Long`/`String`, in this case) and schema-validated JSON for the value defined in the previous step.
+For other formats, use their overloads that accept explicit key and value serialization formats.
+
+**Note:** A topic's JSON schema is a resource, just like the topic itself, and is _owned_ by whichever
+service owns the topic. If another service later consumes this topic as an input, by calling
+`toInput()` on `TweetHandleUsageStream` (see the [next tutorial](/ks-connected-services-demo/)), the
+schema remains owned by _this_ service — the consuming service only gets an _unowned_ reference to it.
+{: .notice--info}
 
 In this instance, the topic config defines the number of partitions and, for one topic, the retention time for 
 records in the topic. If no retention time was set, the cluster default would be used.
@@ -78,3 +159,5 @@ to discover the service metadata required to run the service, pipe in inputs and
 
 [creekExts]: https://www.creekservice.org/extensions/
 [ksExt]: https://www.creekservice.org/creek-kafka
+[jsonSerde]: https://www.creekservice.org/creek-kafka/#json-schema-format
+[jsonSchemaPlugin]: https://github.com/creek-service/creek-json-schema-gradle-plugin

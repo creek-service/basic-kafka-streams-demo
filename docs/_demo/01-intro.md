@@ -24,8 +24,11 @@ By the end of this tutorial you should know:
  * How to add new microservices to an aggregate repository.
  * How to define a service descriptor: metadata about the API of a service, i.e. its input and output topics.
  * How to obtain a `kafka` topic's serde, for use in a Kafka Streams topologies.
+ * How to use schema-validated JSON payloads for topic values, with the JSON schema generated
+   automatically from your Java model types.
  * How to build and execute a Kafka Streams topology, using Creek.
  * How to write black-box system tests of the service's Docker image.
+ * How to seed data into a system test's Kafka topics _before_ the services under test start.
  * How to write unit tests of the service's topology.
  * How to debug a service, running in a Docker container, when things aren't working as expected.
  * How to capture code-coverage metrics.
@@ -46,7 +49,7 @@ The tutorial requires the following:
 
 To keep things simple, this example design assumes an upstream gateway service is consuming tweets from the Twitter api,
 and producing records to a Kafka topic named `twitter.tweet.text`. 
-The produced records have the tweet id in the key and the tweet text in the value.
+The produced records have the tweet id in the key and the tweet text, as a schema-validated JSON document, in the value.
 
 In a normal system, the upstream gateway service would likely _own_ its `twitter.tweet.text` output topic.
 To keep this tutorial self-contained, the tutorial's service will _own_ its `twitter.tweet.text` input topic.
@@ -59,7 +62,12 @@ is responsible for the topic, its configuration, and the data it contains.
 
 The service will search each tweet for Twitter handles, e.g. `@BarackObama`. For each handle, the service will produce
 a record to the `twitter.handle.usage` Kafka topic. 
-The produced records have the Twitter handle in the key and the number of occurrences in the value.
+The produced records have the Twitter handle in the key and, again as JSON, the handle and its number of occurrences in the value.
+
+**Note:** Both topics' values are Java records annotated to have Creek generate their JSON schema automatically.
+The schemas are validated against, and registered in, a Schema Registry, both at runtime and by the system tests
+covered later in this tutorial.
+{: .notice--info}
 
 ## Complete solution
 

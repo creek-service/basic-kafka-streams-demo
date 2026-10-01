@@ -1,5 +1,5 @@
 /*
- * Copyright 2022-2025 Creek Contributors (https://github.com/creek-service)
+ * Copyright 2022-2026 Creek Contributors (https://github.com/creek-service)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -48,7 +48,21 @@ java {
 }
 
 repositories {
+    mavenLocal()
     mavenCentral()
+    // Todo: SNAPSHOT - remove once creek-kafka cuts a release.
+    maven {
+        url = uri("https://central.sonatype.com/repository/maven-snapshots/")
+    }
+    // Required for Confluent Schema Registry and JSON Schema Provider dependencies
+    // used by Creek's JSON serialization support (kafka-json-serde module).
+    maven {
+        url = uri("https://packages.confluent.io/maven/")
+    }
+    // Required for everit-json-schema dependency (transitive from Confluent's JSON schema provider).
+    maven {
+        url = uri("https://jitpack.io")
+    }
 }
 
 dependencies {

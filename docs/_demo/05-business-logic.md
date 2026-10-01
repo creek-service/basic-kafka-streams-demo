@@ -4,7 +4,7 @@ permalink: /business-logic
 description: Learn how to add your business logic to Kafka Streams microservices created using the Creek aggregate template
 layout: single
 snippet_comment_prefix: "//"
-snippet_source: "../handle-occurrence-service/src/main/java/io/github/creek/service/basic/kafka/streams/demo/service/kafka/streams/TopologyBuilder.java"
+snippet_source: "../handle-occurrence-service/src/main/java/io/github/creek/service/basic/kafka/streams/demo/handle/occurrence/service/kafka/streams/TopologyBuilder.java"
 ---
 
 With the topic resources defined in the last step, it's time to write a simple [Kafka Streams][kafkaStreams] 
@@ -12,8 +12,9 @@ topology to perform the business logic of this service.
 
 The service will search each tweets text for occurrences of Twitter handles, e.g. `@katyperry`.
 For each handle found, it will produce a record mapping the Twitter handle to its number of occurrences.
-For example, it a tweet contained the handle `@katyperry` twice, then it would produce a record
-with a key of `@katyperry` and a value of `2`.
+For example, if a tweet contained the handle `@katyperry` twice, then it would produce a record
+with a key of `@katyperry` and a value of `HandleUsage("@katyperry", 2)` — the JSON-schema-validated
+record type [defined in the previous step](/descriptor).
 
 ## Define the stream topology
 
