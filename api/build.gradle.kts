@@ -7,7 +7,7 @@ plugins {
 
 // begin-snippet: dependencies
 dependencies {
-    compileOnly("com.github.spotbugs:spotbugs-annotations:4.4.2")
+    compileOnly("com.github.spotbugs:spotbugs-annotations:4.10.4")
     compileOnlyApi("io.swagger.core.v3:swagger-annotations:${property("swaggerAnnotationsVersion")}")
     api("org.creekservice:creek-kafka-metadata:${property("creekVersion")}")
     api("com.fasterxml.jackson.core:jackson-annotations:${property("jacksonVersion")}")
