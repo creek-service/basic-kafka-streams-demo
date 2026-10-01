@@ -34,6 +34,7 @@ import org.apache.kafka.streams.TestOutputTopic;
 import io.github.creek.service.basic.kafka.streams.demo.api.model.HandleUsage;
 import io.github.creek.service.basic.kafka.streams.demo.api.model.TweetData;
 import io.github.creek.service.basic.kafka.streams.demo.services.HandleOccurrenceServiceDescriptor;
+import java.nio.file.Path;
 import org.apache.kafka.streams.Topology;
 import org.apache.kafka.streams.TopologyTestDriver;
 import org.creekservice.api.kafka.serde.json.JsonSerdeExtensionOptions;
@@ -51,6 +52,10 @@ import org.junit.jupiter.api.Test;
 // begin-snippet: class-declaration
 class TopologyBuilderTest {
     // end-snippet
+
+    private static final Path EXPECTED_TOPOLOGY_PATH =
+            TestPaths.moduleRoot("handle-occurrence-service")
+                    .resolve("src/test/resources/kafka/streams/expected_topology.txt");
 
     private static CreekContext ctx;
 
@@ -134,19 +139,35 @@ class TopologyBuilderTest {
      * </ol>
      *
      * <p>Option #1 allows for the simplest deployment, but is not always possible or desirable.
+     *
+     * <p>If the change is intentional, run this class's {@code main} method to regenerate {@code
+     * expected_topology.txt}, then review the diff before committing.
      */
     @Test
     void shouldNotChangeTheTopologyUnintentionally() {
         // Given:
-        final String expectedTopology =
-                TestPaths.readString(
-                        TestPaths.moduleRoot("handle-occurrence-service")
-                                .resolve("src/test/resources/kafka/streams/expected_topology.txt"));
+        final String expectedTopology = TestPaths.readString(EXPECTED_TOPOLOGY_PATH);
 
         // When:
         final String currentTopology = topology.describe().toString();
 
         // Then:
         assertThat(currentTopology.trim(), is(expectedTopology.trim()));
+    }
+
+    /**
+     * Regenerates {@code expected_topology.txt} to match the current topology.
+     *
+     * <p>Run this after an intentional topology change, then review the diff before committing.
+     */
+    public static void main(final String... args) {
+        classSetup();
+        final TopologyBuilderTest test = new TopologyBuilderTest();
+        test.setUp();
+        try {
+            TestPaths.write(EXPECTED_TOPOLOGY_PATH, test.topology.describe().toString());
+        } finally {
+            test.tearDown();
+        }
     }
 }
