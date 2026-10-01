@@ -36,6 +36,7 @@ subprojects {
     val junitVersion = property("junitVersion") as String
 
     dependencies {
+        implementation(platform("com.fasterxml.jackson:jackson-bom:${property("jacksonVersion")}"))
         testImplementation("org.creekservice:creek-test-hamcrest:$creekVersion")
         testImplementation("org.creekservice:creek-test-util:$creekVersion")
         testImplementation("org.junit.jupiter:junit-jupiter-api:$junitVersion")
