@@ -5,7 +5,7 @@ plugins {
     `module-convention` apply false
     `coverage-convention`
     `publishing-convention` apply false
-    id("pl.allegro.tech.build.axion-release") version "1.21.3" // https://plugins.gradle.org/plugin/pl.allegro.tech.build.axion-release
+    id("pl.allegro.tech.build.axion-release") version "1.21.4" // https://plugins.gradle.org/plugin/pl.allegro.tech.build.axion-release
     id("com.bmuschko.docker-remote-api") version "10.0.0" apply false
     id("org.creekservice.schema.json") version "0.5.0-SNAPSHOT" apply false
 }
@@ -37,6 +37,7 @@ subprojects {
     val junitVersion = property("junitVersion") as String
 
     dependencies {
+        implementation(platform("com.fasterxml.jackson:jackson-bom:${property("jacksonVersion")}"))
         testImplementation("org.creekservice:creek-test-hamcrest:$creekVersion")
         testImplementation("org.creekservice:creek-test-util:$creekVersion")
         testImplementation("org.junit.jupiter:junit-jupiter-api:$junitVersion")
