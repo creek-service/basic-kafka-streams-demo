@@ -10,7 +10,7 @@ dependencies {
     compileOnly("com.github.spotbugs:spotbugs-annotations:4.10.4")
     compileOnlyApi("io.swagger.core.v3:swagger-annotations:${property("swaggerAnnotationsVersion")}")
     api("org.creekservice:creek-kafka-metadata:${property("creekVersion")}")
-    api("com.fasterxml.jackson.core:jackson-annotations:${property("jacksonVersion")}")
+    api("com.fasterxml.jackson.core:jackson-annotations:${property("jacksonAnnotationsVersion")}")
     implementation("org.creekservice:creek-base-annotation:${property("creekVersion")}")
 
     jsonSchemaGenerator("org.creekservice:creek-json-schema-generator:${property("creekVersion")}")
