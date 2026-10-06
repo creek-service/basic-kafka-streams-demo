@@ -1,12 +1,6 @@
 pluginManagement {
     repositories {
-        mavenLocal()
         gradlePluginPortal()
-
-        // Todo: SNAPSHOT
-        maven {
-            url = uri("https://central.sonatype.com/repository/maven-snapshots/")
-        }
     }
 }
 
