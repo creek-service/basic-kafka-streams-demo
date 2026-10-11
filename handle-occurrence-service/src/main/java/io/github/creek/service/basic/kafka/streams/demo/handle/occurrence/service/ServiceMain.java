@@ -1,5 +1,5 @@
 /*
- * Copyright 2021-2025 Creek Contributors (https://github.com/creek-service)
+ * Copyright 2021-2026 Creek Contributors (https://github.com/creek-service)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package io.github.creek.service.basic.kafka.streams.demo.service;
+package io.github.creek.service.basic.kafka.streams.demo.handle.occurrence.service;
 
-import io.github.creek.service.basic.kafka.streams.demo.service.kafka.streams.TopologyBuilder;
+import io.github.creek.service.basic.kafka.streams.demo.handle.occurrence.service.kafka.streams.TopologyBuilder;
 import io.github.creek.service.basic.kafka.streams.demo.services.HandleOccurrenceServiceDescriptor;
 import org.apache.kafka.streams.Topology;
 import org.creekservice.api.kafka.streams.extension.KafkaStreamsExtension;

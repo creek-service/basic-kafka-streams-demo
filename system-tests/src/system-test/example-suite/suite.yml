@@ -1,6 +1,6 @@
 # begin-snippet: all
 ---
-name: basic suite
+name: example-suite
 services:
   - handle-occurrence-service
 tests:

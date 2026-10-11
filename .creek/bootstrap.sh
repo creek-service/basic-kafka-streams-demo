@@ -1,6 +1,6 @@
 #!/bin/zsh
 #
-# Copyright 2022-2023 Creek Contributors (https://github.com/creek-service)
+# Copyright 2022-2026 Creek Contributors (https://github.com/creek-service)
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -77,6 +77,7 @@ replaceInCode "basic-kafka-streams-demo" "${(L)${repoName}}"
 echo "Updating aggregate descriptor to: $aggregateClass"
 replaceInCode "BasicKafkaStreamsDemoAggregateDescriptor" "$aggregateClass"
 mv "api/src/main/java/io/github/creek/service/basic/kafka/streams/demo/api/BasicKafkaStreamsDemoAggregateDescriptor.java" "api/src/main/java/io/github/creek/service/basic/kafka/streams/demo/api/$aggregateClass.java"
+mv "api/src/test/java/io/github/creek/service/basic/kafka/streams/demo/api/BasicKafkaStreamsDemoAggregateDescriptorTest.java" "api/src/test/java/io/github/creek/service/basic/kafka/streams/demo/api/${aggregateClass}Test.java"
 
 echo "Updating root packages to: $rootPackage"
 renamePackage "io.github.creek.service.basic.kafka.streams.demo" "$rootPackage"

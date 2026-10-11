@@ -1,5 +1,5 @@
 /*
- * Copyright 2022-2023 Creek Contributors (https://github.com/creek-service)
+ * Copyright 2022-2026 Creek Contributors (https://github.com/creek-service)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,24 +14,25 @@
  * limitations under the License.
  */
 
-package io.github.creek.service.basic.kafka.streams.demo.example.streams;
+package io.github.creek.service.basic.kafka.streams.demo.example.service.kafka.streams;
 
+import static io.github.creek.service.basic.kafka.streams.demo.example.service.kafka.streams.TestTopics.inputTopic;
+import static io.github.creek.service.basic.kafka.streams.demo.example.service.kafka.streams.TestTopics.outputTopic;
 import static org.apache.kafka.streams.KeyValue.pair;
 import static org.creekservice.api.kafka.metadata.topic.KafkaTopicDescriptor.DEFAULT_CLUSTER_NAME;
-import static org.creekservice.api.kafka.streams.test.TestTopics.inputTopic;
-import static org.creekservice.api.kafka.streams.test.TestTopics.outputTopic;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
 
 import io.github.creek.service.basic.kafka.streams.demo.example.service.kafka.streams.TopologyBuilder;
 import io.github.creek.service.basic.kafka.streams.demo.services.ExampleServiceDescriptor;
+import java.nio.file.Path;
 import org.apache.kafka.streams.TestInputTopic;
 import org.apache.kafka.streams.TestOutputTopic;
 import org.apache.kafka.streams.Topology;
 import org.apache.kafka.streams.TopologyTestDriver;
 import org.creekservice.api.kafka.streams.extension.KafkaStreamsExtension;
-import org.creekservice.api.kafka.streams.test.TestKafkaStreamsExtensionOptions;
+import org.creekservice.api.kafka.streams.extension.KafkaStreamsExtensionOptions;
 import org.creekservice.api.service.context.CreekContext;
 import org.creekservice.api.service.context.CreekServices;
 import org.creekservice.api.test.util.TestPaths;
@@ -42,6 +43,10 @@ import org.junit.jupiter.api.Test;
 
 class TopologyBuilderTest {
 
+    private static final Path EXPECTED_TOPOLOGY_PATH =
+            TestPaths.moduleRoot("example-service")
+                    .resolve("src/test/resources/kafka/streams/expected_topology.txt");
+
     private static CreekContext ctx;
 
     private TopologyTestDriver testDriver;
@@ -51,7 +56,7 @@ class TopologyBuilderTest {
     public static void classSetup() {
         ctx =
                 CreekServices.builder(new ExampleServiceDescriptor())
-                        .with(TestKafkaStreamsExtensionOptions.defaults())
+                        .with(KafkaStreamsExtensionOptions.testBuilder().build())
                         .build();
     }
 
@@ -84,19 +89,35 @@ class TopologyBuilderTest {
      * </ol>
      *
      * <p>Option #1 allows for the simplest deployment, but is not always possible or desirable.
+     *
+     * <p>If the change is intentional, run this class's {@code main} method to regenerate {@code
+     * expected_topology.txt}, then review the diff before committing.
      */
     @Test
     void shouldNotChangeTheTopologyUnintentionally() {
         // Given:
-        final String expectedTopology =
-                TestPaths.readString(
-                        TestPaths.moduleRoot("example-service")
-                                .resolve("src/test/resources/kafka/streams/expected_topology.txt"));
+        final String expectedTopology = TestPaths.readString(EXPECTED_TOPOLOGY_PATH);
 
         // When:
         final String currentTopology = topology.describe().toString();
 
         // Then:
         assertThat(currentTopology.trim(), is(expectedTopology.trim()));
+    }
+
+    /**
+     * Regenerates {@code expected_topology.txt} to match the current topology.
+     *
+     * <p>Run this after an intentional topology change, then review the diff before committing.
+     */
+    public static void main(final String... args) {
+        classSetup();
+        final TopologyBuilderTest test = new TopologyBuilderTest();
+        test.setUp();
+        try {
+            TestPaths.write(EXPECTED_TOPOLOGY_PATH, test.topology.describe().toString());
+        } finally {
+            test.tearDown();
+        }
     }
 }
