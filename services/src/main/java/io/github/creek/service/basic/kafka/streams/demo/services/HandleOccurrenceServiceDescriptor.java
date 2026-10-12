@@ -26,7 +26,6 @@ import static io.github.creek.service.basic.kafka.streams.demo.internal.TopicDes
 // end-snippet
 import io.github.creek.service.basic.kafka.streams.demo.services.model.HandleUsage;
 import java.time.Duration;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 // begin-snippet: includes-2
@@ -34,7 +33,6 @@ import org.creekservice.api.kafka.metadata.topic.OwnedKafkaTopicInput;
 import org.creekservice.api.kafka.metadata.topic.OwnedKafkaTopicOutput;
 // end-snippet
 import org.creekservice.api.platform.metadata.ComponentInput;
-import org.creekservice.api.platform.metadata.ComponentInternal;
 import org.creekservice.api.platform.metadata.ComponentOutput;
 import org.creekservice.api.platform.metadata.ServiceDescriptor;
 // formatting:on
@@ -42,34 +40,29 @@ import org.creekservice.api.platform.metadata.ServiceDescriptor;
 // begin-snippet: class-name
 public final class HandleOccurrenceServiceDescriptor implements ServiceDescriptor {
     // end-snippet
-    private static final List<ComponentInput> INPUTS = new ArrayList<>();
-    private static final List<ComponentInternal> INTERNALS = new ArrayList<>();
-    private static final List<ComponentOutput> OUTPUTS = new ArrayList<>();
 
     // formatting:off
 // begin-snippet: topic-resources
     // Define the tweet-text input topic, conceptually owned by this service:
     public static final OwnedKafkaTopicInput<Long, String> RawTweetStream =
-            register(
-                    inputTopic(
-                            "twitter.tweet.text", // Topic name
-                            Long.class, // Topic key: Tweet id (Kafka native)
-                            KAFKA_FORMAT,
-                            String.class, // Topic value: Tweet text (Kafka native)
-                            KAFKA_FORMAT,
-                            withPartitions(5))); // Topic config
+            inputTopic(
+                "twitter.tweet.text", // Topic name
+                Long.class, // Topic key: Tweet id (Kafka native)
+                KAFKA_FORMAT,
+                String.class, // Topic value: Tweet text (Kafka native)
+                KAFKA_FORMAT,
+                withPartitions(5)); // Topic config
 
     // Define the output topic, again conceptually owned by this service:
     public static final OwnedKafkaTopicOutput<String, HandleUsage> TweetHandleUsageStream =
-            register(outputTopic(
-                    "twitter.handle.usage",
-                    String.class, // Twitter handle (Kafka native)
-                    KAFKA_FORMAT,
-                    HandleUsage.class,  // Usage data (JSON)
-                    JSON_FORMAT,
-                    withPartitions(6)
-                        .withRetentionTime(Duration.ofHours(12))
-            ));
+            outputTopic(
+                "twitter.handle.usage",
+                String.class, // Twitter handle (Kafka native)
+                KAFKA_FORMAT,
+                HandleUsage.class,  // Usage data (JSON)
+                JSON_FORMAT,
+                withPartitions(6)
+                    .withRetentionTime(Duration.ofHours(12)));
 // end-snippet
 // formatting:on
 
@@ -82,32 +75,11 @@ public final class HandleOccurrenceServiceDescriptor implements ServiceDescripto
 
     @Override
     public Collection<ComponentInput> inputs() {
-        return List.copyOf(INPUTS);
-    }
-
-    @Override
-    public Collection<ComponentInternal> internals() {
-        return List.copyOf(INTERNALS);
+        return List.of(RawTweetStream);
     }
 
     @Override
     public Collection<ComponentOutput> outputs() {
-        return List.copyOf(OUTPUTS);
-    }
-
-    private static <T extends ComponentInput> T register(final T input) {
-        INPUTS.add(input);
-        return input;
-    }
-
-    // Uncomment if needed:
-    // private static <T extends ComponentInternal> T register(final T internal) {
-    //     INTERNALS.add(internal);
-    //     return internal;
-    // }
-
-    private static <T extends ComponentOutput> T register(final T output) {
-        OUTPUTS.add(output);
-        return output;
+        return List.of(TweetHandleUsageStream);
     }
 }
