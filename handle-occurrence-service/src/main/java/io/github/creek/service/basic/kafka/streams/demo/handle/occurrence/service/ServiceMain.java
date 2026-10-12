@@ -30,16 +30,17 @@ public final class ServiceMain {
     private ServiceMain() {}
 
     public static void main(final String... args) {
-        final CreekContext ctx =
+        try (CreekContext ctx =
                 CreekServices.builder(new HandleOccurrenceServiceDescriptor())
                         .with(
                                 KafkaStreamsExtensionOptions.builder()
                                         // Customize the Kafka streams extension...
                                         .build())
-                        .build();
+                        .build()) {
 
-        final KafkaStreamsExtension ext = ctx.extension(KafkaStreamsExtension.class);
-        final Topology topology = new TopologyBuilder(ext).build();
-        ext.execute(topology);
+            final KafkaStreamsExtension ext = ctx.extension(KafkaStreamsExtension.class);
+            final Topology topology = new TopologyBuilder(ext).build();
+            ext.execute(topology);
+        }
     }
 }
