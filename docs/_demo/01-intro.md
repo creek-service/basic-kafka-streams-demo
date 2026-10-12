@@ -49,7 +49,7 @@ The tutorial requires the following:
 
 To keep things simple, this example design assumes an upstream gateway service is consuming tweets from the Twitter api,
 and producing records to a Kafka topic named `twitter.tweet.text`. 
-The produced records have the tweet id in the key and the tweet text, as a schema-validated JSON document, in the value.
+The produced records have the tweet id, as a `long`, in the key and the raw tweet text, as a `String`, in the value.
 
 In a normal system, the upstream gateway service would likely _own_ its `twitter.tweet.text` output topic.
 To keep this tutorial self-contained, the tutorial's service will _own_ its `twitter.tweet.text` input topic.
@@ -62,12 +62,7 @@ is responsible for the topic, its configuration, and the data it contains.
 
 The service will search each tweet for Twitter handles, e.g. `@BarackObama`. For each handle, the service will produce
 a record to the `twitter.handle.usage` Kafka topic. 
-The produced records have the Twitter handle in the key and, again as JSON, the handle and its number of occurrences in the value.
-
-**Note:** Both topics' values are Java records annotated to have Creek generate their JSON schema automatically.
-The schemas are validated against, and registered in, a Schema Registry, both at runtime and by the system tests
-covered later in this tutorial.
-{: .notice--info}
+The produced records are keyed on the Twitter handle, and store the handle and number of occurrences in the value as a JSON document.
 
 ## Complete solution
 

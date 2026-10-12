@@ -33,7 +33,7 @@ This can lead to unintentional changes in internal topic names.
 If such a change was deployed, any unprocessed messages in the old topics would be skipped.
 {: .notice--info}
 
-The above topology consumes `TweetTextStream` we defined in the service's descriptor, 
+The above topology consumes `RawTweetStream` we defined in the service's descriptor,
 transforms it in the `extractHandles` method, and produces any output to the `TweetHandleUsageStream`.
 
 The [Creek Kafka Streams extension][ksExt] provides type-safe access to the input and output topic metadata, serde, 

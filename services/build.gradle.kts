@@ -14,12 +14,29 @@
  * limitations under the License.
  */
 
+// begin-snippet: plugins
 plugins {
     `java-library`
+    id("org.creekservice.schema.json")
 }
+// end-snippet
 
+// begin-snippet: dependencies
 dependencies {
     api(project(":api"))
+    api("com.fasterxml.jackson.core:jackson-annotations:${property("jacksonAnnotationsVersion")}")
+    implementation("org.creekservice:creek-base-annotation:${property("creekVersion")}")
+    compileOnlyApi("io.swagger.core.v3:swagger-annotations:${property("swaggerAnnotationsVersion")}")
+    jsonSchemaGenerator("org.creekservice:creek-json-schema-generator:${property("creekVersion")}")
+    testCompileOnly("io.swagger.core.v3:swagger-annotations:${property("swaggerAnnotationsVersion")}")
 
     // To avoid dependency hell downstream, avoid adding any more dependencies except Creek metadata jars and test dependencies.
 }
+// end-snippet
+
+// begin-snippet: schema-plugin
+creek.schema.json {
+    typeScanning.moduleWhiteList(moduleName)
+    subTypeScanning.moduleWhiteList(moduleName)
+}
+// end-snippet

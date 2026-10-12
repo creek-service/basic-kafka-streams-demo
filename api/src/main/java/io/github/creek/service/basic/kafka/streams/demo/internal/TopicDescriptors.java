@@ -50,8 +50,8 @@ import org.creekservice.api.platform.metadata.ResourceDescriptor;
  * owned topic descriptor, respectively.
  *
  * <p>By default, the methods below give topics a schema-validated JSON value and a Kafka-native key
- * - see the {@code org.creekservice.schema.json} Gradle plugin applied in this module's {@code
- * build.gradle.kts}. For anything else, use the overload that takes explicit key/value {@link
+ * - see the {@code org.creekservice.schema.json} Gradle plugin applied in the {@code services}
+ * module. For anything else, use the overload that takes explicit key/value {@link
  * SerializationFormat}s, e.g. passing {@link #KAFKA_FORMAT} for the value.
  */
 @SuppressWarnings("unused") // What is unused today may be used tomorrow...

@@ -13,8 +13,8 @@ aggregate's api, and how to use Creek to interact with parts of a system that pr
 
 Additional tutorials will be added over time. These can be found on the [tutorials page]({{ site.url | append: "/tutorials/" }}).
 
-This tutorial's topic values use schema-validated JSON, via the [Creek Kafka JSON serde <i class="fas fa-external-link-alt" aria-hidden="true"></i>][jsonSerde]{:target="_blank"},
-with the schemas generated automatically from the `TweetData` and `HandleUsage` Java records defined
+The output topic's value uses schema-validated JSON, via the [Creek Kafka JSON serde <i class="fas fa-external-link-alt" aria-hidden="true"></i>][jsonSerde]{:target="_blank"},
+with its schema generated automatically from the `HandleUsage` Java record defined
 [earlier](/descriptor). See that page, and the linked docs, for more on how it works, including how
 Creek uses a Schema Registry to share and validate schemas between services.
 {: .notice--info}

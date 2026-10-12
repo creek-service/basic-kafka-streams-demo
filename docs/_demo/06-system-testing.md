@@ -51,8 +51,8 @@ This particular input type is registered by the [Creek Kafka test extension][kaf
 The number after the `@` symbol is a version number, allowing the type to evolve without breaking existing tests.
 
 The `records` property defines the list of records the system tests will produce to Kafka, with each record's `key` and `value` defined.
-As `twitter.tweet.text`'s value is JSON (see the [previous step](/descriptor)), each record's `value` is itself
-a nested object, whose properties match the fields of the `TweetData` record, rather than a single scalar.
+As `twitter.tweet.text`'s value is a Kafka-native `String` (see the [descriptor](/descriptor)), each record's
+`value` is the tweet text itself, rather than a nested JSON object.
 
 **ProTip:** You can define records with `null` keys and values implicitly by excluding the `key` and/or `value` property,
 or explicitly by setting the `key` and/or `value` property to `~`.
@@ -80,9 +80,9 @@ regular inputs, seed data doesn't need to be listed under a test case's `inputs`
 it's picked up automatically for every test case in the suite, because it needs to be in place before any
 of them start.
 
-**Note:** Creek ensures any resources the seed data needs — the topic itself, and, since this topic uses
-JSON, its schema in the Schema Registry — are created before the seed data is produced, and before any
-service under test starts. You don't need to do anything extra to make this work.
+**Note:** Creek ensures the topic needed by the seed data is created before the seed data is produced,
+and before any service under test starts. The input uses a native `String`, so it needs no schema in
+the Schema Registry. You don't need to do anything extra to make this work.
 {: .notice--info}
 
 ### Define expected outputs
@@ -152,12 +152,12 @@ The system tests inspect the service descriptor.
 As the descriptor defines Kafka based resources, the system tests, with the help of the installed [Creek Kafka system-test extension][kafkaTestExt], 
 knows to start a Kafka broker and create any unowned topics.
 
-**Note:** As this demo's topics use JSON values, the Kafka system-test extension also automatically starts a
+**Note:** As the output topic uses JSON values, the Kafka system-test extension also automatically starts a
 Schema Registry container — no extra configuration is needed beyond installing the [`creek-kafka-json-serde`][jsonSerde] extension.
 {: .notice--info}
 
 Before any service under test is started, the system tests ensure every resource referenced by seed data
-exists — creating `twitter.tweet.text` and registering its schema, in this case — even though the topic
+exists — creating `twitter.tweet.text`, in this case — even though the topic
 is conceptually owned by the service that's about to start. Only then is the seed data produced, and only
 after that are the services under test started. This ordering guarantee is what makes seeding into an
 owned topic possible.

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.github.creek.service.basic.kafka.streams.demo.api.model;
+package io.github.creek.service.basic.kafka.streams.demo.services.model;
 
 import static java.util.Objects.requireNonNull;
 

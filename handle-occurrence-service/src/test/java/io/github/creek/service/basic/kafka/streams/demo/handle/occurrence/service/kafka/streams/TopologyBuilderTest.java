@@ -19,7 +19,7 @@ package io.github.creek.service.basic.kafka.streams.demo.handle.occurrence.servi
 // formatting:off
 import static io.github.creek.service.basic.kafka.streams.demo.handle.occurrence.service.kafka.streams.TestTopics.inputTopic;
 import static io.github.creek.service.basic.kafka.streams.demo.handle.occurrence.service.kafka.streams.TestTopics.outputTopic;
-import static io.github.creek.service.basic.kafka.streams.demo.services.HandleOccurrenceServiceDescriptor.TweetTextStream;
+import static io.github.creek.service.basic.kafka.streams.demo.services.HandleOccurrenceServiceDescriptor.RawTweetStream;
 import static io.github.creek.service.basic.kafka.streams.demo.services.HandleOccurrenceServiceDescriptor.TweetHandleUsageStream;
 import static org.creekservice.api.kafka.metadata.topic.KafkaTopicDescriptor.DEFAULT_CLUSTER_NAME;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -31,8 +31,7 @@ import static org.hamcrest.Matchers.containsInAnyOrder;
 import org.apache.kafka.streams.TestInputTopic;
 import org.apache.kafka.streams.TestOutputTopic;
 // end-snippet
-import io.github.creek.service.basic.kafka.streams.demo.api.model.HandleUsage;
-import io.github.creek.service.basic.kafka.streams.demo.api.model.TweetData;
+import io.github.creek.service.basic.kafka.streams.demo.services.model.HandleUsage;
 import io.github.creek.service.basic.kafka.streams.demo.services.HandleOccurrenceServiceDescriptor;
 import java.nio.file.Path;
 import org.apache.kafka.streams.Topology;
@@ -63,7 +62,7 @@ class TopologyBuilderTest {
     private Topology topology;
     // formatting:off
 // begin-snippet: topic-declarations
-    private TestInputTopic<Long, TweetData> tweetTextStream;
+    private TestInputTopic<Long, String> rawTweetStream;
     private TestOutputTopic<String, HandleUsage> handleUsageStream;
 // end-snippet
     // formatting:on
@@ -94,7 +93,7 @@ class TopologyBuilderTest {
         testDriver = new TopologyTestDriver(topology, ext.properties(DEFAULT_CLUSTER_NAME));
 
         // Create the topologies input and output topics"
-        tweetTextStream = inputTopic(TweetTextStream, ext, testDriver);
+        rawTweetStream = inputTopic(RawTweetStream, ext, testDriver);
         handleUsageStream = outputTopic(TweetHandleUsageStream, ext, testDriver);
     }
 // end-snippet
@@ -110,10 +109,9 @@ class TopologyBuilderTest {
     @Test
     void shouldOutputHandleOccurrences() {
         // When:
-        tweetTextStream.pipeInput(1622262145390972929L,
-                new TweetData(1622262145390972929L,
-                        "@PepitoTheCat @BillyM2k @PepitoTheCat Responding to feedback, " +
-                        "Twitter will enable a light, write-only API for bots providing good content that is free."));
+        rawTweetStream.pipeInput(1622262145390972929L,
+                "@PepitoTheCat @BillyM2k @PepitoTheCat Responding to feedback, " +
+                "Twitter will enable a light, write-only API for bots providing good content that is free.");
 
         // Then:
         assertThat(handleUsageStream.readKeyValuesToList(), containsInAnyOrder(

@@ -30,7 +30,6 @@ import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.sameInstance;
 import static org.mockito.Mockito.when;
 
-import io.github.creek.service.basic.kafka.streams.demo.api.model.TweetData;
 import org.creekservice.api.kafka.metadata.schema.JsonSchemaDescriptor;
 import org.creekservice.api.kafka.metadata.schema.OwnedJsonSchemaDescriptor;
 import org.creekservice.api.kafka.metadata.schema.UnownedJsonSchemaDescriptor;
@@ -55,6 +54,8 @@ import org.mockito.quality.Strictness;
 class TopicDescriptorsTest {
 
     private static final KafkaTopicConfig CONFIG = TopicConfigBuilder.withPartitions(1).build();
+
+    private record TestPayload(String text) {}
 
     @Mock private TopicConfigBuilder config;
 
@@ -164,8 +165,8 @@ class TopicDescriptorsTest {
     @Test
     void shouldOwnJsonSchemaOnOwnedOutputTopic() {
         // When:
-        final OwnedKafkaTopicOutput<Long, TweetData> topic =
-                outputTopic("name", Long.class, TweetData.class, config);
+        final OwnedKafkaTopicOutput<Long, TestPayload> topic =
+                outputTopic("name", Long.class, TestPayload.class, config);
 
         // Then:
         assertThat(topic.resources().toList(), hasSize(1));
@@ -177,11 +178,11 @@ class TopicDescriptorsTest {
     @Test
     void shouldNotOwnJsonSchemaOnUnownedInput() {
         // Given:
-        final OwnedKafkaTopicOutput<Long, TweetData> output =
-                outputTopic("name", Long.class, TweetData.class, config);
+        final OwnedKafkaTopicOutput<Long, TestPayload> output =
+                outputTopic("name", Long.class, TestPayload.class, config);
 
         // When:
-        final KafkaTopicInput<Long, TweetData> input = output.toInput();
+        final KafkaTopicInput<Long, TestPayload> input = output.toInput();
 
         // Then: the schema is still described, but it is no longer claimed as owned
         assertThat(input.value().resources().toList(), hasSize(1));
@@ -194,11 +195,11 @@ class TopicDescriptorsTest {
     @Test
     void shouldNotOwnJsonSchemaOnUnownedOutput() {
         // Given:
-        final OwnedKafkaTopicInput<Long, TweetData> input =
-                inputTopic("name", Long.class, TweetData.class, config);
+        final OwnedKafkaTopicInput<Long, TestPayload> input =
+                inputTopic("name", Long.class, TestPayload.class, config);
 
         // When:
-        final KafkaTopicOutput<Long, TweetData> output = input.toOutput();
+        final KafkaTopicOutput<Long, TestPayload> output = input.toOutput();
 
         // Then:
         assertThat(output.value().resources().toList(), hasSize(1));
@@ -210,11 +211,11 @@ class TopicDescriptorsTest {
     @Test
     void shouldGiveOwnedAndUnownedSchemaTheSameResourceId() {
         // Given:
-        final OwnedKafkaTopicOutput<Long, TweetData> output =
-                outputTopic("name", Long.class, TweetData.class, config);
+        final OwnedKafkaTopicOutput<Long, TestPayload> output =
+                outputTopic("name", Long.class, TestPayload.class, config);
 
         // When:
-        final KafkaTopicInput<Long, TweetData> input = output.toInput();
+        final KafkaTopicInput<Long, TestPayload> input = output.toInput();
 
         // Then: ownership changes, identity does not
         final ResourceDescriptor owned = output.value().resources().toList().get(0);
@@ -225,8 +226,8 @@ class TopicDescriptorsTest {
     @Test
     void shouldPointSchemaPartBackAtEnclosingPartDescriptor() {
         // When:
-        final OwnedKafkaTopicOutput<Long, TweetData> topic =
-                outputTopic("name", Long.class, TweetData.class, config);
+        final OwnedKafkaTopicOutput<Long, TestPayload> topic =
+                outputTopic("name", Long.class, TestPayload.class, config);
 
         // Then:
         final JsonSchemaDescriptor<?> schema =
