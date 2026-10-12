@@ -13,14 +13,13 @@ With good system test coverage this may not be necessary. If it is needed, then 
 
 The [creek-kafka-streams-extension][ksExt] library provides `KafkaStreamsExtensionOptions.testBuilder()`, which
 can be used to initialise Creek without a real Kafka cluster to talk to, and this repository's own `TestTopics`
-class (in the same package as the test below) provides some factory methods for creating the test topic
-instances used in the unit test.
+class provides some factory methods for creating the test topic instances used in the unit test.
 
-**Note:** As the output topic uses JSON values, the test setup also installs `JsonSerdeExtensionOptions.testBuilder()`,
+As the output topic uses JSON values, the test setup also installs `JsonSerdeExtensionOptions.testBuilder()`,
 from the [`creek-kafka-json-serde`][jsonSerde] library, alongside `KafkaStreamsExtensionOptions.testBuilder()`.
 This registers JSON serializers/deserializers with the test framework, using a mock Schema Registry client, so
-no real Schema Registry is needed to unit test a topology that uses JSON-schema'd topics.
-{: .notice--info}
+no real Schema Registry is needed to unit test a topology that uses JSON-schema topics.
+
 
 ## Add a unit test
 

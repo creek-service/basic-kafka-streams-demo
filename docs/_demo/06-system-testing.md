@@ -51,8 +51,6 @@ This particular input type is registered by the [Creek Kafka test extension][kaf
 The number after the `@` symbol is a version number, allowing the type to evolve without breaking existing tests.
 
 The `records` property defines the list of records the system tests will produce to Kafka, with each record's `key` and `value` defined.
-As `twitter.tweet.text`'s value is a Kafka-native `String` (see the [descriptor](/descriptor)), each record's
-`value` is the tweet text itself, rather than a nested JSON object.
 
 **ProTip:** You can define records with `null` keys and values implicitly by excluding the `key` and/or `value` property,
 or explicitly by setting the `key` and/or `value` property to `~`.
@@ -60,14 +58,10 @@ or explicitly by setting the `key` and/or `value` property to `~`.
 
 ### Seed data
 
-`twitter.tweet.text` is _owned_ by the `handle-occurrence-service` (see the [previous step](/descriptor)).
-Data _seeded_ into an owned topic, rather than sent as a regular input, is special: it is produced
-_before_ any service under test is started, whereas regular inputs, like the one defined above, are only
-produced once every service is already running.
+It is also possible to seed a topic with data before the services-under-test are started.
+This can be useful to ensure services perform as expected when they start up.
 
-This matters because seeding is the only way to get records into a topic a service owns and consumes from
-_before_ that service starts — for example, to test how a service behaves when it starts up with a backlog
-of unprocessed messages already waiting for it.
+Let's demonstrate this by defining some seed data.
 
 Create a file at `system-tests/src/system-test/example-suite/seed/twitter.tweet.text.yml` with the following content:
 
@@ -77,13 +71,7 @@ Create a file at `system-tests/src/system-test/example-suite/seed/twitter.tweet.
 
 This looks identical to a regular input file — the only difference is the directory it lives in. Unlike
 regular inputs, seed data doesn't need to be listed under a test case's `inputs` property in `suite.yml`;
-it's picked up automatically for every test case in the suite, because it needs to be in place before any
-of them start.
-
-**Note:** Creek ensures the topic needed by the seed data is created before the seed data is produced,
-and before any service under test starts. The input uses a native `String`, so it needs no schema in
-the Schema Registry. You don't need to do anything extra to make this work.
-{: .notice--info}
+every test suite will automatically publish all seed data _before_ running through the normal test cases.
 
 ### Define expected outputs
 
@@ -152,9 +140,8 @@ The system tests inspect the service descriptor.
 As the descriptor defines Kafka based resources, the system tests, with the help of the installed [Creek Kafka system-test extension][kafkaTestExt], 
 knows to start a Kafka broker and create any unowned topics.
 
-**Note:** As the output topic uses JSON values, the Kafka system-test extension also automatically starts a
+As the output topic uses JSON Schema format, the Kafka system-test extension also automatically starts a
 Schema Registry container — no extra configuration is needed beyond installing the [`creek-kafka-json-serde`][jsonSerde] extension.
-{: .notice--info}
 
 Before any service under test is started, the system tests ensure every resource referenced by seed data
 exists — creating `twitter.tweet.text`, in this case — even though the topic
@@ -164,7 +151,7 @@ owned topic possible.
 
 The service descriptor also defines the name of the service's Docker container, allowing the system tests to start the service.
 Once the service is running, its own start-up creates any topics and schemas it owns that weren't already
-needed by seed data — `twitter.handle.usage`, in this case.
+needed to seed data.
 
 Finally, the Kafka topic descriptors exposed by the service descriptor provide the information the system tests, and its extensions, 
 need to be able to serialize inputs and deserialize outputs.

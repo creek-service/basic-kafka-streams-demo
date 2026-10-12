@@ -24,13 +24,10 @@ plugins {
 // begin-snippet: dependencies
 dependencies {
     api(project(":api"))
-    api("com.fasterxml.jackson.core:jackson-annotations:${property("jacksonAnnotationsVersion")}")
-    implementation("org.creekservice:creek-base-annotation:${property("creekVersion")}")
-    compileOnlyApi("io.swagger.core.v3:swagger-annotations:${property("swaggerAnnotationsVersion")}")
-    jsonSchemaGenerator("org.creekservice:creek-json-schema-generator:${property("creekVersion")}")
-    testCompileOnly("io.swagger.core.v3:swagger-annotations:${property("swaggerAnnotationsVersion")}")
 
-    // To avoid dependency hell downstream, avoid adding any more dependencies except Creek metadata jars and test dependencies.
+    compileOnlyApi("org.creekservice:creek-base-annotation:${property("creekVersion")}")
+    compileOnlyApi("com.fasterxml.jackson.core:jackson-annotations:${property("jacksonAnnotationsVersion")}")
+    compileOnlyApi("io.swagger.core.v3:swagger-annotations:${property("swaggerAnnotationsVersion")}")
 }
 // end-snippet
 

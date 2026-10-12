@@ -8,7 +8,7 @@ snippet_comment_prefix: "//"
 
 Each service within an aggregate defines a _service descriptor_ in the repository's `services` module.
 
-A _service descriptor_ defines the external resources a service uses and the outputs it exposes.
+A _service descriptor_ defines the external resources a service uses and the api it exposes.
 The types of resources a descriptor can reference depends on the installed [Creek extensions][creekExts].
 
 This demo will use the [Kafka Streams extension][ksExt], and the `handle-occurrence-service`'s descriptor will define a
@@ -18,7 +18,6 @@ which the service will produce to.
 **Note:** To keep this tutorial self-contained, the service's input topic is _owned_ by the service.
 It would be more common for an upstream service or aggregate to own the topic and for the topic's
 definition to be imported from there.
-The [next tutorial](/ks-connected-services-demo/) shows how to connect services using topic descriptors.
 {: .notice--warning}
 
 ## Define the JSON output payload type
@@ -35,55 +34,41 @@ Add the following record to `services/src/main/java/io/github/creek/service/basi
 
 The `@GeneratesSchema` annotation tells Creek's [JSON schema Gradle plugin][jsonSchemaPlugin] to generate a
 JSON schema for the type. The plugin does not infer the compact constructor's validation rules automatically,
-so they're expressed explicitly: `@JsonProperty(required = true)` marks non-optional fields as required, and
+so they're expressed explicitly: `@JsonProperty(required = true)` marks a field as non-optional, and
 Swagger's `@Schema(minLength = ...)`/`@Schema(minimum = ...)` annotations capture the non-empty `handle`
 and positive `count` constraints in the generated schema.
 
-The `services` module's `build.gradle.kts` applies the plugin and tells it which module to scan for annotated types:
+To allow Jackson to do its magic, as we're running under JPMS, we need to open the model package so Jackson can access the types at runtime.
 
-{% highlight kotlin %}
-{% include_snippet plugins from ../services/build.gradle.kts %}
+Add the following to `services/src/main/java/module-info.java`:
 
-{% include_snippet schema-plugin from ../services/build.gradle.kts %}
+{% highlight java %}
+{% include_snippet open-to-jackson from ../services/src/main/java/module-info.java %}
 {% endhighlight %}
-
-The plugin and its `jsonSchemaGenerator` dependency are in the same build file (the full dependencies block is shown below).
-
-**Note:** The `services` module's `module-info.java` also needs to `opens` the package containing this type,
-so that Jackson, which the JSON serde uses under the hood, can reflectively access the record's canonical
-constructor and component accessors at runtime.
-{: .notice--info}
 
 **ProTip:** Run `./gradlew :services:generateJsonSchema` to generate the schema without running a full build.
 The generated schema file is written under `services/build/generated/resources/schema/main/`.
 {: .notice--info}
 
-### A word about dependencies
+### JSON Schema generation
 
-The annotations used above don't come for free. The `services` module's `build.gradle.kts` needs the following
-dependencies:
+The `aggregate-template` repo supplies the necessary configuration and code to make generating a JSON schema easy.
+
+The `services` module's `build.gradle.kts` applies the plugin, adds the required annotation dependencies,
+and tells it which module to scan for `@GeneratesSchema` annotated types:
 
 {% highlight kotlin %}
+{% include_snippet plugins from ../services/build.gradle.kts %}
+
 {% include_snippet dependencies from ../services/build.gradle.kts %}
+
+{% include_snippet schema-plugin from ../services/build.gradle.kts %}
 {% endhighlight %}
 
-`jackson-annotations` provides `@JsonProperty`, and `swagger-annotations` provides `@Schema`. Both are only
-needed to drive schema generation, so `swagger-annotations` is declared `compileOnlyApi` to keep it off the
-runtime/Docker classpath while still being visible to anything compiling against this module's types, with a
-matching `testCompileOnly` entry for the test code.
-
-Because `swagger-annotations` is compile-only, the `services` module's `module-info.java` needs a matching
-`requires static` entry, alongside the `opens` covered above:
+The `services` module's `module-info.java` includes the necessary annotations dependencies:
 
 {% highlight java %}
-{% include_snippet requires-static-swagger from ../services/src/main/java/module-info.java %}
-{% endhighlight %}
-
-Add a `swaggerAnnotationsVersion` property to the root `gradle.properties`, alongside the existing
-`jacksonVersion` one:
-
-{% highlight properties %}
-{% include_snippet swagger-annotations-version from ../gradle.properties %}
+{% include_snippet requires-annotations from ../services/src/main/java/module-info.java %}
 {% endhighlight %}
 
 ## Define the topic resources
