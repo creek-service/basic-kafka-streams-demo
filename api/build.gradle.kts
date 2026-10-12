@@ -1,6 +1,7 @@
 // begin-snippet: plugins
 plugins {
     `java-library`
+    id("org.creekservice.schema.json")
 }
 // end-snippet
 

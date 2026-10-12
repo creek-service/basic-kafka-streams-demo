@@ -16,39 +16,9 @@
 
 package io.github.creek.service.basic.kafka.streams.demo.api;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 import org.creekservice.api.platform.metadata.AggregateDescriptor;
-import org.creekservice.api.platform.metadata.ComponentInput;
-import org.creekservice.api.platform.metadata.ComponentOutput;
-import org.creekservice.api.platform.metadata.OwnedResource;
 
 public final class BasicKafkaStreamsDemoAggregateDescriptor implements AggregateDescriptor {
 
-    private static final List<ComponentInput> INPUTS = new ArrayList<>();
-    private static final List<ComponentOutput> OUTPUTS = new ArrayList<>();
-
     public BasicKafkaStreamsDemoAggregateDescriptor() {}
-
-    @Override
-    public Collection<ComponentInput> inputs() {
-        return List.copyOf(INPUTS);
-    }
-
-    @Override
-    public Collection<ComponentOutput> outputs() {
-        return List.copyOf(OUTPUTS);
-    }
-
-    // Uncomment if needed
-    // private static <T extends ComponentInput & OwnedResource> T register(final T input) {
-    //     INPUTS.add(input);
-    //     return input;
-    // }
-
-    private static <T extends ComponentOutput & OwnedResource> T register(final T output) {
-        OUTPUTS.add(output);
-        return output;
-    }
 }
