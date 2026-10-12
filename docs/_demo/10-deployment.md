@@ -7,7 +7,7 @@ toc: true
 ---
 
 Deploying the service to an environment is outside the scope of this tutorial, and the steps will vary depending on
-the type of environment. However, below is information you may file useful when the time comes to deploy your services.
+the type of environment. However, below is information you may find useful when the time comes to deploy your services.
 
 ## Versioning
 
@@ -43,8 +43,7 @@ The repository comes preconfigured to publish each service's Docker image back t
 [Container Registry][containerReg]. The publishing is done by the [CI GitHub workflow][buildYml] on a push, 
 with each new push creating a new Docker image version.
 
-For example, the `handle-occurrence-service` this tutorial creates is published [here][dockerPackage] by the [completed tutorial][demoGh]
-[handle-occurrence-service-image].
+For example, the `handle-occurrence-service` this tutorial creates is published [here][dockerPackage] by the [completed tutorial][demoGh].
 
 Under the hood the workflow is using the `pushAppImage` Gradle task to push the Docker images:
 
@@ -85,6 +84,5 @@ This maps to the [`bootstrap.servers`][bootstrapServersDocs] Kafka client config
 [kafkaExtEnvVars]: https://www.creekservice.org/creek-kafka/#system-environment-variables-1
 [containerReg]: https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry
 [demoGh]: https://github.com/creek-service/basic-kafka-streams-demo
-[handle-occurrence-service-image]: https://github.com/creek-service/basic-kafka-streams-demo/pkgs/container/basic-kafka-streams-demo-handle-occurrence-service
 [aggTempVersioning]: https://www.creekservice.org/aggregate-template/features/versioning
 [dockerPackage]: https://github.com/creek-service/basic-kafka-streams-demo/pkgs/container/basic-kafka-streams-demo-handle-occurrence-service

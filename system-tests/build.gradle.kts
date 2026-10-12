@@ -1,5 +1,5 @@
 /*
- * Copyright 2022-2023 Creek Contributors (https://github.com/creek-service)
+ * Copyright 2022-2026 Creek Contributors (https://github.com/creek-service)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,6 +26,9 @@ dependencies {
 
     // Install the creek-kafka system-test extension:
     systemTestExtension("org.creekservice:creek-kafka-test-extension:${property("creekVersion")}")
+
+    // Install the creek-kafka-json-serde extension:
+    systemTestExtension("org.creekservice:creek-kafka-json-serde:${property("creekVersion")}")
 }
 
 tasks.systemTest {

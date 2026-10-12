@@ -4,7 +4,7 @@ permalink: /business-logic
 description: Learn how to add your business logic to Kafka Streams microservices created using the Creek aggregate template
 layout: single
 snippet_comment_prefix: "//"
-snippet_source: "../handle-occurrence-service/src/main/java/io/github/creek/service/basic/kafka/streams/demo/service/kafka/streams/TopologyBuilder.java"
+snippet_source: "../handle-occurrence-service/src/main/java/io/github/creek/service/basic/kafka/streams/demo/handle/occurrence/service/kafka/streams/TopologyBuilder.java"
 ---
 
 With the topic resources defined in the last step, it's time to write a simple [Kafka Streams][kafkaStreams] 
@@ -12,8 +12,8 @@ topology to perform the business logic of this service.
 
 The service will search each tweets text for occurrences of Twitter handles, e.g. `@katyperry`.
 For each handle found, it will produce a record mapping the Twitter handle to its number of occurrences.
-For example, it a tweet contained the handle `@katyperry` twice, then it would produce a record
-with a key of `@katyperry` and a value of `2`.
+For example, if a tweet contained the handle `@katyperry` twice, then it would produce a record
+with a key of `@katyperry` and a value of `HandleUsage("@katyperry", 2)`.
 
 ## Define the stream topology
 
@@ -32,7 +32,7 @@ This can lead to unintentional changes in internal topic names.
 If such a change was deployed, any unprocessed messages in the old topics would be skipped.
 {: .notice--info}
 
-The above topology consumes `TweetTextStream` we defined in the service's descriptor, 
+The above topology consumes `RawTweetStream` we defined in the service's descriptor,
 transforms it in the `extractHandles` method, and produces any output to the `TweetHandleUsageStream`.
 
 The [Creek Kafka Streams extension][ksExt] provides type-safe access to the input and output topic metadata, serde, 

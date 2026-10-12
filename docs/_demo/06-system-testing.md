@@ -33,7 +33,7 @@ Start by defining the input to send to the service, i.e. the records to produce 
 These will be produced to the topic _after_ the service has started up.
 
 **ProTip:** Input data can also be seeded into the test environment _before_ services are started, by placing
-the input file in the `seed` directory, rather than the `inputs` directory. 
+the input file in the `seed` directory, rather than the `inputs` directory. See [Seed data](#seed-data) below.
 {: .notice--info}
 
 Create a file at `system-tests/src/system-test/example-suite/inputs/twitter.tweet.text.yml` with the following content:
@@ -56,10 +56,28 @@ The `records` property defines the list of records the system tests will produce
 or explicitly by setting the `key` and/or `value` property to `~`.
 {: .notice--info}
 
+### Seed data
+
+It is also possible to seed a topic with data before the services-under-test are started.
+This can be useful to ensure services perform as expected when they start up.
+
+Let's demonstrate this by defining some seed data.
+
+Create a file at `system-tests/src/system-test/example-suite/seed/twitter.tweet.text.yml` with the following content:
+
+{% highlight yaml %}
+{% include_snippet all from ../system-tests/src/system-test/example-suite/seed/twitter.tweet.text.yml %}
+{% endhighlight %}
+
+This looks identical to a regular input file — the only difference is the directory it lives in. Unlike
+regular inputs, seed data doesn't need to be listed under a test case's `inputs` property in `suite.yml`;
+every test suite will automatically publish all seed data _before_ running through the normal test cases.
+
 ### Define expected outputs
 
-Given the input above, define the expected output, i.e. the records we expect the service to produce to the
-`twitter.handle.usage` topic.
+Given the input and seed data above, define the expected output, i.e. the records we expect the service
+to produce to the `twitter.handle.usage` topic. This should include records derived from both the seeded
+tweets and the regular input tweets.
 
 Create a file at `system-tests/src/system-test/example-suite/expectations/twitter.handle.usage.yml` with the following content:
 
@@ -120,9 +138,20 @@ Very briefly, the system tests work by discovering the `handle-occurrence-servic
 The system tests inspect the service descriptor. 
 
 As the descriptor defines Kafka based resources, the system tests, with the help of the installed [Creek Kafka system-test extension][kafkaTestExt], 
-knows to start a Kafka broker and create any unowned topics, like the `twitter.tweet.text` topic.
+knows to start a Kafka broker and create any unowned topics.
+
+As the output topic uses JSON Schema format, the Kafka system-test extension also automatically starts a
+Schema Registry container — no extra configuration is needed beyond installing the [`creek-kafka-json-serde`][jsonSerde] extension.
+
+Before any service under test is started, the system tests ensure every resource referenced by seed data
+exists — creating `twitter.tweet.text`, in this case — even though the topic
+is conceptually owned by the service that's about to start. Only then is the seed data produced, and only
+after that are the services under test started. This ordering guarantee is what makes seeding into an
+owned topic possible.
 
 The service descriptor also defines the name of the service's Docker container, allowing the system tests to start the service.
+Once the service is running, its own start-up creates any topics and schemas it owns that weren't already
+needed to seed data.
 
 Finally, the Kafka topic descriptors exposed by the service descriptor provide the information the system tests, and its extensions, 
 need to be able to serialize inputs and deserialize outputs.
@@ -133,4 +162,5 @@ More information about the system tests can be found [here][systemTests].
 [testPlugin]: https://github.com/creek-service/creek-system-test-gradle-plugin
 [kafkaTestExt]: /creek-kafka/#system-test-extension
 [kafkaOptions]: /creek-kafka/#option-model-extensions
+[jsonSerde]: https://www.creekservice.org/creek-kafka/#json-schema-format
 [todo]: switch about links to proper creekservice.org links once each repo publishes docs. 

@@ -11,7 +11,7 @@ With a fresh new repository ready for use, the next step is to add a service mod
 {: .notice--info}
 
 Setting up a new service manually can be a lengthy process. 
-Luckily, the `aggregate-tempalate` comes with automated ways of adding a new services:
+Luckily, the `aggregate-template` comes with an automated way to add a new service:
 
 1. Go to the `Actions` tab of the new repository on GitHub.
 2. Select `Add service module` from the list of available workflows on the left.

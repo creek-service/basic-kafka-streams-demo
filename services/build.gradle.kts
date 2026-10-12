@@ -1,5 +1,5 @@
 /*
- * Copyright 2022-2023 Creek Contributors (https://github.com/creek-service)
+ * Copyright 2022-2026 Creek Contributors (https://github.com/creek-service)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,12 +14,26 @@
  * limitations under the License.
  */
 
+// begin-snippet: plugins
 plugins {
     `java-library`
+    id("org.creekservice.schema.json")
 }
+// end-snippet
 
+// begin-snippet: dependencies
 dependencies {
     api(project(":api"))
 
-    // To avoid dependency hell downstream, avoid adding any more dependencies except Creek metadata jars and test dependencies.
+    compileOnlyApi("org.creekservice:creek-base-annotation:${property("creekVersion")}")
+    compileOnlyApi("com.fasterxml.jackson.core:jackson-annotations:${property("jacksonAnnotationsVersion")}")
+    compileOnlyApi("io.swagger.core.v3:swagger-annotations:${property("swaggerAnnotationsVersion")}")
 }
+// end-snippet
+
+// begin-snippet: schema-plugin
+creek.schema.json {
+    typeScanning.moduleWhiteList(moduleName)
+    subTypeScanning.moduleWhiteList(moduleName)
+}
+// end-snippet

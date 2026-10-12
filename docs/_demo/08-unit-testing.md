@@ -4,16 +4,22 @@ permalink: /unit-testing
 description: Learn how Creek simplifies writing Kafka Streams topology unit tests.
 layout: single
 snippet_comment_prefix: "//"
-snippet_source: "../handle-occurrence-service/src/test/java/io/github/creek/service/basic/kafka/streams/demo/service/kafka/streams/TopologyBuilderTest.java"
+snippet_source: "../handle-occurrence-service/src/test/java/io/github/creek/service/basic/kafka/streams/demo/handle/occurrence/service/kafka/streams/TopologyBuilderTest.java"
 toc: true
 ---
 
 Secondary to system testing, it can be useful to unit test a topology. 
 With good system test coverage this may not be necessary. If it is needed, then Creek can help.
 
-The [creek-kafka-streams-test][ksTest] library provides topology test helpers: `TestKafkaStreamsExtensionOptions` 
-can be used to initialise Creek without a real Kafka cluster to talk to, and `TestTopics` provides some factory 
-methods for creating the test topic instances used in the unit test.
+The [creek-kafka-streams-extension][ksExt] library provides `KafkaStreamsExtensionOptions.testBuilder()`, which
+can be used to initialise Creek without a real Kafka cluster to talk to, and this repository's own `TestTopics`
+class provides some factory methods for creating the test topic instances used in the unit test.
+
+As the output topic uses JSON values, the test setup also installs `JsonSerdeExtensionOptions.testBuilder()`,
+from the [`creek-kafka-json-serde`][jsonSerde] library, alongside `KafkaStreamsExtensionOptions.testBuilder()`.
+This registers JSON serializers/deserializers with the test framework, using a mock Schema Registry client, so
+no real Schema Registry is needed to unit test a topology that uses JSON-schema topics.
+
 
 ## Add a unit test
 
@@ -95,4 +101,5 @@ as part of the CI workflow, using the org-wide `CODECOV_TOKEN` secret.
 [codecov]: https://codecov.io/
 [kafkaStreams]: https://kafka.apache.org/33/documentation/streams/developer-guide/dsl-topology-naming.html
 [JaCoCo]: https://github.com/jacoco/jacoco
-[ksTest]: https://www.creekservice.org/creek-kafka/#unit-testing-topologies
+[ksExt]: https://www.creekservice.org/creek-kafka/#unit-testing-topologies
+[jsonSerde]: https://www.creekservice.org/creek-kafka/#json-schema-format

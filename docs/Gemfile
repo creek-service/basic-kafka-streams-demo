@@ -1,9 +1,10 @@
 source "https://rubygems.org"
 
 gem "jekyll", "~> 4.3"
-gem "creek-jekyll-theme", "~> 1.0"
 
-# # If you have any plugins, put them here!
+# creek-jekyll-theme bundles its own include_snippet Liquid tag (a drop-in replacement for the
+# jekyll-include_snippet gem, with a snippet_source/from precedence bug fixed), so it needs to be
+# in the jekyll_plugins group for Jekyll to actually require it as a plugin.
 group :jekyll_plugins do
-  gem 'jekyll-include_snippet', "~> 0.2"  # https://github.com/tomdalling/jekyll-include_snippet
+  gem "creek-jekyll-theme", "~> 1.8"
 end
