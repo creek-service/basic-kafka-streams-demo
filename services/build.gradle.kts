@@ -30,10 +30,3 @@ dependencies {
     compileOnlyApi("io.swagger.core.v3:swagger-annotations:${property("swaggerAnnotationsVersion")}")
 }
 // end-snippet
-
-// begin-snippet: schema-plugin
-creek.schema.json {
-    typeScanning.moduleWhiteList(moduleName)
-    subTypeScanning.moduleWhiteList(moduleName)
-}
-// end-snippet

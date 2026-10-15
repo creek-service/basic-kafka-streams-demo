@@ -49,6 +49,10 @@ java {
 
 repositories {
     mavenCentral()
+    // TODO(0.5.1 release): Remove this temporary Creek SNAPSHOT repository.
+    maven {
+        url = uri("https://central.sonatype.com/repository/maven-snapshots/")
+    }
     // Required for Confluent Schema Registry and JSON Schema Provider dependencies
     // used by Creek's JSON serialization support (kafka-json-serde module).
     maven {
