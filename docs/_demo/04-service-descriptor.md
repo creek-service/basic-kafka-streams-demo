@@ -54,15 +54,14 @@ The generated schema file is written under `services/build/generated/resources/s
 
 The `aggregate-template` repo supplies the necessary configuration and code to make generating a JSON schema easy.
 
-The `services` module's `build.gradle.kts` applies the plugin, adds the required annotation dependencies,
-and tells it which module to scan for `@GeneratesSchema` annotated types:
+The `services` module's `build.gradle.kts` applies the plugin and adds the required annotation dependencies.
+The plugin automatically scans the `services` module for `@GeneratesSchema` annotated types:
 
 {% highlight kotlin %}
 {% include_snippet plugins from ../services/build.gradle.kts %}
 
 {% include_snippet dependencies from ../services/build.gradle.kts %}
 
-{% include_snippet schema-plugin from ../services/build.gradle.kts %}
 {% endhighlight %}
 
 The `services` module's `module-info.java` includes the necessary annotations dependencies:
